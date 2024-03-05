@@ -3,7 +3,7 @@
 @section('title', 'GASTOS FIJOS')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fa-solid fa-clipboard-check"></i>&nbsp; REQUISICION DE COMPRA</h1>
+    <h1 class="font-bold"><i class="fa-solid fa-clipboard-check"></i>&nbsp; GASTOS FIJOS</h1>
     <script src="/Scripts/jquery.dataTables.js"></script>
 <script src="/Scripts/dataTables.bootstrap.js"></script>
     
@@ -24,13 +24,14 @@
             </div>
             <div class="w-100">&nbsp;</div>
             <div class="col-6 col-sm-12 table-responsive">
-                <table class="table table-striped text-xs font-medium" id="t">
+                <table class="table table-striped text-xs font-medium tableinternalorders" >
                     <thead>
                         <tr class="text-center">
                             <th>PDA</th>
                             <th>Descripcion</th>
                             <th>Totales presupuestados</th>
-                            
+                            <th>Periodos Capturados</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -39,17 +40,22 @@
                         <tr class="text-center">
                             <td>{{$row->id}}</td>
                             <td>{{$row->description}}</td>
-                            <td>{{$row->p_total}}</td>
-                            <td class="w-15">
+                            <td>$ {{number_format($row->p_total,2)}}</td>
+                            <td>0</td>
+                            <td width="10%">
                                 <div class="row">
-                                    <div class="col-6 text-center w-10">
+                                    <div class="col text-center ">
                                         @can('VER PEDIDOS')
-                                        <a href="{{ route('requisition.show', $row->id)}}">
-                                            <i class="fa-solid fa-eye btn btn-blue  "></i></span>
+                                        <a href="{{ route('bills.show', $row->id)}}" class="btn btn-blue">
+                                            <i class="fa-solid fa-eye fa-lg"></i> ver periodos
                                         </a>
                                         @endcan
                                     </div>
-                                    <div class="col-6 text-center w-10">
+                                    
+                                   </div>
+                            </td>
+                            <td width="10%">
+                            <div class="col text-center ">
                                         
                                         @can('BORRAR PEDIDOS')
                                         <form class="DeleteReg" action="{{route('requisition.destroy', $row->id) }}" method="POST">
@@ -62,7 +68,6 @@
                                         @endcan
                                         
                                     </div>
-                                   </div>
                             </td>
                         </tr>
                         @endforeach
