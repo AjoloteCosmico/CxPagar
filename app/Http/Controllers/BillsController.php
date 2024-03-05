@@ -15,4 +15,17 @@ class BillsController extends Controller
         $Bills=Bill::all();
         return view('bills.index',compact('Bills'));
     }
+    public function create(){
+        return view('bills.create');
+    }
+    
+    public function show(){
+        return view('bills.show');
+    }
+    public function store(){
+        return view('bills.create');
+    }
+    public function delete(){
+        return view('bills.create');
+    }
 }

@@ -44,21 +44,17 @@
                             <td>0</td>
                             <td width="10%">
                                 <div class="row">
-                                    <div class="col text-center ">
+                                    <div class="col-3 text-center">
                                         @can('VER PEDIDOS')
-                                        <a href="{{ route('bills.show', $row->id)}}" class="btn btn-blue">
-                                            <i class="fa-solid fa-eye fa-lg"></i> ver periodos
+                                        <a class="btn btn-blue" href="{{ route('bills.show', $row->id)}}">
+                                            <i class="fa-solid fa-eye"> </i> 
                                         </a>
                                         @endcan
                                     </div>
-                                    
-                                   </div>
-                            </td>
-                            <td width="10%">
-                            <div class="col text-center ">
+                                    <div class="col-3 text-center" style="padding:0,5vw">
                                         
                                         @can('BORRAR PEDIDOS')
-                                        <form class="DeleteReg" action="{{route('requisition.destroy', $row->id) }}" method="POST">
+                                        <form class="DeleteReg" action="{{route('bills.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-red ">
@@ -102,6 +98,7 @@
 @if (session('update_reg') == 'ok')
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/update_reg.js') }}"></script>
 @endif
+
 
 <script>
     new DataTable('#t');
