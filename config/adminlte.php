@@ -268,12 +268,12 @@ return [
                     'route'  => 'settings.index',
                     'can'  => 'VER CONFIGURACIONES',
                 ],
-                [
-                    'text' => ' BANCOS',
-                    'icon' => 'fas fa-bank fa-fw',
-                    'route'  => 'banks.index',
-                    'can'  => 'VER MONEDAS',
-                ],
+                // [
+                //     'text' => ' BANCOS',
+                //     'icon' => 'fas fa-bank fa-fw',
+                //     'route'  => 'banks.index',
+                //     'can'  => 'VER MONEDAS',
+                // ],
                 [
                     'text' => ' MONEDAS',
                     'icon' => 'fas fa-money-bill-1 fa-fw',
@@ -286,12 +286,12 @@ return [
                     'route'  => 'customers.index',
                     'can'  => 'VER CLIENTES',
                 ],
-                [
-                    'text' => 'NIVEL AUTORIZACIÓN',
-                    'icon' => 'fas fa-fingerprint fa-fw',
-                    'route'  => 'authorizations.index',
-                    'can'  => 'VER AUTORIZACIONES',
-                ],
+                // [
+                //     'text' => 'NIVEL AUTORIZACIÓN',
+                //     'icon' => 'fas fa-fingerprint fa-fw',
+                //     'route'  => 'authorizations.index',
+                //     'can'  => 'VER AUTORIZACIONES',
+                // ],
                 // [
                 //     'text' => 'CONTACTOS',
                 //     'icon' => 'fas fa-user-tie fa-fw',
