@@ -70,9 +70,12 @@
                             <div class="form-group">
                                 <x-jet-label value="* Regimen Fiscal" />
                                 <select class="form-capture  w-full text-xs uppercase" id="regimen_fiscal" name="regimen_fiscal">
-                                @foreach($Regimenes as $regimen)
-                                <option value="{{$regimen->clave}}" @if($regimen->clave == old('regimen_fiscal')) selected @endif> {{$regimen->clave}} {{$regimen->description}}</option>
-                                @endforeach
+                               
+                                <option value="1" @if(old('regimen_fiscal')=='1') selected @endif> AC</option>
+                                <option value="2" @if(old('regimen_fiscal')=='2') selected @endif> SA de CV</option>
+                                <option value="3" @if(old('regimen_fiscal')=='3') selected @endif> S en N C</option>
+
+                                
                                     <option value="" > </option>
                                     
                                     

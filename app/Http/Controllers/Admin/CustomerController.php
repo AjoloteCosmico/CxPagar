@@ -19,7 +19,7 @@ class CustomerController extends Controller
         ));
     }
     public function create(){
-        $Regimenes=DB::table('regimenes')->get();
+        // $Regimenes=DB::table('regimenes')->get();
         return view('admin.customers.create',compact('Regimenes'));
     }
 
