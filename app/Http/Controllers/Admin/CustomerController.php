@@ -20,7 +20,7 @@ class CustomerController extends Controller
     }
     public function create(){
         // $Regimenes=DB::table('regimenes')->get();
-        return view('admin.customers.create',compact('Regimenes'));
+        return view('admin.customers.create');
     }
 
     public function validar_rfc()
