@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'CLIENTES')
+@section('title', 'PROVEEDORES')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-users-cog"></i>&nbsp; Cliente</h1>
+    <h1 class="font-bold"><i class="fas fa-users-cog"></i>&nbsp; Proveedor</h1>
 @stop
 
 @section('content')
     <div class="container bg-gray-300 shadow-lg rounded-lg">
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
-                <i class="fas fa-plus-circle"></i>&nbsp; Agregar Cliente:
+                <i class="fas fa-plus-circle"></i>&nbsp; Agregar Proveedor:
             </h5>
         </div>
         <form action="{{ route('customers.store')}}" method="POST" enctype="multipart/form-data">
@@ -84,7 +84,7 @@
                                 <x-jet-input-error for='regimen_fiscal' />
                             </div>
                             <div class="form-group">
-                                <x-jet-label value=" Clave Cliente" />
+                                <x-jet-label value=" Clave Proveedor" />
                                 <x-jet-input type="text" name="clave" class="w-full text-xs " />
                                 <x-jet-input-error for='clave' />
                             </div>
