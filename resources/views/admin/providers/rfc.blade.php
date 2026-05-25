@@ -13,7 +13,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; Agregar PROVEEDOR:
             </h5>
         </div>
-        <form action="{{ route('customers.rfc')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('providers.rfc')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="col-12 text-right p-2 gap-2">
-                <a href="{{ route('customers.index')}}" class="btn btn-black mb-2">
+                <a href="{{ route('providers.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>
                 <button type="submit" class="btn btn-green mb-2">

@@ -11,7 +11,7 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @can('CREAR CLIENTES')
-                <a href="{{ route('customers.validar_rfc')}}" class="btn btn-green">
+                <a href="{{ route('providers.create')}}" class="btn btn-green">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nueva
                 </a>
                 @endcan
@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($Customers as $row)
+                        @foreach ($Providers as $row)
                         <tr>
                             <td>{{$row->clave}}</td>
                             <td>{{$row->customer}}</td>
@@ -52,7 +52,7 @@
                                 <div class="row">
                                     <div class="col-6 text-center w-10">
                                         @can('EDITAR CLIENTES')
-                                        <a href="{{ route('customers.edit', $row->id)}}">
+                                        <a href="{{ route('providers.edit', $row->id)}}">
                                         <button type="submit" class="btn btn-blue ">
                                                 <i class="fas fa-edit items-center fa-xl"></i>
                                             </button>
@@ -62,7 +62,7 @@
                                     &nbsp;&nbsp;
                                     <div class="col-6 text-center w-10">
                                         @can('BORRAR CLIENTES')
-                                        <form class="DeleteReg" action="{{ route('customers.destroy', $row->id) }}" method="POST">
+                                        <form class="DeleteReg" action="{{ route('providers.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-red">

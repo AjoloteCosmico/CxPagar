@@ -13,7 +13,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; Agregar Proveedor:
             </h5>
         </div>
-        <form action="{{ route('customers.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('providers.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
@@ -59,12 +59,12 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Nombre Corto" />
-                                <x-jet-input type="text" name="alias" class="w-full text-xs " value="{{old('customer')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input type="text" name="alias" class="w-full text-xs " value="{{old('alias')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='alias' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* RFC" />
-                                <x-jet-input type="text" name="customer_rfc" class="w-full text-xs " value="{{session('rfc')}}"/>
+                                <x-jet-input type="text" name="customer_rfc" class="w-full text-xs " value="{{old('customer_rfc')}}"/>
                                 <x-jet-input-error for='customer_rfc' />
                             </div>
                             <div class="form-group">
@@ -147,7 +147,7 @@
                 </div>
             </div>
             <div class="col-12 text-right p-2 gap-2">
-                <a href="{{ route('customers.index')}}" class="btn btn-black mb-2">
+                <a href="{{ route('providers.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>
                 <button type="submit" class="btn btn-green mb-2">

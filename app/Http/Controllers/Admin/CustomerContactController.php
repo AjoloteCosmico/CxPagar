@@ -90,7 +90,7 @@ class CustomerContactController extends Controller
         $Contact->customer_contact_mobile = $request->customer_contact_mobile;
         $Contact->save();
         
-        return redirect()->route('customers.edit',$Contact->customer_id);
+        return redirect()->route('providers.edit',$Contact->customer_id);
     
 
     }
@@ -99,7 +99,7 @@ class CustomerContactController extends Controller
     {
         $customer_id=CustomerContact::find($id)->customer_id;
         CustomerContact::destroy($id);
-        //TODO: regresar al cliente que se estaba editando
-        return redirect('customers');
+        //TODO: regresar al proveedor que se estaba editando
+        return redirect()->route('providers.index');
     }
 }

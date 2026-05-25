@@ -17,6 +17,7 @@ use App\Http\Controllers\NotasCreditoController;
 use App\Models\TempItem;
 use App\Http\Controllers\Admin\CustomerContactController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\ProviderController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('ulama', UlamaController::class);
@@ -131,10 +132,10 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('pedidoPDF/{id}', [ReportsController::class, 'pedido_pdf'])->name('pedido_pdf');
     Route::get('cuentas', [PaymentsController::class, 'cuentas_reporte'])->name('payments.cuentas_reporte');
     Route::post('partida', [RequisitionController::class, 'partida'])->name('requisition.partida');
-    Route::get('customer/crear_contacto({id}', [CustomerController::class, 'contacto'])->name('customers.contacto');
-    Route::post('customer/guardar_contacto', [CustomerController::class, 'store_contact'])->name('customers.store_contact');
+    Route::get('provider/crear_contacto/{id}', [ProviderController::class, 'contacto'])->name('providers.contacto');
+    Route::post('provider/guardar_contacto', [ProviderController::class, 'store_contact'])->name('providers.store_contact');
     
-    Route::get('customers/validar_rfc', [ CustomerController::class, 'validar_rfc'])->name('customers.validar_rfc');
+    Route::get('providers/validar_rfc', [ ProviderController::class, 'validar_rfc'])->name('providers.validar_rfc');
     Route::get('/foo', function () {
         Artisan::call('storage:link');
         });

@@ -283,7 +283,7 @@ return [
                 [
                     'text' => 'PROVEEDORES',
                     'icon' => 'fas fa-users-cog fa-fw',
-                    'route'  => 'customers.index',
+                    'route'  => 'providers.index',
                     'can'  => 'VER CLIENTES',
                 ],
                 // [

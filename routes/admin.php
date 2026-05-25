@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CoinController;
 use App\Http\Controllers\Admin\CustomerContactController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\ProviderController;
 use App\Http\Controllers\Admin\CustomerShippingAddressController;
 use App\Http\Controllers\Admin\SellerController;
 use App\Http\Controllers\Admin\AdministradorController;
@@ -36,6 +37,9 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('authorizations', AuthorizationController::class);    
     Route::resource('customers', CustomerController::class);
     Route::post('customers/register', [ CustomerController::class, 'rfc'])->name('customers.rfc');
+
+    Route::resource('providers', ProviderController::class);
+    Route::post('providers/register', [ ProviderController::class, 'rfc'])->name('providers.rfc');
     
     Route::resource('customers_shipping_address', CustomerShippingAddressController::class);
     Route::get('customers_shipping_address/delete/{id}/{temp_id}', [CustomerShippingAddressController::class,'destroyb'])->name('customers_shipping_address.borrar');

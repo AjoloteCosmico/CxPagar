@@ -14,10 +14,10 @@
             </h5>
             
         </div>
-        <form action="{{ route('customers.update', $Customers->id)}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('providers.update', $Providers->id)}}" method="POST" enctype="multipart/form-data">
         @method('PUT')
         @csrf
-        <input type="hidden" name="id" value="{{$Customers->id}}"/>
+        <input type="hidden" name="id" value="{{$Providers->id}}"/>
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
                 <div class="col-sm-6 col-xs-12 shadow rounded-xl p4">
@@ -27,50 +27,50 @@
                         </div>
                         <div class="card-body">
                             
-                                <x-jet-label value="Clave del cliente: 0{{$Customers->id}}" />
+                                <x-jet-label value="Clave del proveedor: 0{{$Providers->id}}" />
                              </div>
                         <div class="card-body">
                             <div class="form-group">
                                 <x-jet-label value="* Razón Social" />
-                                <x-jet-input type="text" name="customer" class="w-full text-xs uppercase" value="{{$Customers->customer}}" />
+                                <x-jet-input type="text" name="customer" class="w-full text-xs uppercase" value="{{$Providers->customer}}" />
                                 <x-jet-input-error for='customer' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Regimen de Capital" />
                                 <select class="form-capture  w-full text-xs uppercase" id="legal_name" name="legal_name">
                                 
-                                    <option value="FISICA CAEYP" @if($Customers->legal_name=='FISICA CAEYP') selected @endif> PERSONA FISICA CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES </option>
-                                    <option value="S.A." @if($Customers->legal_name=='S.A.') selected @endif >SOCIEDAD ANONIMA </option>
-                                    <option value="S.A. DE C.V." @if($Customers->legal_name=='S.A. DE C.V.') selected @endif > SOCIEDAD ANONIMA DE CAPITAL VARIABLE </option>
-                                    <option value="S DE R.L DE C.V." @if($Customers->legal_name=='S DE R.L DE C.V.') selected @endif >SOCIEDAD DE RESPONSABILIDAD LIMITADA DE CAPITAL VARIABLE </option>
-                                    <option value="SAPI" @if($Customers->legal_name=='SAPI') selected @endif >SOCIEDAD ANONIMA PROMOTORA DE INVERSION </option>
-                                    <option value="SAPI DE C.V." @if($Customers->legal_name=='SAPI DE C.V.') selected @endif> SOCIEDAD ANONIMA PROMOTORA DE INVERSION DE CAPITAL VARIABLE</option>
-                                    <option value="SAS" @if($Customers->legal_name=='SAS') selected @endif> SOCIEDAD POR ACCIONES SIMPLIFICADA</option>
-                                    <option value="S.C" @if($Customers->legal_name=='S.C') selected @endif>SOCIEDAD COOPERATIVA </option>
-                                    <option value="S en N. C" @if($Customers->legal_name=='S en N. C') selected @endif> SOCIEDAD EN NOMBRE COLECTIVO</option>
-                                    <option value="S en N. C DE C.V." @if($Customers->legal_name=='S en N. C DE C.V.') selected @endif> SOCIEDAD EN NOMBRE COLECTIVO DE CAPITAL VARIABLE S en N. C DE C.V</option>
-                                    <option value="S en C" @if($Customers->legal_name=='S en C') selected @endif>SOCIEDAD EN COMANDITA SIMPLE </option>
-                                    <option value="S.C.A" @if($Customers->legal_name=='S.C.A') selected @endif>SOCIEDAD EN COMANDITA POR ACCIONES </option>
+                                    <option value="FISICA CAEYP" @if($Providers->legal_name=='FISICA CAEYP') selected @endif> PERSONA FISICA CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES </option>
+                                    <option value="S.A." @if($Providers->legal_name=='S.A.') selected @endif >SOCIEDAD ANONIMA </option>
+                                    <option value="S.A. DE C.V." @if($Providers->legal_name=='S.A. DE C.V.') selected @endif > SOCIEDAD ANONIMA DE CAPITAL VARIABLE </option>
+                                    <option value="S DE R.L DE C.V." @if($Providers->legal_name=='S DE R.L DE C.V.') selected @endif >SOCIEDAD DE RESPONSABILIDAD LIMITADA DE CAPITAL VARIABLE </option>
+                                    <option value="SAPI" @if($Providers->legal_name=='SAPI') selected @endif >SOCIEDAD ANONIMA PROMOTORA DE INVERSION </option>
+                                    <option value="SAPI DE C.V." @if($Providers->legal_name=='SAPI DE C.V.') selected @endif> SOCIEDAD ANONIMA PROMOTORA DE INVERSION DE CAPITAL VARIABLE</option>
+                                    <option value="SAS" @if($Providers->legal_name=='SAS') selected @endif> SOCIEDAD POR ACCIONES SIMPLIFICADA</option>
+                                    <option value="S.C" @if($Providers->legal_name=='S.C') selected @endif>SOCIEDAD COOPERATIVA </option>
+                                    <option value="S en N. C" @if($Providers->legal_name=='S en N. C') selected @endif> SOCIEDAD EN NOMBRE COLECTIVO</option>
+                                    <option value="S en N. C DE C.V." @if($Providers->legal_name=='S en N. C DE C.V.') selected @endif> SOCIEDAD EN NOMBRE COLECTIVO DE CAPITAL VARIABLE S en N. C DE C.V</option>
+                                    <option value="S en C" @if($Providers->legal_name=='S en C') selected @endif>SOCIEDAD EN COMANDITA SIMPLE </option>
+                                    <option value="S.C.A" @if($Providers->legal_name=='S.C.A') selected @endif>SOCIEDAD EN COMANDITA POR ACCIONES </option>
                                     
-                                    <option value="R.S.C" @if($Customers->legal_name=='R.S.C') selected @endif>REGIMEN SIMPLIFICADO DE CONFIANZA </option>
-                                    <option value="POR ASIGNAR" @if($Customers->legal_name=='POR ASIGNAR') selected @endif>POR ASIGNAR </option>
-                                    <option value="otra" @if($Customers->legal_name=='otra') selected @endif >OTRA </option>
+                                    <option value="R.S.C" @if($Providers->legal_name=='R.S.C') selected @endif>REGIMEN SIMPLIFICADO DE CONFIANZA </option>
+                                    <option value="POR ASIGNAR" @if($Providers->legal_name=='POR ASIGNAR') selected @endif>POR ASIGNAR </option>
+                                    <option value="otra" @if($Providers->legal_name=='otra') selected @endif >OTRA </option>
                                     <option value="" > </option>
    
                                 </select>
                                 <br>
-                                <x-jet-input type="text" name="otra" id='otra' class="w-full text-xs " value="{{$Customers->otra}}" style='display: none;' onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input type="text" name="otra" id='otra' class="w-full text-xs " value="{{$Providers->otra}}" style='display: none;' onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 
                                 <x-jet-input-error for='legal_name' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Nombre Corto" />
-                                <x-jet-input type="text" name="alias" class="w-full text-xs " value="{{$Customers->alias}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input type="text" name="alias" class="w-full text-xs " value="{{$Providers->alias}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='alias' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* RFC" />
-                                <x-jet-input type="text" name="customer_rfc" class="w-full text-xs uppercase" value="{{$Customers->customer_rfc}}" />
+                                <x-jet-input type="text" name="customer_rfc" class="w-full text-xs uppercase" value="{{$Providers->customer_rfc}}" />
                                 <x-jet-input-error for='customer_rfc' />
                             </div>
                             <div class="form-group">
@@ -88,12 +88,12 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Email Coorporativo" />
-                                <x-jet-input type="text" name="customer_email" class="w-full text-xs " value="{{$Customers->customer_email}}" />
+                                <x-jet-input type="text" name="customer_email" class="w-full text-xs " value="{{$Providers->customer_email}}" />
                                 <x-jet-input-error for='customer_email' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Teléfono Fiscal" />
-                                <x-jet-input type="text" name="customer_telephone" class="w-full text-xs uppercase" value="{{$Customers->customer_telephone}}" />
+                                <x-jet-input type="text" name="customer_telephone" class="w-full text-xs uppercase" value="{{$Providers->customer_telephone}}" />
                                 <x-jet-input-error for='customer_telephone' />
                             </div>
                         </div>
@@ -107,37 +107,37 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <x-jet-label value="* Estado" />
-                                <x-jet-input type="text" name="customer_state" class="w-full text-xs uppercase" value="{{$Customers->customer_state}}" />
+                                <x-jet-input type="text" name="customer_state" class="w-full text-xs uppercase" value="{{$Providers->customer_state}}" />
                                 <x-jet-input-error for='customer_state' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Ciudad" />
-                                <x-jet-input type="text" name="customer_city" class="w-full text-xs uppercase" value="{{$Customers->customer_city}}" />
+                                <x-jet-input type="text" name="customer_city" class="w-full text-xs uppercase" value="{{$Providers->customer_city}}" />
                                 <x-jet-input-error for='customer_city' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Colonia" />
-                                <x-jet-input type="text" name="customer_suburb" class="w-full text-xs uppercase" value="{{$Customers->customer_suburb}}" />
+                                <x-jet-input type="text" name="customer_suburb" class="w-full text-xs uppercase" value="{{$Providers->customer_suburb}}" />
                                 <x-jet-input-error for='customer_suburb' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Calle" />
-                                <x-jet-input type="text" name="customer_street" class="w-full text-xs uppercase" value="{{$Customers->customer_street}}" />
+                                <x-jet-input type="text" name="customer_street" class="w-full text-xs uppercase" value="{{$Providers->customer_street}}" />
                                 <x-jet-input-error for='customer_street' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Número Exterior" />
-                                <x-jet-input type="text" name="customer_outdoor" class="w-full text-xs uppercase" value="{{$Customers->customer_outdoor}}"/>
+                                <x-jet-input type="text" name="customer_outdoor" class="w-full text-xs uppercase" value="{{$Providers->customer_outdoor}}"/>
                                 <x-jet-input-error for='customer_outdoor' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="Número Interior" />
-                                <x-jet-input type="text" name="customer_intdoor" class="w-full text-xs uppercase" value="{{$Customers->customer_intdoor}}"/>
+                                <x-jet-input type="text" name="customer_intdoor" class="w-full text-xs uppercase" value="{{$Providers->customer_intdoor}}"/>
                                 <x-jet-input-error for='customer_intdoor' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* C.P." />
-                                <x-jet-input type="text" name="customer_zip_code" class="w-full text-xs uppercase" value="{{$Customers->customer_zip_code}}" />
+                                <x-jet-input type="text" name="customer_zip_code" class="w-full text-xs uppercase" value="{{$Providers->customer_zip_code}}" />
                                 <x-jet-input-error for='customer_zip_code' />
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                 </div>
             </div>
             <div class="col-12 text-right p-2 shadow-lg gap-2">
-                <a href="{{ route('customers.index')}}" class="btn btn-red mb-2">
+                <a href="{{ route('providers.index')}}" class="btn btn-red mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>
                 <button type="submit" class="btn btn-green mb-2">
@@ -212,7 +212,7 @@
                 
             <br>
                                             
-                                        <a href="{{ route('customers.contacto', $Customers->id)}}">                    
+                                        <a href="{{ route('providers.contacto', $Providers->id)}}">                    
                                             <button  type='button' class="btn btn-green mb-2">
                                             <i class="fas fa fa-user-plus"></i> &nbsp;&nbsp;  Añadir contacto</button>
                                         </a>
