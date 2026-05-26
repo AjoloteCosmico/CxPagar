@@ -85,7 +85,7 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value=" Clave Proveedor" />
-                                <x-jet-input type="text" name="clave" class="w-full text-xs " />
+                                <x-jet-input type="text" name="clave" class="w-full text-xs " value="{{old('clave')}}" required />
                                 <x-jet-input-error for='clave' />
                             </div>
                             <div class="form-group">
@@ -164,7 +164,6 @@
 @stop
 
 @section('js')
-<script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/rfc_disponible.js') }}"></script>
 
 <script>
     $(document).ready(function () {     
