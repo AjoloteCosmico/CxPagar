@@ -24,11 +24,36 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
+                                <x-jet-label value="* Tipo de Persona" />
+                                <div class="flex items-center gap-4 mt-1">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="person_type" value="moral" id="person_moral" checked class="form-radio" />
+                                        <span class="ml-2">Persona Moral</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="person_type" value="fisica" id="person_fisica" class="form-radio" />
+                                        <span class="ml-2">Persona Física</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="razon_social_group">
                                 <x-jet-label value="* Nombre o Razón Social" />
                                 <x-jet-input type="text" name="customer" class="w-full text-xs " value="{{old('customer')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='customer' />
                             </div>
-                            <div class="form-group">
+
+                            <div class="form-group" id="fisica_name_group" style="display: none;">
+                                <x-jet-label value="* Nombre" />
+                                <x-jet-input type="text" name="first_name" id="first_name" class="w-full text-xs " value="{{old('first_name')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='first_name' />
+                                <br>
+                                <x-jet-label value="* Apellidos" />
+                                <x-jet-input type="text" name="last_name" id="last_name" class="w-full text-xs " value="{{old('last_name')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='last_name' />
+                            </div>
+
+                            <div class="form-group" id="legal_name_group">
                                 <x-jet-label value="* Regimen de Capital" />
                                 <select class="form-capture  w-full text-xs uppercase" id="legal_name" name="legal_name">
                                 
@@ -67,7 +92,7 @@
                                 <x-jet-input type="text" name="customer_rfc" class="w-full text-xs " value="{{old('customer_rfc')}}"/>
                                 <x-jet-input-error for='customer_rfc' />
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="regimen_fiscal_group" style="display: none;">
                                 <x-jet-label value="* Regimen Fiscal" />
                                 <select class="form-capture  w-full text-xs uppercase" id="regimen_fiscal" name="regimen_fiscal">
                                
@@ -75,7 +100,7 @@
                                 <option value="2" @if(old('regimen_fiscal')=='2') selected @endif> SA de CV</option>
                                 <option value="3" @if(old('regimen_fiscal')=='3') selected @endif> S en N C</option>
 
-                                
+
                                     <option value="" > </option>
                                     
                                     
@@ -166,17 +191,51 @@
 @section('js')
 
 <script>
-    $(document).ready(function () {     
-$('#legal_name').change(function(){
-var seleccionado = $(this).val();
-if(seleccionado=='otra'){
-document.getElementById('otra').style.display="block";
-}
-else{
-    document.getElementById('otra').style.display="none"; 
-}
+    $(document).ready(function () {
+        function updatePersonType(){
+            var type = $('input[name="person_type"]:checked').val();
+            if(type === 'fisica'){
+                $('#razon_social_group').hide();
+                $('#legal_name_group').hide();
+                $('#fisica_name_group').show();
+                $('#regimen_fiscal_group').show();
+            } else {
+                $('#razon_social_group').show();
+                $('#legal_name_group').show();
+                $('#fisica_name_group').hide();
+                $('#regimen_fiscal_group').hide();
+            }
+        }
 
-})
-});
+        // initial setup
+        updatePersonType();
+
+        // toggle when radio changes
+        $('input[name="person_type"]').change(function(){
+            updatePersonType();
+        });
+
+        // show/hide 'otra' for legal_name select
+        $('#legal_name').change(function(){
+            var seleccionado = $(this).val();
+            if(seleccionado=='otra'){
+                document.getElementById('otra').style.display="block";
+            }
+            else{
+                document.getElementById('otra').style.display="none"; 
+            }
+        });
+
+        // ensure 'customer' contains full name for persona fisica on submit
+        $('form').on('submit', function(){
+            if($('input[name="person_type"]:checked').val() === 'fisica'){
+                var fn = ($('#first_name').val()||'').trim();
+                var ln = ($('#last_name').val()||'').trim();
+                var full = (fn + ' ' + ln).trim();
+                $('input[name="customer"]').val(full);
+            }
+        });
+
+    });
 </script>
 @stop
