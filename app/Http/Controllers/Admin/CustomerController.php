@@ -49,9 +49,10 @@ class CustomerController extends Controller
         
         $rules = [
             'customer' => 'required',
+            'clave'=>'required|unique:customers',
             'alias' => 'required',
             'legal_name' => 'required',
-            'customer_rfc' => 'required|max:13',
+            'customer_rfc' => 'required|max:13|unique:customers',
             'customer_state' => 'required',
             'customer_city' => 'required',
             'customer_suburb' => 'required',
@@ -64,11 +65,14 @@ class CustomerController extends Controller
 
         $messages = [
             'customer.required' => 'Escriba el Nombre del Cliente',
+            'customer.clave.required' => 'Escriba la Clave del Cliente',
+            'customer.clave.unique' => 'La Clave del Cliente ya existe, escriba una diferente',
             'alias.required' => 'Escriba el Nombre Corto del Cliente',
             'legal_name.required' => 'Escriba el Nombre Júridico del Cliente',
             'alias.required' => 'Escriba el Nombre Corto del Cliente',
             'customer_rfc.required' => 'Capture el RFC del Cliente',
             'customer_rfc.max' => 'Sólo puede capturar un máximo de 13 caractéres',
+            'customer_rfc.unique' => 'El RFC del Cliente ya existe, escriba uno diferente',
             'customer_state.required' => 'Capture el Estado donde se ubica el Cliente',
             'customer_city.required' => 'Capture la Ciudad donde se ubica el Cliente',
             'customer_suburb.required' => 'Capture la Colonia donde se ubica el Cliente',
@@ -86,6 +90,7 @@ class CustomerController extends Controller
         
         $Customers = new Customer();
         $Customers->customer = $request->customer;
+        
         if($request->legal_name == 'otra'){
             $Customers->legal_name = $request->otra;
         }
@@ -94,6 +99,7 @@ class CustomerController extends Controller
         }
         
         $Customers->alias = $request->alias;
+        $Customers->person_type = $request->person_type;
         $Customers->customer_rfc = $request->customer_rfc;
         $Customers->customer_state = $request->customer_state;
         $Customers->customer_city = $request->customer_city;
@@ -105,6 +111,7 @@ class CustomerController extends Controller
         $Customers->customer_email = $request->customer_email;
         $Customers->customer_telephone = $request->customer_telephone;
         $Customers->clave=$request->clave;
+        $Customers->regimen_fiscal=$request->regimen_fiscal;
         $Customers->save();
 
         return redirect()->route('customers.index')->with('create_reg', 'ok');

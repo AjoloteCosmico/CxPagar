@@ -253,8 +253,9 @@
         $('form').on('submit', function(){
             if($('input[name="person_type"]:checked').val() === 'fisica'){
                 var fn = ($('#first_name').val()||'').trim();
-                var ln = ($('#last_name').val()||'').trim();
-                var full = (fn + ' ' + ln).trim();
+                var ln = ($('#last_name1').val()||'').trim();
+                var ln2 = ($('#last_name2').val()||'').trim();
+                var full = (ln + ' ' + ln2 + ' '+fn ).trim();
                 $('input[name="customer"]').val(full);
             }
         });
