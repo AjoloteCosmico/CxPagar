@@ -47,8 +47,9 @@ class ProviderController extends Controller
         $rules = [
             'customer' => 'required',
             'alias' => 'required',
+            'clave' => 'required|unique:providers',
             'legal_name' => 'required',
-            'customer_rfc' => 'required|max:13',
+            'customer_rfc' => 'required|max:13|unique:providers',
             'customer_state' => 'required',
             'customer_city' => 'required',
             'customer_suburb' => 'required',
@@ -61,11 +62,14 @@ class ProviderController extends Controller
 
         $messages = [
             'customer.required' => 'Escriba el Nombre del Proveedor',
+            'clave.required' => 'Escriba la Clave del Proveedor',
+            'clave.unique' => 'La Clave del Proveedor ya existe, escriba una diferente',
             'alias.required' => 'Escriba el Nombre Corto del Proveedor',
             'legal_name.required' => 'Escriba el Nombre Jurídico del Proveedor',
             'alias.required' => 'Escriba el Nombre Corto del Proveedor',
             'customer_rfc.required' => 'Capture el RFC del Proveedor',
             'customer_rfc.max' => 'Sólo puede capturar un máximo de 13 caractéres',
+            'customer_rfc.unique' => 'El RFC del Proveedor ya existe, escriba uno diferente',
             'customer_state.required' => 'Capture el Estado donde se ubica el Proveedor',
             'customer_city.required' => 'Capture la Ciudad donde se ubica el Proveedor',
             'customer_suburb.required' => 'Capture la Colonia donde se ubica el Proveedor',
@@ -89,9 +93,10 @@ class ProviderController extends Controller
         else{
             $Providers->legal_name = $request->legal_name;
         }
-        
+        $Providers->person_type=$request->person_type;
         $Providers->alias = $request->alias;
         $Providers->customer_rfc = $request->customer_rfc;
+        $Providers->regimen_fiscal=$request->regimen_fiscal;
         $Providers->customer_state = $request->customer_state;
         $Providers->customer_city = $request->customer_city;
         $Providers->customer_suburb = $request->customer_suburb;
