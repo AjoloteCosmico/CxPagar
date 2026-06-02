@@ -97,7 +97,7 @@ class CustomerController extends Controller
         else{
         $Customers->legal_name = $request->legal_name;
         }
-        
+        $Customers->person_type=$request->person_type;
         $Customers->alias = $request->alias;
         $Customers->person_type = $request->person_type;
         $Customers->customer_rfc = $request->customer_rfc;
