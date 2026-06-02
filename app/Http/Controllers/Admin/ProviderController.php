@@ -47,9 +47,9 @@ class ProviderController extends Controller
         $rules = [
             'customer' => 'required',
             'alias' => 'required',
-            'clave' => 'required|unique:providers',
+            'clave' => 'required|unique:customers',
             'legal_name' => 'required',
-            'customer_rfc' => 'required|max:13|unique:providers',
+            'customer_rfc' => 'required|max:13|unique:customers',
             'customer_state' => 'required',
             'customer_city' => 'required',
             'customer_suburb' => 'required',
