@@ -306,11 +306,17 @@ return [
             'header' => '===================',
         ],
         [
-            'header' => 'ORDENES DE COMPRA',
+            'header' => 'DOCUMENTOS DE COMPRA',
             'can' => 'PEDIDOS',
         ],
         [
             'text' => 'REQUISICION',
+            'icon' => 'fas fa-clipboard-check fa-fw',
+            'route'  => 'requisition.index',
+            'can'  => 'VER PEDIDOS',
+        ],
+          [
+            'text' => 'ORDENES DE COMPRA',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'requisition.index',
             'can'  => 'VER PEDIDOS',
