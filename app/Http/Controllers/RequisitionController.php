@@ -494,6 +494,10 @@ public function recalcular_total($id){
         $CompanyProfiles = CompanyProfile::first();
         $comp=$CompanyProfiles->id;
         $InternalOrders = Requisition::find($id);
+        $title='ORDEN DE COMPRA INTERNA';
+        if($InternalOrders->type=='requisition'){
+             $title='REQUISICIÓN DE COMPRA';
+        }
         $Customers = Customer::find($InternalOrders->customer_id);
         $Contacts =DB::table('order_contacts')
         ->join('customer_contacts', 'customer_contacts.id', '=', 'order_contacts.contact_id')
@@ -535,6 +539,7 @@ public function recalcular_total($id){
             'payments',
             'ASellers',
             'Comisiones',
+            'title',
             
         ));
     }

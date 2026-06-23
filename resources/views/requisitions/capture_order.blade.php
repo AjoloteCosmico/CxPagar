@@ -184,7 +184,7 @@
         <div class="col-sm-3 col-xs-12">
             <div class="form-group">
                 <x-jet-label value="* Comprador" />
-                <x-jet-input type="number" name="comprador" required class="w-full text-xs"/>
+                <x-jet-input type="text" name="comprador" required class="w-full text-xs" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                 <x-jet-input-error for='comprador' />
             </div>
         </div>
