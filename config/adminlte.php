@@ -318,7 +318,7 @@ return [
           [
             'text' => 'ORDENES DE COMPRA',
             'icon' => 'fas fa-clipboard-check fa-fw',
-            'route'  => 'requisition.index',
+            'route'  => 'purchase_order.index',
             'can'  => 'VER PEDIDOS',
         ],
         [

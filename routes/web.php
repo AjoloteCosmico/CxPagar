@@ -43,6 +43,9 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('bills_period', BillsPeriodController::class);
     Route::resource('temp_items', TempItemController::class);
     Route::resource('items', ItemController::class);
+
+    //requisicion recagado vol2
+    Route::resource('purchase_order', RequisitionController::class);
     Route::resource('cuentas_cobrar', PaymentsController::class);
     Route::resource('factures', FactureController::class);
     Route::post('factures/update_2/{id}', [FactureController::class, 'update'])->name('factures.update2');
