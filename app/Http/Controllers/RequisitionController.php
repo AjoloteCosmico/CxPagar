@@ -38,18 +38,41 @@ class RequisitionController extends Controller
             ->join('requisitions', 'requisitions.customer_id', '=', 'customers.id')
             ->join('sellers', 'requisitions.seller_id','=','sellers.id')
             ->select('requisitions.*','customers.customer','customers.clave', 'sellers.seller_name')
+            ->where('type','requisition')
             ->orderBy('requisitions.invoice', 'DESC')
             ->get();
-        return view('requisitions.index', compact('Requisitions'));
+        $type='requisition';
+        $title="REQUISICION DE COMPRA";
+        return view('requisitions.index', compact('Requisitions','type','title'));
     }
 
-    public function create()
+
+    public function index_orden(){
+         //$InternalOrders = vinternal_orders::all();
+        $Requisitions = DB::table('customers')
+            ->join('requisitions', 'requisitions.customer_id', '=', 'customers.id')
+            ->join('sellers', 'requisitions.seller_id','=','sellers.id')
+            ->select('requisitions.*','customers.customer','customers.clave', 'sellers.seller_name')
+            ->where('type','internal')
+            ->orderBy('requisitions.invoice', 'DESC')
+            ->get();
+            
+        $type='internal';
+        $title="ORDEN DE COMPRA INTERNA";
+        return view('requisitions.index', compact('Requisitions','type','title'));
+
+    }
+    public function create($type)
     {
         $Customers = Customer::all()->sortBy('clave');
         $contactos=CustomerContact::all();
+        $title='ORDEN DE COMPRA INTERNA';
+        if($type=='requisition'){
+             $title='REQUISICIÓN DE COMPRA';
+        }
         return view('requisitions.create', compact(
             'Customers',
-            'contactos'
+            'contactos','type','title'
         ));
     }
 
@@ -73,7 +96,7 @@ class RequisitionController extends Controller
             $TempInternalOrder->customer_id = $request->customer_id;
             $TempInternalOrder->invoice = $request->invoice;
             $TempInternalOrder->noha = $request->noha;
-            
+            $TempInternalOrder->type = $request->type;
             $TempInternalOrder->save();
             if($request->contacto){
                 //dd($request->contacto);
@@ -91,8 +114,14 @@ class RequisitionController extends Controller
         $Coins = Coin::all();
         $Sellers = Seller::all();
         $hoy = now();
+
+        $title="ORDEN DE COMPRA INTERNA";
+        if($request->type=='requisition'){
+             $title="REQUISICIÓN DE COMPRA";
+        }
         
         return view('requisitions.capture_order', compact(
+            'title',
             'TempInternalOrders',
             'Customers',
             'CustomerShippingAddresses',
@@ -257,9 +286,10 @@ public function recalcular_total($id){
     public function store(Request $request)
     {
         $Year=now()->format('Y');
-        $noha=Requisition::whereYear('created_at', $Year)->count()+1;
+        
         $Id = $request->temp_internal_order_id;
         $TempInternalOrders = TempInternalOrder::find($Id);
+        $noha=Requisition::whereYear('created_at', $Year)->where('type', $TempInternalOrders->type)->count()+1;
         $TempInternalOrders->subtotal = $request->subtotal;
         $TempInternalOrders->iva = $request->iva;
         $TempInternalOrders->observations = $request->observations;
@@ -273,7 +303,7 @@ public function recalcular_total($id){
         $TempInternalOrders->save();
         $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
         
-        $InternalOrders = Requisition::orderBy('id', 'DESC')->first();
+        $InternalOrders = Requisition::orderBy('id', 'DESC')->where('type', $TempInternalOrders->type)->first();
         $Invoice = '100';
         if($InternalOrders){
             $Invoice = $InternalOrders->invoice + 1;
@@ -313,6 +343,8 @@ public function recalcular_total($id){
             $InternalOrders->ieps = $TempInternalOrders->ieps;
             $InternalOrders->isr = $TempInternalOrders->isr;
             $InternalOrders->tasa = $TempInternalOrders->tasa;
+            
+            $InternalOrders->type = $TempInternalOrders->type;
 
             $InternalOrders->requisitor=$TempInternalOrders->requisitor;
             $InternalOrders->pi=$TempInternalOrders->pi;

@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'REQUISICION DE COMPRA')
+@section('title', $title)
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fa-solid fa-clipboard-check"></i>&nbsp; REQUISICION DE COMPRA</h1>
+    <h1 class="font-bold"><i class="fa-solid fa-clipboard-check"></i>&nbsp; {{$title}} </h1>
     <script src="/Scripts/jquery.dataTables.js"></script>
 <script src="/Scripts/dataTables.bootstrap.js"></script>
     
@@ -17,7 +17,7 @@
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
                 @can('CREAR PEDIDOS')
-                <a href="{{ route('requisition.create')}}" class="btn btn-green">
+                <a href="{{ route('par_requisition.create',$type)}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
                 @endcan

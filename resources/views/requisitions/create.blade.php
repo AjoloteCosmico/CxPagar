@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'REQUISICION DE COMPRA')
+@section('title', 'CAPTURA')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-clipboard-check"></i>&nbsp; REQUISICION DE COMPRA</h1>
+    <h1 class="font-bold"><i class="fas fa-clipboard-check"></i>&nbsp; {{$title}}</h1>
 
     @stop
 
@@ -55,6 +55,7 @@
 <div class="form-group" id="noha-group" style="display:none;">
                             <x-jet-label value="NOHA" />
                             <x-jet-input type="number" min="0" name="noha" id="noha" value=0  /> 
+                             <x-jet-input type="hidden" name="type" value="{{ $type }}"/>
                             </div>      
 <br><br>
 

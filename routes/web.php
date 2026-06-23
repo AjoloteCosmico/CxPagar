@@ -39,6 +39,10 @@ Route::group(['middleware' => ['auth']], function()
     Route::post('embarque/postear/{id}', [RequisitionController::class, 'shipment'])->name('embarque_requisicion');
     
     Route::resource('requisition', RequisitionController::class);
+    
+    Route::get('tpurchase_order/index', [RequisitionController::class, 'index_orden'])->name('tpurchase_order.index');
+    
+    Route::get('requisition/create/{type}', [RequisitionController::class, 'create'])->name('par_requisition.create');
     Route::resource('bills', BillsController::class);
     Route::resource('bills_period', BillsPeriodController::class);
     Route::resource('temp_items', TempItemController::class);

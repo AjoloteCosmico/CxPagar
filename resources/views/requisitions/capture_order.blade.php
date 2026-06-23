@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'REQUISICION DE COMPRA')
+@section('title', 'CAPTURA')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-clipboard-check"></i>&nbsp; REQUISICION DE COMPRA</h1>
+    <h1 class="font-bold"><i class="fas fa-clipboard-check"></i>&nbsp; {{$title}}</h1>
 @stop
 
 @section('content')
@@ -17,6 +17,7 @@
             @csrf
        
         <x-jet-input type="hidden" name="customer_id" value="{{ $Customers->id }}"/>
+       
         <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders->id }}"/>
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
@@ -35,7 +36,7 @@
                                     </div>
                                 <div class="col-sm-3 col-xs-12">
                                     <div class="form-group">
-                                        <x-jet-label value="* Entrega de Equipo" />
+                                        <x-jet-label value="* Fecha de Entrega "/>
                                         <x-jet-input type="date" name="date_delivery" required class="w-full text-xs" value="{{ $hoy->format('Y-m-d') }}"/>
                                         <x-jet-input-error for='date_delivery' />
                                     </div>
@@ -149,7 +150,9 @@
        <input type="text" name="ncontrato" style='width: 10%;' id='ncontrato'  value="0">
        <x-jet-input-error for='seller_id' />
    </div>
-   <div class="form-group">
+
+
+   <!-- <div class="form-group">
        <x-jet-label value="Orden de Compra" />
        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 <input type="radio" class="btn-check" name="btnradio3" id="btnradio3" autocomplete="off" checked onclick="manual('oc');">
@@ -161,7 +164,7 @@
 
        <input type="text" name="oc" style='width: 10%;' id='oc'  value="0">
        <x-jet-input-error for='seller_id' />
-   </div>
+   </div> -->
 
    <div class = 'row'>
         <div class="col-sm-3 col-xs-12">
