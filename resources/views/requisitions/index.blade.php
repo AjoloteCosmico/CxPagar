@@ -32,7 +32,7 @@
                             <th>Fecha</th>
                             <th>Cliente</th>
                             <th>Clave</th>
-                            <th>Vendedor</th>
+                            <th>Requisitor</th>
                             <th>Estatus</th>
                             <th></th>
                         </tr>
@@ -45,7 +45,7 @@
                             <td>{{date('d-m-Y', strtotime($row->date)) }}</td>
                             <td>{{$row->customer}}</td>
                             <td>{{$row->clave}}</td>
-                            <td>{{$row->seller_name}}</td>
+                            <td>{{$row->requisitor}}</td>
                             <td>{{$row->status}}</td>
                             <td class="w-15">
                                 <div class="row">

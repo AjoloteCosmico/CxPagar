@@ -36,8 +36,7 @@ class RequisitionController extends Controller
         //$InternalOrders = vinternal_orders::all();
         $Requisitions = DB::table('customers')
             ->join('requisitions', 'requisitions.customer_id', '=', 'customers.id')
-            ->join('sellers', 'requisitions.seller_id','=','sellers.id')
-            ->select('requisitions.*','customers.customer','customers.clave', 'sellers.seller_name')
+            ->select('requisitions.*','customers.customer','customers.clave', )
             ->where('type','requisition')
             ->orderBy('requisitions.invoice', 'DESC')
             ->get();
@@ -51,8 +50,7 @@ class RequisitionController extends Controller
          //$InternalOrders = vinternal_orders::all();
         $Requisitions = DB::table('customers')
             ->join('requisitions', 'requisitions.customer_id', '=', 'customers.id')
-            ->join('sellers', 'requisitions.seller_id','=','sellers.id')
-            ->select('requisitions.*','customers.customer','customers.clave', 'sellers.seller_name')
+            ->select('requisitions.*','customers.customer','customers.clave')
             ->where('type','internal')
             ->orderBy('requisitions.invoice', 'DESC')
             ->get();
@@ -323,7 +321,7 @@ public function recalcular_total($id){
             }
             $InternalOrders->date = $TempInternalOrders->date;
             $InternalOrders->customer_id = $TempInternalOrders->customer_id;
-            $InternalOrders->seller_id = Auth::user()->id;
+            $InternalOrders->seller_id = 1;
             $InternalOrders->comision = $TempInternalOrders->comision;
             $InternalOrders->date_delivery = $TempInternalOrders->date_delivery;
             $InternalOrders->reg_date = $TempInternalOrders->reg_date;
