@@ -322,7 +322,7 @@ return [
             'can'  => 'VER PEDIDOS',
         ],
         [
-            'text' => 'GASTOS FIJOS',
+            'text' => 'O.C.Gastos',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'bills.index',
             'can'  => 'VER PEDIDOS',

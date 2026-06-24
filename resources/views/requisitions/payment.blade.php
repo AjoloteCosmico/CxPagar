@@ -76,6 +76,10 @@
       <th scope="col">cantidad</th>
       <th scope="col">Fecha MM/DD/AAAA</th>
       <th scope="col">Concepto</th>
+      <th scope="col">forma de pago</th>
+      <th scope="col">no. cuenta</th>
+      <th scope="col">horario de recibo</th>
+      <th scope="col">condiciones de entrega</th>
     </tr>
   </thead>
   <tbody>
@@ -102,7 +106,11 @@
     @else
     <td> <input type='date'  required class='w-full text-xs date' name="{{'date['.$aux_count.']'}}"  id="{{'D'.$aux_count}}"  value="{{$entrega->format('Y-m-d');}}"></td>
          @endif
-        <td> <input type='text' style='width: 50%;'  name="{{'concepto['.$aux_count.']'}}" id="{{'C'.$aux_count}}"onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
+        <td> <input type='text' style='width: 80%;'  name="{{'concepto['.$aux_count.']'}}" id="{{'C'.$aux_count}}" onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
+        <td> <input type='text' style='width: 80%;' name="{{'forma_pago['.$aux_count.']'}}" id="{{'FP'.$aux_count}}" onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
+        <td> <input type='text' style='width: 80%;' name="{{'no_cuenta['.$aux_count.']'}}" id="{{'NC'.$aux_count}}" onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
+        <td> <input type='text' style='width: 80%;' name="{{'horario_recibo['.$aux_count.']'}}" id="{{'H'.$aux_count}}" onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
+        <td> <input type='text' style='width: 80%;' name="{{'condiciones_entrega['.$aux_count.']'}}" id="{{'CE'.$aux_count}}" onkeyup="javascript:this.value=this.value.toUpperCase();"></td>
         
      </tr>
       

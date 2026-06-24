@@ -211,12 +211,15 @@ class RequisitionController extends Controller
         
         $contactos=CustomerContact::where('customer_id',$Customers->id)->get();
         TempItem::truncate();
-        
+         $title='ORDEN DE COMPRA INTERNA';
+        if($TempInternalOrders->type=='requisition'){
+             $title='REQUISICIÓN DE COMPRA';
+        }
         return view('requisitions.capture_order_shippment_addresses', compact(
             'TempInternalOrders',
             'Customers',
             'CustomerShippingAddresses',
-            'contactos',
+            'contactos','title'
            
         ));
     }
@@ -253,6 +256,10 @@ class RequisitionController extends Controller
         $cat=" ";
         $desc=" ";
         $obs=" ";
+        $title='ORDEN DE COMPRA INTERNA';
+        if($TempInternalOrders->type=='requisition'){
+             $title='REQUISICIÓN DE COMPRA';
+        }
         return view('requisitions.capture_order_items', compact(
             'TempInternalOrders',
             'Customers',
@@ -261,7 +268,7 @@ class RequisitionController extends Controller
             'Subtotal',
             'Iva',
             'Total',
-            'cat','desc','obs'
+            'cat','desc','obs','title'
             // 'ITEM',
         ));
         

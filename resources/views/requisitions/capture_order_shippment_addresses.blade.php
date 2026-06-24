@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'PEDIDO INTERNO')
+@section('title', $title)
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-clipboard-check"></i>&nbsp; Pedido Interno</h1>
+    <h1 class="font-bold"><i class="fas fa-clipboard-check"></i>&nbsp; {{$title}}</h1>
 @stop
 
 @section('content')
     <div class="container bg-gray-300 shadow-lg rounded-lg">
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
-                <i class="fas fa-plus-circle"></i>&nbsp; Agregar Pedido Interno:
+                <i class="fas fa-plus-circle"></i>&nbsp; Agregar Requisición:
             </h5>
         </div>
         <form action="{{ route('requisition.partida')}}" method="POST" enctype="multipart/form-data">

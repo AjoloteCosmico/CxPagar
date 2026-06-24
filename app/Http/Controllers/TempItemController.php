@@ -154,6 +154,10 @@ class TempItemController extends Controller
         $desc=Session::get('desc');
         
         $obs=Session::get('obs');
+        $title='ORDEN DE COMPRA INTERNA';
+        if($TempInternalOrders->type=='requisition'){
+             $title='REQUISICIÓN DE COMPRA';
+        }
         return view('requisitions.capture_order_items', compact(
             'TempInternalOrders',
             'Customers',
@@ -161,7 +165,7 @@ class TempItemController extends Controller
             'Subtotal',
             'Iva',
             'Total',
-            'cat','desc','obs'
+            'cat','desc','obs','title'
         ));
     }
 

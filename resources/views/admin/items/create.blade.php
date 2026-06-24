@@ -61,11 +61,9 @@
                                 <select class="form-capture  w-full text-xs uppercase" name="family" id='fam'>
                                         
                                         <option value=" " > </option>
-                                        <option value="RACKS" >RACKS</option>
-                                        <option value="TRANSPORTADORES" >TRANSPORTADORES</option>
-                                        <option value="EQUIPO AUXILIAR" >EQUIPO AUXILIAR</option>
-                                        <option value="SOFTWARE" >SOFTWARE</option>
-                                        <option value="FLETE" >FLETE</option>
+                                        <option value="FAMILIA 1" >FAMILIA 1</option>
+                                        <option value="FAMILIA 2" >FAMILIA 2</option>
+                                        <option value="FAMILIA 3" >FAMILIA 3</option>
                                         <option value="OTRO" >OTRO</option>
                                 </select>
                                 

@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'REQUISICION DE COMPRA')
+@section('title', $title)
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-clipboard-check"></i>&nbsp; Requisicion de Compra</h1>
+    <h1 class="font-bold"><i class="fas fa-clipboard-check"></i>&nbsp; {{$title}}</h1>
 @stop
 
 @section('content')
