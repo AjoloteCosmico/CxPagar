@@ -529,7 +529,7 @@ public function recalcular_total($id){
      ->select('comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
      
-        return view('requisitions.show', compact(
+        return view('requisitions.show_test', compact(
             'CompanyProfiles',
             'InternalOrders',
             'Customers',
