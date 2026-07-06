@@ -26,6 +26,7 @@ use Illuminate\Http\Request;
 use App\Models\payments;
 use App\Models\historical_payments;
 use App\Models\signatures;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Facades\Auth;
 
@@ -109,6 +110,7 @@ class RequisitionController extends Controller
         
         $Customers = Customer::where('id', $request->customer_id)->first();
         $CustomerShippingAddresses = CustomerShippingAddress::where('customer_id', $Customers->id)->get();
+        $Users = User::role('REQUISITOR')->get();
         $Coins = Coin::all();
         $Sellers = Seller::all();
         $hoy = now();
@@ -124,7 +126,7 @@ class RequisitionController extends Controller
             'Customers',
             'CustomerShippingAddresses',
             'Coins',
-            'Sellers',
+            'Sellers','Users',
             'hoy',
         ));
     }

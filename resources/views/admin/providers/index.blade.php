@@ -10,7 +10,7 @@
     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
-                @can('CREAR CLIENTES')
+                @can('CREAR PROVEEDOR')
                 <a href="{{ route('providers.create')}}" class="btn btn-green">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nueva
                 </a>
@@ -51,7 +51,7 @@
                             <td class="w-15">
                                 <div class="row">
                                     <div class="col-6 text-center w-10">
-                                        @can('EDITAR CLIENTES')
+                                        @can('EDITAR PROVEEDOR')
                                         <a href="{{ route('providers.edit', $row->id)}}">
                                         <button type="submit" class="btn btn-blue ">
                                                 <i class="fas fa-edit items-center fa-xl"></i>
@@ -61,7 +61,7 @@
                                     </div>
                                     &nbsp;&nbsp;
                                     <div class="col-6 text-center w-10">
-                                        @can('BORRAR CLIENTES')
+                                        @can('BORRAR PROVEEDOR')
                                         <form class="DeleteReg" action="{{ route('providers.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')

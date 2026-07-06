@@ -196,7 +196,7 @@
                                             </button>
                                         </form>
                                         </div>
-    <div class ="col">@can('VER PEDIDOS')
+    <div class ="col">@can('VER REQUISICION')
                                         <a href="{{ route('internal_orders.show', $InternalOrders->id)}}">
                                             <i class="fas fa-eye btn btn-blue ">Ver Detalles</i></span>
                                         </a>

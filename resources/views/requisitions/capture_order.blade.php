@@ -170,6 +170,11 @@
         <div class="col-sm-3 col-xs-12">
             <div class="form-group">
                 <x-jet-label value="* Requisitor" />
+                <select class="form-capture  w-full text-xs uppercase"  name="requisitor">
+                                            @foreach ($Users as $row)
+                                                <option value="{{$row->id}}" @if ($row->id == old('requisitor')) selected @endif >  {{$row->name}}</option>
+                                            @endforeach
+                </select>
                 <x-jet-input type="text" name="requisitor" required class="w-full text-xs" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                 <x-jet-input-error for='requisitor' />
             </div>

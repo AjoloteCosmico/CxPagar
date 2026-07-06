@@ -236,7 +236,7 @@
                                                              </div>
 
                                                              <div class="col-6 text-center w-10">
-                                                             @can('BORRAR PEDIDOS')
+                                                             @can('BORRAR REQUISICION')
                                         <form class="DeleteReg" action="{{route('items.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')

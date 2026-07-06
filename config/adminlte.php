@@ -284,7 +284,7 @@ return [
                     'text' => 'PROVEEDORES',
                     'icon' => 'fas fa-users-cog fa-fw',
                     'route'  => 'providers.index',
-                    'can'  => 'VER CLIENTES',
+                    'can'  => 'VER PROVEEDOR',
                 ],
                 // [
                 //     'text' => 'NIVEL AUTORIZACIÓN',
@@ -307,25 +307,25 @@ return [
         ],
         [
             'header' => 'DOCUMENTOS DE COMPRA',
-            'can' => 'PEDIDOS',
+            'can' => 'REQUISICION',
         ],
         [
             'text' => 'REQUISICION',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'requisition.index',
-            'can'  => 'VER PEDIDOS',
+            'can'  => 'VER REQUISICION',
         ],
           [
             'text' => 'ORDENES DE COMPRA',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'tpurchase_order.index',
-            'can'  => 'VER PEDIDOS',
+            'can'  => 'VER REQUISICION',
         ],
         [
-            'text' => 'O.C.Gastos',
+            'text' => 'O.C. GASTOS',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'bills.index',
-            'can'  => 'VER PEDIDOS',
+            'can'  => 'VER REQUISICION',
         ],
         // [
         //     'header' => '===================',

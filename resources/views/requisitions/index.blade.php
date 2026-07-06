@@ -16,7 +16,7 @@
             <a href="{{ route('reports.generate',[0,'resumen_pedido',0])}}" class="btn btn-blue">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
-                @can('CREAR PEDIDOS')
+                @can('CREAR REQUISICION')
                 <a href="{{ route('par_requisition.create',$type)}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
@@ -50,7 +50,7 @@
                             <td class="w-15">
                                 <div class="row">
                                     <div class="col-6 text-center w-10">
-                                        @can('VER PEDIDOS')
+                                        @can('VER REQUISICION')
                                         <a href="{{ route('requisition.show', $row->id)}}">
                                             <i class="fa-solid fa-eye btn btn-blue  "></i></span>
                                         </a>
@@ -59,7 +59,7 @@
                                     @if($row->status == 'CAPTURADO')
                                     <div class="col-6 text-center w-10">
                                         
-                                        @can('BORRAR PEDIDOS')
+                                        @can('BORRAR REQUISICION')
                                         <form class="DeleteReg" action="{{route('requisition.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')

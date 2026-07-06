@@ -16,7 +16,7 @@
             <a href="{{ route('reports.generate',[0,'resumen_pedido',0])}}" class="btn btn-blue">
                     <i class="fa-solid fa-eye"></i>&nbsp; Resumen
                 </a>
-                @can('CREAR PEDIDOS')
+                @can('CREAR REQUISICION')
                 <a href="{{ route('bills.create')}}" class="btn btn-green">
                     <i class="fa-solid fa-plus-circle"></i>&nbsp; Nuevo
                 </a>
@@ -45,7 +45,7 @@
                             <td width="10%">
                                 <div class="row">
                                     <div class="col-3 text-center">
-                                        @can('VER PEDIDOS')
+                                        @can('VER REQUISICION')
                                         <a class="btn btn-blue" href="{{ route('bills.show', $row->id)}}">
                                             <i class="fa-solid fa-eye"> </i> 
                                         </a>
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="col-3 text-center" style="padding:0,5vw">
                                         
-                                        @can('BORRAR PEDIDOS')
+                                        @can('BORRAR REQUISICION')
                                         <form class="DeleteReg" action="{{route('bills.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
