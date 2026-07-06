@@ -3,513 +3,616 @@
 @section('title', $title)
 
 @section('content_header')
-    <h1 class="font-bold m-0 text-dark">
-        <i class="fas fa-clipboard-check text-primary"></i>&nbsp; {{$title}}
-    </h1>
+    <h1 class="font-bold"> <i class="fas fa-clipboard-check"></i>&nbsp; {{$title}}</h1>
 @stop
 
-@section('content')
-<div class="container-fluid pb-4">
-    <div class="card shadow-lg border-0 rounded-lg">
-        <div class="card-body p-4 bg-white rounded-lg">
+@section('content')     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
+        <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
+            <div class="row p-4">
+                <div class="col-sm-12 text-center font-bold text-sm" >
+                    <table class=" table-responsive text-xs" style="border: none; border-collapse: collapse;">
+                        <tr style="border: none; border-collapse: collapse;"><td style="border: none; border-collapse: collapse;"> &nbsp; &nbsp; &nbsp;</td>
+                            <td style="border: none; border-collapse: collapse;">
+                                <div class="contaier">
+                        
+                                                <img src="{{asset('img/logo/logo.svg')}}" alt="TYRSA"  style="align-self: left;"></td>
+                                                </div></td>
+                                 
+                            <td rowspan="2" style="border: none; border-collapse: collapse;">
+                        <br>
+            Calle Cuernavaca S/N, Col. Ejido del Quemado,<br>
+            C.P. 54,963, Tultepec, Edo. México, R.F.C. <br>
+            TCO990507S91 Tels: (55) 26472033 / 26473330 <br>
+ <div style="text-transform: lowercase;"> info@tyrsa.com.mx www.tyrsa.com.mx</div>     <br>
+                        <!-- Domicilio Fiscal:
+                                {{$CompanyProfiles->street.' '.$CompanyProfiles->outdoor.' '}}
+                                {{$CompanyProfiles->intdoor.' '.$CompanyProfiles->suburb}}
+                                <br>{{$CompanyProfiles->city.' '.$CompanyProfiles->state.' '.$CompanyProfiles->zip_code}}<br>
+                                R.F.C: {{$CompanyProfiles->rfc}} &nbsp; Tels: 01-52 {{$CompanyProfiles->telephone.', '.$CompanyProfiles->telephone2}} <br> E-mail: {{$CompanyProfiles->email}} &nbsp; Web: {{$CompanyProfiles->website}}
+                             -->
+                        </td>
+                        <td rowspan="2" style="border: none; border-collapse: collapse;">
+                        <table>
+                            <tr> <th colspan="2"> Requisicion numero:</th></tr>
+                            <tr> <td colspan="2">  {{$InternalOrders->invoice}}</td></tr>
+                            <tr> <th>NOHA: </th> <td> {{$InternalOrders->noha}} </td></tr>
+                        </table>
+                          <br>     
+
+                        <table>
+                            <tr> <th colspan="2"> Fechas (dd-mm-aa):</th></tr>
+                            <tr> <th>Fecha de Emision: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->reg_date))}}  </td></tr>
+                            <tr> <th>Fecha de Entra: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->date_delivery))}}  </td></tr>
+                        
+                        </table>
+
+
+                            </td>
+                        </tr>
+                        
+                            
+                        <td  colspan="2"class="text-lg " style="color: red;  width:23%; border: none; border-collapse: collapse;">{{ $CompanyProfiles->company}}
+                        </td>
+                        <tr>
+                                           
+                        </tr >
+
+                    </table>
+
+
             
-            <div class="row align-items-center mb-4 pb-3 border-bottom">
-                <div class="col-md-3 text-center text-md-left mb-3 mb-md-0">
-                    <img src="{{ asset('img/logo/logo.svg') }}" alt="TYRSA" class="img-fluid" style="max-height: 70px;">
-                    <div class="text-lg font-weight-bold text-danger mt-2">
-                        {{ $CompanyProfiles->company }}
-                    </div>
-                </div>
+            <h5 class="text-lg text-center text-bold">REQUISICION DE COMPRA</h5>
+            <br>
+            <div >
+                <!-- 14 columas, para poder copiar del excel -->
+            <table class="table table-responsive text-xs">
+                <tr><th colspan="14">Datos del Proveedor</th></tr>
+                    <tr class="text-center">
+                        <th colspan="2"> Numero del proveedor:</th>
+                        <td colspan="2"> {{$Customers->clave}} </td>
+                        <th colspan="2">  Nombre corto: </th> 
+                        <td colspan="4">{{$Customers->alias}} </td>
+                        <th colspan="2">CP: </th>
+                        <td colspan="2"> {{$Customers->customer_zip_code}} </td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="2"> Razon Social: <br> </th>
+                        <td colspan="12"> {{$Customers->customer}} <br> <br> </td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="2"> Regimen de Capital: </th>
+                        <td colspan="12"> S.A DE C.V </td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="2"> Regimen Fiscal: </th>
+                        <td colspan="12"> REGIMEN GENERAL DE PERSONAS MORALES </td>
+                    </tr>
+                    
+                    <tr>
+                        <th colspan="2"> RFC</th>
+                        <td colspan="2"> {{$Customers->customer_rfc}}</td>
+                        <th colspan="2"> cot no: </th>
+                        <td colspan="3"> @if($InternalOrders->ncotizacion !=0) {{$InternalOrders->ncotizacion}} @else - @endif</td>
+                        <th colspan="2"> contrato no: </th>
+                        <td colspan="3">  @if($InternalOrders->ncontrato !=0) {{$InternalOrders->ncontrato}} @else - @endif</td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="2" rowspan="2"> Domicilio Fiscal <br> <br> </th>
+                        <td colspan="12" style="word-wrap: break-word">  {{$Customers->customer_street.' '.$Customers->customer_outdoor.' '.$Customers->customer_intdoor.' '.$Customers->customer_suburb}} <br> {{$Customers->customer_city.' '.$Customers->customer_state.' '.$Customers->customer_zip_code}} </td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" > </td>
+                        <th> telefono</th>
+                        <td colspan="4" >{{$Customers->customer_telephone}}</td>
+                    </tr>
+
+                    <tr>
+                        <th rowspan="3">  Embarque</th>
+                        <td rowspan="3"> Si</td>
+                        <th colspan="3"> Domicilio de Embarque </th>
+                        <td colspan="9">  {{$CustomerShippingAddresses->customer_shipping_city.' '.$CustomerShippingAddresses->customer_shipping_suburb}} <br> {{$CustomerShippingAddresses->customer_shipping_street.' '.$CustomerShippingAddresses->customer_shipping_indoor}}</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="11"> </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="9"> </td>
+                        <th>cp:</th>
+                        <td>{{$CustomerShippingAddresses->customer_shipping_zip_code}} </td>
+                    </tr>
+
+                    <tr>
+                        <th>Requisitor:  </th>
+                        <td> {{$InternalOrders->requisitor}} </td>
+                        <th colspan="2"></th>
+                        <td></td>
+                        <th> PI:</th>
+                        <td colspan="2">  {{$InternalOrders->pi}}</td>
+                        <th> Moneda:</th>
+                        <td>  {{$Coins->code}} </td>
+                        <th colspan="2">Comprador:</th>
+                        <td colspan="2">  {{$InternalOrders->comprador}}</td>
+                    </tr>
+                    </table>
+
+               </div>
                 
-                <div class="col-md-5 text-muted text-xs mb-3 mb-md-0 border-left border-right px-3">
-                    <p class="mb-1"><strong>Calle Cuernavaca S/N</strong>, Col. Ejido del Quemado,</p>
-                    <p class="mb-1">C.P. 54963, Tultepec, Estado de México.</p>
-                    <p class="mb-1"><strong>R.F.C.</strong> TCO990507S91</p>
-                    <p class="mb-1"><strong>Tels:</strong> (55) 26472033 / 26473330</p>
-                    <p class="mb-0 text-lowercase text-primary">info@tyrsa.com.mx &bull; www.tyrsa.com.mx</p>
-                </div>
+                <br> &nbsp;  
+                <table>
+                    <tr>
+                        <th> Contacto   </th>
+                        <th> Nombre </th>
+                        <th>    Tel movil </th>
+                        <th>    Tel fijo </th>
+                        <th> Ext. </th>
+                        <th> Email &nbsp; &nbsp; &nbsp; </th>
+                    </tr>
+                    @php
+                        $contact_index=1;
+                        @endphp
+                    <tbody>
+                    @foreach($Contacts as $row)
+                    <tr>
+                        <td> {{$contact_index}} </td>
+                        <td> {{$row->customer_contact_name}} </td>
+                        <td> {{$row->customer_contact_mobile}} </td>
+                        <td> {{$row->customer_contact_office_phone}} </td>
+                        <td> {{$row->customer_contact_office_phone_ext}} </td>
+                        <td><div style="text-transform: lowercase;">{{$row->customer_contact_email}}</div></td>
+                    </tr>
+                        @php 
+                        $contact_index=$contact_index+1; 
+                        @endphp
+                    @endforeach
+                    </tbody>
+                </table>
                 
-                <div class="col-md-4">
-                    <table class="table table-sm table-bordered text-xs m-0 shadow-sm">
-                        <thead class="bg-light text-center">
-                            <tr>
-                                <th colspan="2" class="text-uppercase font-weight-bold">Requisición Número</th>
+            <br> &nbsp;
+            
+            
+                    <table style="text-align: center;">
+                        
+                            <tr class="text-center">
+                                <th>Pda</th>
+                                <th>Cant</th>
+                                <th>Unidad</th>
+                                <th>Familia</th>
+                                <th>sku</th> 
+                                <th>Precio unit(sin iva)</th>
+                                <th>Importe</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="text-center font-weight-bold bg-yellow-light text-md text-dark">
-                                <td colspan="2">{{ $InternalOrders->invoice }}</td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light w-50">NOHA:</th>
-                                <td class="text-center font-weight-bold">{{ $InternalOrders->noha }}</td>
-                            </tr>
-                            <tr class="bg-light text-center">
-                                <th colspan="2" class="font-weight-bold">Fechas (dd-mm-aa)</th>
-                            </tr>
-                            <tr>
-                                <th>Emisión:</th>
-                                <td class="text-center">{{ date('d - m - Y', strtotime($InternalOrders->reg_date)) }}</td>
-                            </tr>
-                            <tr>
-                                <th>Entrega:</th>
-                                <td class="text-center">{{ date('d - m - Y', strtotime($InternalOrders->date_delivery)) }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <h5 class="text-center font-weight-bold text-uppercase tracking-wider text-secondary my-4">
-                Requisición de Compra
-            </h5>
-
-            <div class="table-responsive mb-4">
-                <table class="table table-sm table-bordered text-xs m-0 table-custom-layout">
-                    <thead class="bg-dark text-white text-center">
-                        <tr>
-                            <th colspan="14" class="text-uppercase py-2">Datos del Proveedor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th colspan="2" class="bg-light font-weight-bold">Núm. Proveedor:</th>
-                            <td colspan="2" class="text-center">{{ $Customers->clave }}</td>
-                            <th colspan="2" class="bg-light font-weight-bold">Nombre Corto:</th>
-                            <td colspan="4" class="text-center font-weight-bold">{{ $Customers->alias }}</td>
-                            <th colspan="2" class="bg-light font-weight-bold">C.P:</th>
-                            <td colspan="2" class="text-center font-weight-bold">{{ $Customers->customer_zip_code }}</td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" class="bg-light font-weight-bold">Razón Social:</th>
-                            <td colspan="12" class="font-weight-bold py-2 text-primary">{{ $Customers->customer }}</td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" class="bg-light font-weight-bold">Régimen de Capital:</th>
-                            <td colspan="12">S.A. DE C.V.</td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" class="bg-light font-weight-bold">Régimen Fiscal:</th>
-                            <td colspan="12">RÉGIMEN GENERAL DE PERSONAS MORALES</td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" class="bg-light font-weight-bold">RFC:</th>
-                            <td colspan="2" class="text-center font-weight-bold">{{ $Customers->customer_rfc }}</td>
-                            <th colspan="2" class="bg-light font-weight-bold">Cot No:</th>
-                            <td colspan="3" class="text-center">
-                                {{ $InternalOrders->ncotizacion != 0 ? $InternalOrders->ncotizacion : '-' }}
-                            </td>
-                            <th colspan="2" class="bg-light font-weight-bold">Contrato No:</th>
-                            <td colspan="3" class="text-center">
-                                {{ $InternalOrders->ncontrato != 0 ? $InternalOrders->ncontrato : '-' }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" class="bg-light font-weight-bold">Domicilio Fiscal:</th>
-                            <td colspan="7" class="align-middle">
-                                {{ $Customers->customer_street.' '.$Customers->customer_outdoor.' '.$Customers->customer_intdoor.' '.$Customers->customer_suburb }}
-                                <br>
-                                <span class="text-muted">{{ $Customers->customer_city.' '.$Customers->customer_state.' '.$Customers->customer_zip_code }}</span>
-                            </td>
-                            <th class="bg-light font-weight-bold align-middle">Teléfono:</th>
-                            <td colspan="4" class="text-center align-middle">{{ $Customers->customer_telephone }}</td>
-                        </tr>
-                        <tr>
-                            <th rowspan="2" class="bg-light font-weight-bold text-center align-middle">Embarque</th>
-                            <td rowspan="2" class="text-center align-middle font-weight-bold text-success">Sí</td>
-                            <th colspan="2" class="bg-light font-weight-bold">Dirección de Embarque:</th>
-                            <td colspan="10">
-                                {{ $CustomerShippingAddresses->customer_shipping_city.' '.$CustomerShippingAddresses->customer_shipping_suburb }}
-                                <br>
-                                {{ $CustomerShippingAddresses->customer_shipping_street.' '.$CustomerShippingAddresses->customer_shipping_indoor }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" class="bg-light font-weight-bold">C.P. Embarque:</th>
-                            <td colspan="10" class="font-weight-bold">{{ $CustomerShippingAddresses->customer_shipping_zip_code }}</td>
-                        </tr>
-                        <tr class="bg-light text-center font-weight-bold">
-                            <td colspan="2" class="p-2">Requisitor</td>
-                            <td colspan="2" class="bg-white p-2 text-dark">{{ $InternalOrders->requisitor }}</td>
-                            <td colspan="2" class="p-2">PI</td>
-                            <td colspan="2" class="bg-white p-2 text-dark">{{ $InternalOrders->pi }}</td>
-                            <td colspan="2" class="p-2">Moneda</td>
-                            <td colspan="2" class="bg-white p-2 text-dark">{{ $Coins->code }}</td>
-                            <td colspan="1" class="p-2">Comprador</td>
-                            <td colspan="1" class="bg-white p-2 text-dark">{{ $InternalOrders->comprador }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="table-responsive mb-4">
-                <table class="table table-sm table-striped table-bordered text-xs m-0">
-                    <thead class="bg-secondary text-white">
-                        <tr>
-                            <th class="text-center" style="width: 5%">Contacto</th>
-                            <th>Nombre</th>
-                            <th class="text-center">Tel. Móvil</th>
-                            <th class="text-center">Tel. Fijo</th>
-                            <th class="text-center" style="width: 8%">Ext.</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php $contact_index = 1; @endphp
-                        @foreach($Contacts as $row)
-                        <tr>
-                            <td class="text-center font-weight-bold">{{ $contact_index }}</td>
-                            <td>{{ $row->customer_contact_name }}</td>
-                            <td class="text-center">{{ $row->customer_contact_mobile }}</td>
-                            <td class="text-center">{{ $row->customer_contact_office_phone }}</td>
-                            <td class="text-center">{{ $row->customer_contact_office_phone_ext }}</td>
-                            <td class="text-lowercase text-primary">{{ $row->customer_contact_email }}</td>
-                        </tr>
-                        @php $contact_index++; @endphp
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="table-responsive mb-4">
-                <table class="table table-sm table-bordered text-xs m-0 text-center custom-items-table">
-                    <thead class="bg-dark text-white">
-                        <tr>
-                            <th style="width: 5%">Pda</th>
-                            <th style="width: 8%">Cant</th>
-                            <th style="width: 10%">Unidad</th>
-                            <th style="width: 12%">Familia</th>
-                            <th style="width: 12%">SKU</th>
-                            <th>Precio Unit (Sin IVA)</th>
-                            <th>Importe</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($Items as $row)
-                        <tr class="bg-light">
-                            <td class="font-weight-bold">{{ $row->item }}</td>
-                            <td class="font-weight-bold text-info">{{ $row->amount }}</td>
-                            <td>{{ $row->unit }}</td>
-                            <td>{{ $row->family }}</td>
-                            <td><code>{{ $row->sku }}</code></td>
-                            <td rowspan="2" class="align-middle font-weight-bold text-md text-dark">
-                                ${{ number_format($row->unit_price, 2) }}
-                            </td>
-                            <td rowspan="2" class="align-middle font-weight-bold text-md text-dark bg-gray-100">
-                                ${{ number_format($row->import, 2) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="text-left p-2 bg-white text-muted italic-description">
-                                {!! nl2br(e($row->description)) !!}
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-6 mb-3 mb-md-0">
-                    <table class="table table-sm table-bordered text-xs h-100 m-0">
-                        <thead class="bg-secondary text-white">
-                            <tr>
-                                <th colspan="2" class="text-center text-uppercase">Estructura y Condiciones de Pago</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th class="bg-light w-40">Número de Pagos:</th>
-                                <td class="font-weight-bold text-center text-md">{{ $payments->count() }}</td>
+                        
+                        
+                            @foreach ($Items as $row)
+                            <tr class="text-center">
+                                <td> {{ $row->item }}</div></td>
+                                <td> {{ $row->amount }}</div></td>
+                                <td> {{ $row->unit }}</div></td>
+                                <td> {{ $row->sku }}</div></td>
+                                <td> {{ $row->family }}</div></td>
+                                <td rowspan="2"> ${{number_format($row->unit_price, 2) }}</div></td>
+                                <td rowspan="2"> ${{number_format($row->import, 2) }}</div></td>
                             </tr>
                             <tr>
-                                <th class="bg-light align-top py-2">Condiciones de Pago:</th>
-                                <td class="py-2">
-                                    @foreach($payments as $pay)
-                                        <div class="mb-1 pb-1 border-bottom last-border-0">
-                                            <span class="badge badge-primary d-inline px-2 py-1 mr-2">{{ $pay->percentage }}%</span> 
-                                            <span class="text-dark font-weight-bold">{{ $pay->concept }}</span>
-                                        </div>
-                                    @endforeach
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light">Promesas de Pagos:</th>
-                                <td class="text-muted italic">Planeación financiera declarada abajo</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="col-md-6">
-                    <table class="table table-sm table-bordered text-xs m-0 shadow-sm float-right" style="max-width: 400px; width: 100%;">
-                        <tbody>
-                            <tr>
-                                <th class="bg-light w-50 font-weight-bold py-2 px-3">Subtotal:</th>
-                                <td class="text-right pr-3 font-weight-bold text-dark">${{ number_format($InternalOrders->subtotal, 2) }}</td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light font-weight-bold py-2 px-3">Descuento:</th>
-                                <td class="text-right pr-3 text-danger">(${{ number_format($InternalOrders->descuento * $InternalOrders->subtotal, 2) }})</td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light class-ieps py-2 px-3">I.E.P.S:</th>
-                                <td class="text-right pr-3">${{ number_format($InternalOrders->ieps * $InternalOrders->subtotal, 2) }}</td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light py-2 px-3">RET ISR:</th>
-                                <td class="text-right pr-3 text-muted">${{ number_format($InternalOrders->isr * $InternalOrders->subtotal, 2) }}</td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light py-2 px-3">RET IVA (FLETE):</th>
-                                <td class="text-right pr-3 text-muted">${{ number_format($InternalOrders->tasa * $Items->where('family','FLETE')->sum('import'), 2) }}</td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light font-weight-bold py-2 px-3">IVA (16%):</th>
-                                <td class="text-right pr-3">${{ number_format(0.16 * $InternalOrders->subtotal * (1 - $InternalOrders->descuento), 2) }}</td>
-                            </tr>
-                            <tr class="bg-dark text-white text-md">
-                                <th class="py-2 px-3 font-weight-bold text-uppercase">Total General:</th>
-                                <td class="text-right pr-3 font-weight-bold">${{ number_format($InternalOrders->total, 2) }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="table-responsive mb-4">
-                <table class="table table-sm table-bordered text-xs text-center m-0">
-                    <thead class="bg-secondary text-white">
-                        <tr>
-                            <th colspan="8" class="py-2 text-uppercase font-weight-bold">Tabla de Promesas de Pagos / Planeación de Flujo</th>
-                        </tr>
-                        <tr>
-                            <th rowspan="2" class="align-middle">Pago No.</th>
-                            <th rowspan="2" class="align-middle">Fecha Promesa</th>
-                            <th rowspan="2" class="align-middle">Día</th>
-                            <th rowspan="2" class="align-middle">Semana</th>
-                            <th colspan="3" class="border-bottom">Importe por Cobrar</th>
-                            <th rowspan="2" class="align-middle">% del Total</th>
-                        </tr>
-                        <tr>
-                            <th>Subtotal</th>
-                            <th>IVA</th>
-                            <th>Total con IVA</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php $p = 0; @endphp
-                        @foreach($payments as $pay)
-                            @php
-                                $datetime1 = new DateTime($pay->date);
-                                $pdia = $datetime1->format('Y');
-                                $datetime2 = new DateTime($pdia."-1-1");
-                                $dias = $datetime2->diff($datetime1)->format('%a') + 1;
-                                $p++;
-                            @endphp
-                            <tr>
-                                <td class="font-weight-bold bg-light">{{ $p }}</td>
-                                <td class="font-weight-bold text-primary">{{ date('d - m - Y', strtotime($pay->date)) }}</td>
-                                <td>{{ $dias }}</td>
-                                <td>{{ (int)floor($dias / 7) + 1 }}</td>
-                                <td>${{ number_format($InternalOrders->subtotal * $pay->percentage * 0.01, 2) }}</td>
-                                <td>${{ number_format($InternalOrders->subtotal * $pay->percentage * 0.0016, 2) }}</td>
-                                <td class="font-weight-bold text-dark">${{ number_format($pay->amount, 2) }}</td>
-                                <td>
-                                    <span class="badge badge-outline-primary py-1 px-2 font-weight-bold">{{ $pay->percentage }}%</span>
-                                </td>
-                            </tr>
-                        @endforeach
-                        <tr class="bg-gray-100 font-weight-bold text-dark">
-                            <th colspan="4" class="text-right pr-3 text-uppercase">Totales:</th>
-                            <td>${{ number_format($InternalOrders->subtotal, 2) }}</td>
-                            <td>${{ number_format($InternalOrders->subtotal * 0.16, 2) }}</td>
-                            <td class="text-primary">${{ number_format($payments->sum('amount'), 2) }}</td>
-                            <td class="text-success">100%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="card card-outline card-secondary mb-4 shadow-sm">
-                <div class="card-header py-2 bg-light">
-                    <h6 class="m-0 font-weight-bold text-secondary text-xs text-uppercase"><i class="fas fa-comments"></i> Observaciones Internas</h6>
-                </div>
-                <div class="card-body p-3 text-xs text-muted com-text">
-                    {{ $InternalOrders->observations ? $InternalOrders->observations : 'Sin observaciones registradas.' }}
-                </div>
-            </div>
-
-            <div class="row mb-5">
-                <div class="col-md-5">
-                    <table class="table table-sm table-bordered text-xs m-0 shadow-sm" id="correos">
-                        <thead class="bg-light text-center">
-                            <tr>
-                                <th colspan="2" class="py-2 text-uppercase font-weight-bold text-secondary">Correos de Contacto</th>
-                            </tr>
-                            <tr class="bg-white text-muted">
-                                <th style="width: 25%">ID</th>
-                                <th>Email Asociado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($Contacts as $row)
-                            <tr>
-                                <td class="text-center font-weight-bold bg-light">{{ $row->id }}</td>
-                                <td class="text-lowercase font-weight-bold text-indigo px-3">{{ $row->customer_contact_email }}</td>
+                                <td colspan="5"> {!!  nl2br($row->description )!!} </td>
                             </tr>
                             @endforeach
-                        </tbody>
+                    
                     </table>
-                </div>
-            </div>
+                    
+                    <table style="border: none; border-collapse: collapse;">
 
-            <div class="border-top pt-4 mt-4">
-                <div class="row text-center justify-content-center align-items-end">
-                    <div class="col-md-3 mb-4 mb-md-0">
-                        <div class="signature-block p-3 border rounded bg-light shadow-sm h-100 d-flex flex-column justify-content-between">
-                            <div class="font-weight-bold text-sm text-dark pb-2 border-bottom">
-                                {{ $Sellers->seller_name }}
-                            </div>
-                            <div class="py-4 font-italic text-muted text-xs">
-                                {{ $Sellers->firma ? $Sellers->firma : '[ Firma Digital Activa ]' }}
-                            </div>
-                            <div>
-                                <hr class="my-2 border-dark">
-                                <span class="text-xs text-uppercase font-weight-bold tracking-wider text-secondary">Elaboró</span>
-                            </div>
-                        </div>
-                    </div>
+                        <tr style="border: none; border-collapse: collapse;">
+                            <td style="border: none; border-collapse: collapse;">
+                            <table  >
+                   <tr>
+                    <th>Numero de   pagos:</div></td>
+                    <td> {{$payments->count()}}</div></td>
+                   </tr>
+                   <tr> 
+                    <th>Condiciones de   pago: @foreach($payments as $pay) <br> @endforeach</div></td>
+                    <td>  @foreach($payments as $pay)
+                        {{$pay->percentage}}% &nbsp; {{$pay->concept}},<br>
+                        @endforeach</div>
+                    </td>
+                   </tr>
+                   <tr>
+                    <th>Promesas de   pagos:</div></td>
+                    <td></td>
+                   </tr>
+                </table>
+                            </td>
+                            <td style="border: none; border-collapse: collapse;">
+                            <table style="width:40%"align="right"> >
+                        <tr>
+                        <th>Subtotal: </div></td>
+                        <td> $ {{number_format($InternalOrders->subtotal,2)}}</div></td>
+                        </tr>
+                        <tr>
+                        <th>Descuento: </div></td>
+                        <td> $ {{number_format($InternalOrders->descuento * $InternalOrders->subtotal,2)}} </div></td>
+                        </tr>
+                        <tr>
+                        <th>I.E.P.S:</div></td>
+                        <td> $ {{number_format($InternalOrders->ieps * $InternalOrders->subtotal,2)}}</div></td>
+                        </tr>
+                        <tr>
+                        <th>RET ISR:</div></td>
+                        <td> $  {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</div></td>
+                        </tr>
+                        <tr>
+                        <th>RET IVA:</div></td>
+                        <td> $  {{number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)}}</div></td>
+                        
+                        </tr> <tr>
+                        <th>IVA:</div></td>
+                        <td> $  {{number_format(0.16 * $InternalOrders->subtotal*(1-$InternalOrders->descuento),2)}}</div></td>
+                        </tr>
+                        <tr>
+                        <th>Total</div></td>
+                        <td> $ {{number_format($InternalOrders->total,2)}}</div></td>
+                        </tr>
+                        
+                    </table>
+                            </td>
+                        </tr>
+                    </table>
 
-                    @foreach ($requiredSignatures as $firma)
-                    <div class="col-md-4 mb-4 mb-md-0">
-                        <div class="signature-block p-3 border rounded bg-white shadow-sm h-100 d-flex flex-column justify-content-between">
-                            @if($firma->status == 0)
-                                <form action="{{ route('requisition.firmar') }}" method="POST" enctype="multipart/form-data" class="m-0">
-                                    @csrf
-                                    <input type="hidden" name="signature_id" value="{{ $firma->id }}"/>
-                                    <div class="text-xs text-uppercase font-weight-bold text-danger mb-2">
-                                        Firma Pendiente: <span class="text-dark">{{ $firma->job }}</span>
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <input type="password" name="key" placeholder="Contraseña de firma" class="form-control text-xs" required/>
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-success btn-xs font-weight-bold px-3">Firmar</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            @else
-                                <div class="font-weight-bold text-success text-md mb-2">
-                                    {{ $firma->firma }}
-                                </div>
-                                <div class="py-3">
-                                    <span class="badge badge-success py-2 px-3 text-sm d-block shadow-sm">
-                                        <i class="fa fa-check-circle mr-1"></i> Autorizado por {{ $firma->job }}
-                                    </span>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
+                
+               <br><br>&nbsp; <br>
+               <table >
+               <tr> <td colspan="9" style="text-align: center;">   Tabla de Promesas de   pagos / Planeacion</div></td></tr>
+               
+                <tr>
+                    <th rowspan="2">   <br>   pago No. <br><br> &nbsp;</th>
+                    <th rowspan="2">   <br> Fecha <br><br> Promesa </th>
+                    <th rowspan="2">   <br> Dia<br><br> &nbsp; </th>
+                    <th rowspan="2">   <br> Semana <br><br> &nbsp;</th>
+                    <th colspan="3">   Importe por cobrar</th>
+                    <th rowspan="2">   <br><br> % del Total<br><br> &nbsp;</th>
+                </tr>
+                <tr>
+                    <th>Subtotal</div></td>
+                    <th>Iva</div></td>
+                    <th>Total con Iva</div></td>
+                </tr>
+                <tbody>
+                    @php
+                    $p=0;
+                    
+                    @endphp
+                    @foreach($payments as $pay)
+                    
+                    @php
+                    {{$datetime1 = new DateTime($pay->date);
+                    $pdia=$datetime1->format('Y');
+                    
+                    $datetime2 = new DateTime($pdia."-1-1");
+                    $dias = $datetime2->diff($datetime1)->format('%a')+1;
+                    $p=$p+1;}}
+                    @endphp
+                    <tr>
+                        <td> {{$p}}</div></td>
+                        <td> {{date('d - m - Y', strtotime($pay->date))}}</div></td>
+                        <td> {{$dias}}</div></td>
+                        <td> {{(int)floor($dias / 7)+1}}</div></td>
+                        <td> ${{number_format($InternalOrders->subtotal *$pay->percentage*0.01,2)}}</div></td>
+                        <td> ${{number_format($InternalOrders->subtotal *$pay->percentage*0.0016,2)}}</div></td>
+                        <td> ${{number_format($pay->amount,2)}}</div></td>
+                        <td> {{$pay->percentage}} %</div></td>
+                        
+                    </tr>
+                    
                     @endforeach
-                </div>
-            </div>
+                    <tr>  
+                        <th colspan="4">Totales:</div></td>
+                        <td> ${{number_format($InternalOrders->subtotal,2) }}</div></td>
+                        <td> ${{number_format($InternalOrders->subtotal*0.16,2) }}</div></td>
+                        <td> ${{number_format($payments->sum('amount'),2) }}</div></td>
+                        <td> 100%</div></td>
+                        
+                
+                    </tr>
+                </tbody>
+               </table>
+                
+               <br>&nbsp;
+               <table style="text-align: center;">
+                <tr>
+                    <th>Observaciones: </div></td>
+                </tr>
+                    <tr>
+                        <td> <div class="com-text"> {{$InternalOrders->observations}}</div></div></td>
+                    </tr>
+                
+               </table>
+               
+               <div class="col-sm-9 font-bold text-sm">
+               <br><br>&nbsp;
+               <table align="left" id='correos'>
 
-            <div class="mt-5 text-center p-3 rounded-lg border shadow-inner">
-                @if($InternalOrders->status == 'autorizado')
-                    <h4 class="m-0 font-weight-bold text-success tracking-wider text-uppercase">
-                        <i class="fas fa-check-double mr-2"></i> Pedido 100% Autorizado
-                    </h4>
-                @else 
-                    <h4 class="m-0 font-weight-bold text-danger tracking-wider text-uppercase">
-                        <i class="fas fa-exclamation-triangle mr-2"></i> Faltan Autorizaciones en el Flujo
-                    </h4>
-                @endif
-            </div>
+                <tr class="text-center"><th colspan="2">   Correos Personales </th></tr>
+                <tr class="text-center">
+                    <th>Contacto</td>
+                    <th>Email Personal</td>
+                 </tr>
+                 
+                 @foreach($Contacts as $row)
+                    <tr>
+                        <td> {{$row->id}}</div></td>
+                        <td><div style="text-transform: lowercase;" class="badge badge-primary badge-outlined">{{$row->customer_contact_email}}</div></td>
+                    </tr>
+                    @endforeach
+                  
 
-            <div class="mt-4 pt-3 border-top d-flex justify-content-end gap-2 no-print">
-                <button type="button" class="btn btn-danger btn-sm px-4 mr-2 shadow-sm font-weight-bold" onclick="window.print();">
-                    <i class="fas fa-file-pdf mr-2"></i> Exportar a PDF / Imprimir
-                </button>
-                <a href="{{ route('requisition.edit_order', $InternalOrders->id) }}" class="btn btn-primary btn-sm px-4 shadow-sm font-weight-bold">
-                    <i class="fas fa-edit mr-2"></i> Editar Requisición
-                </a>
-            </div>
+               </table>
+               <br><br><br>&nbsp;
+               </div>
+<br>&nbsp;
+               
 
+
+<br> <br> 
+           
+             
+
+           <table style="border: none;">
+            <tr  style="border: none;">
+                <td style="border: none;"><table  style="border: none; ">
+                    <tr style="border: none; border-collapse: collapse;">
+                        <td style="border: none;">
+                            {{$Sellers->seller_name}}<br>
+                          <!--  {{$Sellers->seller_email.' '.$Sellers->seller_mobile}}-->
+                        </td>
+                    </tr>
+                    <tr style="border: none; ">
+                        <td style="border: none;">&nbsp;</td>
+                    </tr>
+                    <tr style="border: none;">
+                        <td style="border: none;">&nbsp;</td>
+                    </tr>
+                    <tr style="border: none;">
+                        <td  style="border: none;">
+                        {{$Sellers->firma}}
+                            <br>
+                            <hr style="border-top: 0.3vw solid black; border-color:#000000"><br><br>
+
+                            Elaboró
+                        </td>
+                    </tr>
+                </table></td>
+
+                @foreach ($requiredSignatures as $firma)
+   
+<td style="border: none;">
+   <ul>
+       <li>
+           <div class="row">
+
+
+               @if($firma->status == 0)
+               <form action="{{ route('requisition.firmar') }}" method="POST" enctype="multipart/form-data">
+               @csrf
+               <x-jet-input type="hidden" name="signature_id" value="{{$firma->id}}"/>
+               <div class="col">
+                   <span class="text-xs uppercase">Firma: {{$firma->job}}</span><br>
+               </div>
+
+               <div class="row">
+                   <div class="col">
+                       <x-jet-input type="password" name="key" class="w-flex text-xs"/>
+                   </div>
+                   <div class="col">
+                       <button class="btn btn-green">Firmar</button>
+                   </div>
+               </div>
+               </form>
+               @else
+               <table  style="border: none; border-collapse: collapse;">
+                   <tbody>
+                       <tr style="font-size:16px; font-weight:bold"><td>{{$firma->firma}}</td></tr>
+                       <tr><td><span style="font-size: 17px"> <i style="color : green"  class="fa fa-check-circle" aria-hidden="true"></i> Autorizado por  {{$firma->job}} </span>
+               </td></tr>
+                   </tbody>
+               </table>
+                
+               <br><br><br><br>
+               @endif
+           </div>
+       </li>
+   </ul>
+   </td>
+@endforeach
+            </tr>
+           </table>
+             
+            <br> <br> 
+            @if($InternalOrders->status == 'autorizado')
+            <br><br><br><br><br>
+                        <br><div> <p style ="font-size:150%; color: #31701F; font-weight:bolder">PEDIDO 100% AUTORIZADO</p> </div><br>
+                                         
+
+                    @else 
+                    <div><p style ="font-size:150%; color: #DE3022;font-weight:bolder">FALTAN AUTORIZACIONES </p> </div>
+                    @endif
+                    <br><br><br>
+                </div></div>
+                     <!-- <input  class="btn btn-green" type="button" name="imprimir" value="Imprimir" id="printPageButton" onclick="window.print();">   -->
+                     <button type = "button" class="btn btn-red btn-sm "  onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
+                     
+                     <!-- <a href="{{ route('pedido_pdf', $InternalOrders->id) }} " class="btn btn-red btn-sm">
+                     <button type = "button" class="btn btn-red "> <i class="fas fa-file-pdf"> &nbsp; PDF </i> </button>
+                                    </a></td> -->
+                                    
+                   <a href="{{ route('requisition.edit_order', $InternalOrders->id) }} " class="btn btn-green btn-sm">
+                     <button type = "button" class="btn btn-green "> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
+                                    </a></td>
+
+                                    
+                    
+  
         </div>
     </div>
-</div>
+    
+            
 @stop
 
 @section('css')
 <style>
-/* Estilo de impresión unificado */
 @media print {
-    .no-print, .main-footer, .brand-link, .nav-sidebar, .content-header, .btn, .btn-sm {
-        display: none !important;
+  #printPageButton {
+    display: none;
+  }
+}
+</style>
+<style>
+    td{
+        border: 1px solid black;
     }
-    .content-wrapper {
-        margin-left: 0 !important;
-        padding: 0 !important;
-        background-color: #fff !important;
-    }
-    .card {
-        box-shadow: none !important;
-        border: none !important;
-    }
-    .card-body {
-        padding: 0 !important;
-    }
-    body {
-        font-size: 10px !important;
-        background-color: #ffffff !important;
-    }
-    .table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-    }
-    .table td, .table th {
-        border: 1px solid #000000 !important;
-        padding: 4px !important;
-    }
+    .demo-preview {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: auto;
+  text-align: center;
+}
+.demo-preview .badge{
+  margin-right:10px;
+}
+.com-text{
+    white-space: pre-wrap;
+      word-wrap: break-word;
+}
+.badge {
+    display: block;
+     padding: 1em;
+  font-size: small;
+  font-weight: 600;
+  /* padding: 3px 6px; */
+  border:3px solid transparent;
+  /* min-width: 10px; */
+  /* line-height: 1; 
+  color: #fff;
+  /* text-align: center;*/
+  white-space: nowrap; 
+   vertical-align: middle; 
+  border-radius: 5px;
+  /* padding: 15px; */
+  width: 100%;
+  min-height: 1px;    
+  height:auto !important;
+  height:100%;
 }
 
-/* Clases de utilidad UI */
-.bg-yellow-light {
-    background-color: #fffde7;
+.badge.badge-default {
+  background-color: #B0BEC5
 }
-.italic-description {
-    font-style: italic;
-    line-height: 1.4;
+
+.badge.badge-primary {
+  background-color: #2B416D
 }
-.com-text {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    background-color: #fafafa;
-    border-radius: 4px;
+
+.badge.badge-secondary {
+  background-color: #323a45
 }
-.gap-2 > * {
-    margin-left: 8px;
+
+.badge.badge-success {
+  background-color: #64DD17
 }
-.w-40 { width: 40%; }
-.last-border-0:last-child {
-    border-bottom: 0 !important;
+
+.badge.badge-warning {
+  background-color: #FFD600
 }
-.badge-outline-primary {
-    color: #2b416d;
-    border: 1px solid #2b416d;
-    background-color: transparent;
+
+.badge.badge-info {
+  background-color: #29B6F6
 }
-.signature-block {
-    min-height: 150px;
-    border-top: 3px solid #6c757d !important;
+
+.badge.badge-danger {
+  background-color: #9b9b9b;
+  border-color: #9b9b9b;
 }
+
+.badge.badge-outlined {
+  background-color: transparent
+}
+
+.badge.badge-outlined.badge-default {
+  border-color: #B0BEC5;
+  color: #B0BEC5
+}
+
+.badge.badge-outlined.badge-primary {
+  
+  border-color: #9b9b9b;
+  color: #000000
+}
+.badge.badge-outlined.badge-danger {
+border-color: #2B416D;
+background-color: #2B416D;
+  color: #ffffff;
+}
+.badge.badge-outlined.badge-secondary {
+  border-color: #323a45;
+  color: #323a45;
+}
+
+.badge.badge-outlined.badge-success {
+  border-color: #64DD17;
+  color: #64DD17
+}
+
+.badge.badge-outlined.badge-warning {
+  border-color: #FFD600;
+  color: #FFD600
+}
+
+.badge.badge-outlined.badge-info {
+  border-color: #29B6F6;
+  color: #29B6F6
+}
+
+
+/* Requisition table spacing and header color customization */
+:root {
+    /* Color for table headers and footers (editable) */
+    --req-th-bg: #A48C79; /* beige tone requested */
+}
+
+/* Scope styles to this view's main container so global layout is not affected */
+.container-flex table {
+    margin-bottom: 0.8rem; /* give tables some breathing room */
+}
+
+/* Improve vertical alignment for cells without changing colspan/rowspan structure */
+.container-flex table th,
+.container-flex table td {
+    vertical-align: middle;
+}
+
+/* Make table headers and footers beige with white text (use !important to override existing classes)
+   and add a small padding so header text isn't cramped. The variable above can be changed easily. */
+.container-flex table th,
+.container-flex table tfoot th {
+    background-color: var(--req-th-bg) !important;
+    color: #ffffff !important;
+    padding: 0.35rem 0.5rem !important;
+}
+
+/* Avoid forcing widths or changing table structure; nested tables keep their inline styles */
+
+
 </style>
 @stop
 
 @section('js')
 <script>
-    $(document).ready(function() {
-        console.log("Plantilla de Requisición renderizada correctamente.");
-    });
+    $('#badge').css('height', $('#badge').parent('td').height());
 </script>
+
 @stop
