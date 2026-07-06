@@ -48,13 +48,13 @@ class CustomerShippingAddressController extends Controller
         ];
 
         $messages = [
-            'customer_shipping_alias.required' => 'Escriba un alias para la Dirección de Embarque',
-            'customer_shipping_state.required' => 'Capture el Estado donde se ubica la Dirección de Embarque',
-            'customer_shipping_city.required' => 'Capture la Ciudad donde se ubica la Dirección de Embarque',
-            'customer_shipping_suburb.required' => 'Capture la Colonia donde se ubica la Dirección de Embarque',
-            'customer_shipping_street.required' => 'Capture la dirección donde se ubica la Dirección de Embarque',
-            'customer_shipping_outdoor.required' => 'Capture el Número Exterior donde se ubica la Dirección de Embarque',
-            'customer_shipping_zip_code.required' => 'Capture el Código Postal de la Dirección de Embarque',
+            'customer_shipping_alias.required' => 'Escriba un alias para la Dirección de Entrega',
+            'customer_shipping_state.required' => 'Capture el Estado donde se ubica la Dirección de Entrega',
+            'customer_shipping_city.required' => 'Capture la Ciudad donde se ubica la Dirección de Entrega',
+            'customer_shipping_suburb.required' => 'Capture la Colonia donde se ubica la Dirección de Entrega',
+            'customer_shipping_street.required' => 'Capture la dirección donde se ubica la Dirección de Entrega',
+            'customer_shipping_outdoor.required' => 'Capture el Número Exterior donde se ubica la Dirección de Entrega',
+            'customer_shipping_zip_code.required' => 'Capture el Código Postal de la Dirección de Entrega',
             'customer_shipping_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres'
         ];
 

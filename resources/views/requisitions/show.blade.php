@@ -111,9 +111,9 @@
                     </tr>
 
                     <tr>
-                        <th rowspan="3">  Embarque</th>
+                        <th rowspan="3">  Entrega</th>
                         <td rowspan="3"> Si</td>
-                        <th colspan="3"> Domicilio de Embarque </th>
+                        <th colspan="3"> Domicilio de Entrega </th>
                         <td colspan="9">  {{$CustomerShippingAddresses->customer_shipping_city.' '.$CustomerShippingAddresses->customer_shipping_suburb}} <br> {{$CustomerShippingAddresses->customer_shipping_street.' '.$CustomerShippingAddresses->customer_shipping_indoor}}</td>
                     </tr>
 

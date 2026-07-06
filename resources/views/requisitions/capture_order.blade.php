@@ -175,7 +175,6 @@
                                                 <option value="{{$row->id}}" @if ($row->id == old('requisitor')) selected @endif >  {{$row->name}}</option>
                                             @endforeach
                 </select>
-                <x-jet-input type="text" name="requisitor" required class="w-full text-xs" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                 <x-jet-input-error for='requisitor' />
             </div>
         </div>

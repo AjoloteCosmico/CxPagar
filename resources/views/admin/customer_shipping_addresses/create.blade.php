@@ -22,7 +22,7 @@
                 <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
                     <div class="card">
                         <div class="card-header">
-                            <h1 class="h5 text-center fw">Domicilio de Embarque</h1>
+                            <h1 class="h5 text-center fw">Domicilio de Entrega</h1>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
