@@ -69,7 +69,7 @@
                             <div class="form-group">
                                 <x-jet-label value="* SKU" />
                                 <select  name="sku" class="form-capture  w-full text-xs uppercase"  value="{{$Item->sku}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                            <option value="VT">VT</option>    
+                            <option value="SV">SV</option>    
                             </select>
                                 <x-jet-input-error for='sku' />
                             </div>

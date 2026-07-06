@@ -316,7 +316,7 @@ return [
             'can'  => 'VER REQUISICION',
         ],
           [
-            'text' => 'ORDENES DE COMPRA',
+            'text' => 'O.C. NORMAL',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'tpurchase_order.index',
             'can'  => 'VER REQUISICION',
