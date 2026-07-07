@@ -58,6 +58,7 @@
                                     <div class="form-group">
                                         <x-jet-label value="* Condiciones de Pago" />
                                         <select class="form-capture  w-full text-xs uppercase" required name="payment_conditions">
+                                            <option value=""></option>
                                             <option value="1">1 PAGO</option>
                                             <option value="2">2 PAGOS</option>
                                             <option value="3">3 PAGOS</option>
