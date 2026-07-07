@@ -32,7 +32,7 @@
                              -->
                         </td>
                         <td rowspan="2" style="border: none; border-collapse: collapse;">
-                        <table>
+                        <table class="req-data-table">
                             <tr> <th colspan="2"> Requisicion numero:</th></tr>
                             <tr> <td colspan="2">  {{$InternalOrders->invoice}}</td></tr>
                             <tr> <th>NOHA: </th> <td> {{$InternalOrders->noha}} </td></tr>
