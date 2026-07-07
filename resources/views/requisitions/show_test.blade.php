@@ -144,7 +144,7 @@
                </div>
                 
                 <br> &nbsp;  
-                <table class="table table-responsive text-xs">
+                <table class="table table-responsive">
                     <tr>
                         <th> Contacto   </th>
                         <th> Nombre </th>
@@ -229,7 +229,7 @@
                 </table>
                             </td>
                             <td style="border: none; border-collapse: collapse;">
-                            <table style="width:40%"align="right"> >
+                            <table  class="table table-responsive" style="width:40%"align="right"> >
                         <tr>
                         <th>Subtotal: </div></td>
                         <td> $ {{number_format($InternalOrders->subtotal,2)}}</div></td>
