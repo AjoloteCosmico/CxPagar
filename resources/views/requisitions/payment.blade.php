@@ -222,7 +222,16 @@
         }
         return parseFloat(total.toFixed(2));
     }
-
+    function updateProgressBar() {
+        const totalPercent = calculateTotalPercentage();
+        const progress = Math.min(Math.round(totalPercent), 100);
+        const progressBar = document.getElementById('wizard-progress');
+        if (progressBar) {
+            progressBar.style.width = progress + '%';
+            progressBar.setAttribute('aria-valuenow', progress);
+            progressBar.textContent = progress + '%';
+        }
+    }
     function actualizarTotal() {
         const total = calculateTotalPercentage();
         const monitor = document.getElementById('monitor');
@@ -230,6 +239,7 @@
             monitor.textContent = total.toFixed(2) + '%';
         }
         updateSummary();
+        updateProgressBar();
         return total;
     }
 
@@ -255,17 +265,12 @@
             step.style.display = stepNumber === currentStep ? 'block' : 'none';
         });
 
-        const progress = Math.round(((currentStep - 1) / npagos) * 100);
-        const progressBar = document.getElementById('wizard-progress');
+        updateProgressBar();
         const stepLabel = document.getElementById('wizard-step-label');
         const prevBtn = document.getElementById('btn-prev');
         const nextBtn = document.getElementById('btn-next');
 
-        if (progressBar) {
-            progressBar.style.width = `${progress}%`;
-            progressBar.setAttribute('aria-valuenow', progress);
-            progressBar.textContent = `${progress}%`;
-        }
+       
         if (stepLabel) {
             stepLabel.textContent = `Paso ${currentStep} de ${npagos}`;
         }

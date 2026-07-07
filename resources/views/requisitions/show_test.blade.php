@@ -65,7 +65,7 @@
             <br>
             <div >
                 <!-- 14 columas, para poder copiar del excel -->
-            <table class="table table-responsive text-xs">
+            <table class="table table-responsive text-xs req-data-table">
                 <tr><th colspan="14">Datos del Proveedor</th></tr>
                     <tr class="text-center">
                         <th colspan="2"> Numero del proveedor:</th>
@@ -144,7 +144,7 @@
                </div>
                 
                 <br> &nbsp;  
-                <table class="table table-responsive">
+                <table class="table table-responsive req-data-table">
                     <tr>
                         <th> Contacto   </th>
                         <th> Nombre </th>
@@ -176,7 +176,7 @@
             <br> &nbsp;
             
             
-                    <table style="text-align: center;">
+                    <table style="text-align: center;" class="req-data-table">
                         
                             <tr class="text-center">
                                 <th>Pda</th>
@@ -210,7 +210,7 @@
 
                         <tr style="border: none; border-collapse: collapse;">
                             <td style="border: none; border-collapse: collapse;">
-                    <table  class="table table-responsive">
+                    <table  class="table table-responsive req-data-table">
                    <tr>
                     <th>Numero de   pagos:</div></td>
                     <td> {{$payments->count()}}</div></td>
@@ -229,7 +229,7 @@
                 </table>
                             </td>
                             <td style="border: none; border-collapse: collapse;">
-                            <table  class="table table-responsive" style="width:40%"align="right"> >
+                            <table  class="table table-responsive req-data-table" style="width:40%" align="right">
                         <tr>
                         <th>Subtotal: </div></td>
                         <td> $ {{number_format($InternalOrders->subtotal,2)}}</div></td>
@@ -266,7 +266,7 @@
 
                 
                <br><br>&nbsp; <br>
-               <table >
+               <table class="req-data-table">
                <tr> <td colspan="9" style="text-align: center;">   Tabla de Promesas de   pagos / Planeacion</div></td></tr>
                
                 <tr>
@@ -335,7 +335,7 @@
                
                <div class="col-sm-9 font-bold text-sm">
                <br><br>&nbsp;
-               <table align="left" id='correos'>
+               <table align="left" id='correos' class="req-data-table">
 
                 <tr class="text-center"><th colspan="2">   Correos Personales </th></tr>
                 <tr class="text-center">
@@ -472,8 +472,25 @@
 }
 </style>
 <style>
-    td{
-        border: 1px solid black;
+    .req-data-table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .req-data-table th,
+    .req-data-table td {
+        border: 1px solid #000 !important;
+    }
+
+    .req-data-table th {
+        border-color: #fff !important;
+    }
+
+    .req-data-table td {
+        border-top-color: #000 !important;
+        border-left-color: #000 !important;
+        border-right-color: #000 !important;
+        border-bottom-color: #000 !important;
     }
     .demo-preview {
   padding-top: 10px;
@@ -581,7 +598,7 @@ background-color: #2B416D;
 /* Requisition table spacing and header color customization */
 :root {
     /* Color for table headers and footers (editable) */
-    --req-th-bg: #A48C79; /* beige tone requested */
+    --req-th-bg: #b4af98; /* beige tone requested */
 }
 
 /* Scope styles to this view's main container so global layout is not affected */
