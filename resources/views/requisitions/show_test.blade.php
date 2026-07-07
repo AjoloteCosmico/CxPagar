@@ -39,7 +39,7 @@
                         </table>
                           <br>     
 
-                        <table>
+                        <table class="req-data-table">
                             <tr> <th colspan="2"> Fechas (dd-mm-aa):</th></tr>
                             <tr> <th>Fecha de Emision: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->reg_date))}}  </td></tr>
                             <tr> <th>Fecha de Entra: </th> <td> {{date('d - m - Y', strtotime($InternalOrders->date_delivery))}}  </td></tr>
