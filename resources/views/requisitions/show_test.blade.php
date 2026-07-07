@@ -144,7 +144,7 @@
                </div>
                 
                 <br> &nbsp;  
-                <table>
+                <table class="table table-responsive text-xs">
                     <tr>
                         <th> Contacto   </th>
                         <th> Nombre </th>
@@ -210,7 +210,7 @@
 
                         <tr style="border: none; border-collapse: collapse;">
                             <td style="border: none; border-collapse: collapse;">
-                            <table  >
+                    <table  class="table table-responsive">
                    <tr>
                     <th>Numero de   pagos:</div></td>
                     <td> {{$payments->count()}}</div></td>

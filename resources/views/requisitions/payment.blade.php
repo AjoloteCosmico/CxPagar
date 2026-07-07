@@ -118,15 +118,15 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Concepto</label>
-                                        <input type='text' name="{{'concepto['.$aux_count.']'}}" id="{{'C'.$aux_count}}" class="form-control text-uppercase" placeholder="PAGO" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <input type='text' name="{{'concepto['.$aux_count.']'}}" id="{{'C'.$aux_count}}" class="form-control text-uppercase"  onkeyup="javascript:this.value=this.value.toUpperCase();">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Forma de pago</label>
-                                        <input type='text' name="{{'forma_pago['.$aux_count.']'}}" id="{{'FP'.$aux_count}}" class="form-control text-uppercase" placeholder="TRJ" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <input type='text' name="{{'forma_pago['.$aux_count.']'}}" id="{{'FP'.$aux_count}}" class="form-control text-uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">No. cuenta</label>
-                                        <input type='text' name="{{'no_cuenta['.$aux_count.']'}}" id="{{'NC'.$aux_count}}" class="form-control text-uppercase" placeholder="677" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <input type='text' name="{{'no_cuenta['.$aux_count.']'}}" id="{{'NC'.$aux_count}}" class="form-control text-uppercase"  onkeyup="javascript:this.value=this.value.toUpperCase();">
                                     </div>
                                 </div>
                             </div>
@@ -134,13 +134,13 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Horario de recibo</label>
-                                        <input type='text' name="{{'horario_recibo['.$aux_count.']'}}" id="{{'H'.$aux_count}}" class="form-control text-uppercase" placeholder="12:01" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <input type='text' name="{{'horario_recibo['.$aux_count.']'}}" id="{{'H'.$aux_count}}" class="form-control text-uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Condiciones de entrega</label>
-                                        <input type='text' name="{{'condiciones_entrega['.$aux_count.']'}}" id="{{'CE'.$aux_count}}" class="form-control text-uppercase" placeholder="MICILIC" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                        <input type='text' name="{{'condiciones_entrega['.$aux_count.']'}}" id="{{'CE'.$aux_count}}" class="form-control text-uppercase" onkeyup="javascript:this.value=this.value.toUpperCase();">
                                     </div>
                                 </div>
                             </div>
@@ -149,9 +149,9 @@
                 </div>
             </div>
             <div class="card-footer bg-white d-flex justify-content-between align-items-center">
-                <button type="button" onclick="prevPayment()" id="btn-prev" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Anterior</button>
-                <button type="button" class="btn btn-blue" onclick="redondear()"><i class="fa-regular fa-circle fa-2x"></i> Redondear</button>
-                <button type="button" onclick="nextPayment()" id="btn-next" class="btn btn-success">Siguiente <i class="fas fa-arrow-right"></i></button>
+                <button type="button" onclick="prevPayment()" id="btn-prev" class="btn btn-black mb-2"><i class="fas fa-arrow-left"></i> Anterior</button>
+                <!-- <button type="button" class="btn btn-blue" onclick="redondear()"><i class="fa-regular fa-circle fa-2x"></i> Redondear</button> -->
+                <button type="button" onclick="nextPayment()" id="btn-next" class="btn btn-green mb-2">Siguiente <i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
