@@ -167,7 +167,18 @@
        <x-jet-input-error for='seller_id' />
    </div> -->
 
+
    <div class = 'row'>
+     <div class="col-sm-3 col-xs-12">
+            <div class="form-group">
+                <x-jet-label value="* Capturó " />
+                <select class="form-capture  w-full text-xs uppercase"  name="capturo">
+                        <option value="{{Auth::user()->id}}"  selected >  {{Auth::user()->name}}</option>
+                                            
+                </select>
+                <x-jet-input-error for='requisitor' />
+            </div>
+        </div>
         <div class="col-sm-3 col-xs-12">
             <div class="form-group">
                 <x-jet-label value="* Requisitor" />
@@ -189,7 +200,11 @@
         <div class="col-sm-3 col-xs-12">
             <div class="form-group">
                 <x-jet-label value="* Comprador" />
-                <x-jet-input type="text" name="comprador" required class="w-full text-xs" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                <select class="form-capture  w-full text-xs uppercase" name="comprador">
+                                            @foreach ($Users as $row)
+                                                <option value="{{$row->id}}" @if ($row->id == old('comprador')) selected @endif >  {{$row->name}}</option>
+                                            @endforeach
+                </select>
                 <x-jet-input-error for='comprador' />
             </div>
         </div>
