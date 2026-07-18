@@ -180,6 +180,7 @@ class RequisitionController extends Controller
         $TempInternalOrders->requisitor=$request->requisitor;
         $TempInternalOrders->pi=$request->pi;
         $TempInternalOrders->comprador=$request->comprador;
+        $TempInternalOrders->capturo=$request->capturo;
         
         $TempInternalOrders->tasa = $request->tasa*0.01;
         $TempInternalOrders->save();
@@ -356,6 +357,7 @@ public function recalcular_total($id){
             $InternalOrders->requisitor=$TempInternalOrders->requisitor;
             $InternalOrders->pi=$TempInternalOrders->pi;
             $InternalOrders->comprador=$TempInternalOrders->comprador;
+            $InternalOrders->capturo=$TempInternalOrders->capturo;
         
 
             $InternalOrders->ncotizacion = $TempInternalOrders->ncotizacion;
