@@ -87,7 +87,7 @@
                             <div class="row">
                                 <div class="col-sm-3 col-xs-12">
                                     <div class="form-group">
-                                        <x-jet-label value="* Se Embarca" />
+                                        <x-jet-label value="* Se Entrega" />
                                         <input type="radio" name="shipment" class="shipment_option" value="Sí" checked>&nbsp; Sí &nbsp; &nbsp;
                                         <input type="radio" name="shipment" class="shipment_option" value="No">&nbsp; No
                                         <x-jet-input-error for='shipment' />

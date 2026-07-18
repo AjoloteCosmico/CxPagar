@@ -75,7 +75,7 @@
   <thead class="thead">
     <tr>
       <th scope="col">Entregable</th>
-      <th scope="col">% negociado</th>
+      <th scope="col">% Negociado</th>
       <th scope="col">Cantidad</th>
       <th scope="col">Fecha</th>
       <th scope="col">Concepto</th>

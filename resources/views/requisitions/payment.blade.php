@@ -97,7 +97,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label fw-bold">% negociado</label>
+                                        <label class="form-label fw-bold">% Negociado</label>
                                         <div class="input-group">
                                             <input type='number' min='0' max='100' step='1' name="{{'porcentaje['.$aux_count.']'}}" id="{{'P'.$aux_count}}" class="form-control text-center" value="0">
                                             <span class="input-group-text">%</span>
