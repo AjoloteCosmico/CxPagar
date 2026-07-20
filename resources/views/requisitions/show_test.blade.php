@@ -598,7 +598,7 @@ background-color: #2B416D;
 /* Requisition table spacing and header color customization */
 :root {
     /* Color for table headers and footers (editable) */
-    --req-th-bg: #ceb68c; /* beige tone requested */
+    --req-th-bg: #DDC7A0; /* beige tone requested */
 }
 
 /* Scope styles to this view's main container so global layout is not affected */
