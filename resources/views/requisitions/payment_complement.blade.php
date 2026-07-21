@@ -102,7 +102,7 @@
     </tr>
     <tr>
     <td> Iva: {{$Coins -> symbol}} {{number_format( $Subtotal*(1-$InternalOrders->descuento)*0.16,2)}}</td>
-    <td id="monitor">
+    <td >
     </td>
     </tr>
     <tr>
@@ -152,34 +152,6 @@
 <script type="text/javascript" src="{{ asset('vendor/mystylesjs/js/percentage_incorrect.js') }}"></script>
 @endif
 
-<script>
-  function actualizarTotal(){
-    var npagos=parseInt("{{$npagos}}");
-    var total = 0;
-    for (var i = 1; i <= npagos; i++) {
-      valor=document.getElementById("P"+i).value;
-      if( parseFloat(valor)>0){
-      total=total+ parseFloat(valor);}
-    }
-document.getElementById("monitor").innerHTML=String(parseFloat(total))+'%';
-  }
-</script>
-
-@for ($i = 1; $i <= $npagos; $i++)
-<script>
- document.getElementById("{{'R'.$i}}").addEventListener("input", function(){
-  total = parseFloat(document.getElementById('total').value);
-    document.getElementById("{{'P'.$i}}").value = (this.value/total)*100;
-    actualizarTotal();
-    }); 
-    
-     document.getElementById("{{'P'.$i}}").addEventListener("input", function(){
-      total = parseFloat(document.getElementById('total').value);
-      document.getElementById("{{'R'.$i}}").value = parseFloat(this.value*total*0.01).toFixed(2);
-      actualizarTotal();
-    });
-</script>
-@endfor
 
 
 
