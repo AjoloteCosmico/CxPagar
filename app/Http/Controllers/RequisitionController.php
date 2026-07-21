@@ -631,6 +631,84 @@ public function recalcular_total($id){
         ));
 
     }
+public function payment_complement($id)
+    {
+        $CompanyProfiles = CompanyProfile::first();
+        $InternalOrders = Requisition::find($id);
+        $date = $InternalOrders->date_delivery;
+        $Customers = Customer::find($InternalOrders->customer_id);
+        $Sellers = Seller::find($InternalOrders->seller_id);
+        $CustomerShippingAddresses = CustomerShippingAddress::find($InternalOrders->customer_shipping_address_id);
+        $Coins = Coin::find($InternalOrders->coin_id);
+        $Items = Item::where('internal_order_id', $id)->get();
+        $Payments = payments::where('order_id', $id)->orderBy('id', 'ASC')->get();
+        $aux_count = 0;
+        $Subtotal = $InternalOrders->subtotal;
+        $npagos = $Payments->count() ?: (int) $InternalOrders->payment_conditions;
+        $Authorizations = Authorization::where('id', '<>', 1)->orderBy('clearance_level', 'ASC')->get();
+        
+        $actualized = " ";
+        return view('requisitions.payment_complement', compact(
+            'CompanyProfiles',
+            'InternalOrders',
+            'Customers',
+            'Sellers',
+            'CustomerShippingAddresses',
+            'Coins',
+            'Items',
+            'Authorizations',
+            'Subtotal',
+            'id',
+            'actualized',
+            'aux_count',
+            'npagos',
+            'date',
+            'Payments'
+        ));
+
+    }
+
+    public function store_payment_complement(Request $request, $id)
+    {
+        $InternalOrders = Requisition::find($id);
+        if (!$InternalOrders) {
+            abort(404);
+        }
+
+        $request->validate([
+            'order_id' => 'required|integer|exists:requisitions,id',
+            'rowcount' => 'required|integer|min:1',
+            'payment_id' => 'required|array',
+            'payment_id.*' => 'required|integer|exists:payments,id',
+            'forma_pago' => 'required|array',
+            'forma_pago.*' => 'required|string',
+            'no_cuenta' => 'required|array',
+            'no_cuenta.*' => 'required|string',
+            'hora_recibido' => 'required|array',
+            'hora_recibido.*' => 'required',
+            'condiciones' => 'required|array',
+            'condiciones.*' => 'required|string',
+        ]);
+
+        foreach ($request->input('payment_id', []) as $rowIndex => $paymentId) {
+            $payment = payments::where('order_id', $InternalOrders->id)
+                ->where('id', $paymentId)
+                ->first();
+
+            if (!$payment) {
+                continue;
+            }
+
+            $payment->forma_pago = $request->input("forma_pago.{$rowIndex}");
+            $payment->no_cuenta = $request->input("no_cuenta.{$rowIndex}");
+            $payment->hora_recibido = $request->input("hora_recibido.{$rowIndex}");
+            $payment->condiciones = $request->input("condiciones.{$rowIndex}");
+            $payment->save();
+        }
+
+        return redirect('requisition/'.$InternalOrders->id)
+            ->with('success', 'Información del complemento de pago guardada correctamente.');
+    }
 
     public function payment_edit($id)
     {
@@ -739,7 +817,8 @@ public function recalcular_total($id){
             //'CompanyProfiles','InternalOrders','Customers','Sellers','CustomerShippingAddresses','Coins',
             //'Items','Authorizations','Subtotal','actualized','nRows','payments',
             //'hpayments','abonos',));
-            return redirect('requisition/'.$InternalOrders->id);
+            // return redirect('requisition/'.$InternalOrders->id);
+            return redirect()->route('requisition.payment_complement',$InternalOrders->id);
     }
 
     public function pay_redefine(Request $request)

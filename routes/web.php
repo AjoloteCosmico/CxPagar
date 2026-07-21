@@ -128,6 +128,9 @@ Route::group(['middleware' => ['auth']], function()
     
     Route::post('payments/invalidar', [PaymentsController::class, 'invalidar'])->name('accounting.invalidar');
     Route::get('payment/{id}', [RequisitionController::class, 'payment'])->name('requisition.payment');
+    
+    Route::get('data_for_payment/{id}', [RequisitionController::class, 'payment_complement'])->name('requisition.payment_complement');
+    Route::post('store_data_payment/edit/{id}', [RequisitionController::class, 'store_payment_complement'])->name('requisition.store_payment_complement');
     Route::post('payment/edit/{id}', [RequisitionController::class, 'payment_edit'])->name('requisition.payment_edit');
     Route::get('pay/{id}', [PaymentsController::class, 'pay_actualize'])->name('payments.pay_actualize');
     
