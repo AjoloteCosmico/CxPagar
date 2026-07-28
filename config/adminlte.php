@@ -310,15 +310,21 @@ return [
             'can' => 'REQUISICION',
         ],
         [
-            'text' => 'REQUISICION',
+            'text' => 'REQUISICION NORMAL',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'requisition.index',
+            'can'  => 'VER REQUISICION',
+        ],
+        [
+            'text' => 'REQUISICION GASTOS FIJOS',
+            'icon' => 'fas fa-clipboard-check fa-fw',
+            'route'  => 'tpurchase_order.index',
             'can'  => 'VER REQUISICION',
         ],
           [
             'text' => 'O.C. NORMAL',
             'icon' => 'fas fa-clipboard-check fa-fw',
-            'route'  => 'tpurchase_order.index',
+            'route'  => 'bills.index',
             'can'  => 'VER REQUISICION',
         ],
         [
