@@ -425,6 +425,23 @@
                 <td> texto de prueba</td>
             </tr>
         </table>
+        <br>
+        <table class="req-data-table">
+        <tr>
+            <th style="background-color:#E8C3A5 !important;">Beige rosado #E8C3A5</th>
+            <th style="background-color:#C8B6A6 !important;">Beige gris #C8B6A6</th>
+            <th style="background-color:#D2B48C !important;">Tan #D2B48C</th>
+            <th style="background-color:#F3E5AB !important;">Vainilla #F3E5AB</th>
+            <th style="background-color:#B8A69A !important;">Topo #B8A69A</th>
+        </tr>
+        <tr>
+            <td>texto de prueba</td>
+            <td>texto de prueba</td>
+            <td>texto de prueba</td>
+            <td>texto de prueba</td>
+            <td>texto de prueba</td>
+        </tr>
+        </table>
         <br><br> <br><br>
         <button type="button" class="btn btn-red btn-sm" onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
         <a href="{{ route('requisition.edit_order', $InternalOrders->id) }}" class="btn btn-green btn-sm">
