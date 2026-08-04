@@ -404,6 +404,28 @@
             <br><br><br>
             </div>
         </div>
+
+        <br>
+        <table class="req-data-table">
+            <tr>
+                <th style="background-color:#c2b280 !important;" >Sand #c2b280</th>
+                
+                <th style="background-color:#a67b5b !important;" >French beige #a67b5b</th>
+                <th style="background-color:#daa06d !important;" > BUFF #daa06d</th>
+                <th style="background-color:#fad6a5 !important;" > Tuscan #fad6a5</th>
+                <th style="background-color:#c19a6b !important;" >Camel #c19a6b</th>
+                
+                
+            </tr>
+            <tr>
+                <td> texto de prueba</td>
+                <td> texto de prueba</td>
+                <td> texto de prueba</td>
+                <td> texto de prueba</td>
+                <td> texto de prueba</td>
+            </tr>
+        </table>
+        <br><br> <br><br>
         <button type="button" class="btn btn-red btn-sm" onclick="window.print();"> <i class="fas fa-file-pdf fa-xl"> &nbsp; PDF </i> </button>
         <a href="{{ route('requisition.edit_order', $InternalOrders->id) }}" class="btn btn-green btn-sm">
             <button type="button" class="btn btn-green"> <i class="fas fa-edit"> &nbsp; Editar</i> </button>
@@ -508,9 +530,9 @@
 .badge.badge-outlined.badge-info { border-color: #29B6F6; color: #29B6F6 }
 
 :root {
-    --req-th-bg: #FFD39B;
+    --req-th-bg: #ebc18a;
     --req-th-color: #ffffff;
-    --req-th-gb: #0c0c0c;
+    --req-th-gb: #3b3026;
 }
 
 .container-flex table {
@@ -530,6 +552,7 @@
 .container-flex table tfoot th {
     background-color: var(--req-th-bg) !important;
     color: var(--req-th-gb) !important;
+    border-color: var(--req-th-gb) !important;
     padding: 0.35rem 0.5rem !important;
 }
 </style>
