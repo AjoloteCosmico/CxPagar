@@ -509,10 +509,16 @@
 
 :root {
     --req-th-bg: #FFD39B;
+    --req-th-color: #ffffff;
+    --req-th-gb: #0c0c0c;
 }
 
 .container-flex table {
     margin-bottom: 0.8rem;
+}
+
+.req-data-table th {
+    color: var(--req-th-color) !important;
 }
 
 .container-flex table th,
@@ -523,7 +529,7 @@
 .container-flex table th,
 .container-flex table tfoot th {
     background-color: var(--req-th-bg) !important;
-    color: #ffffff !important;
+    color: var(--req-th-gb) !important;
     padding: 0.35rem 0.5rem !important;
 }
 </style>
