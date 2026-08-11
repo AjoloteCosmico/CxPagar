@@ -1,19 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'MONEDAS')
+@section('title', 'PRODUCTO')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-money-bill-1"></i>&nbsp; Moneda</h1>
+    <h1 class="font-bold"><i class="fas fa-tag"></i>&nbsp; Producto</h1>
 @stop
 
 @section('content')
     <div class="container bg-gray-300 shadow-lg rounded-lg">
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
-                <i class="fas fa-plus-circle"></i>&nbsp; Agregar Moneda:
+                <i class="fas fa-plus-circle"></i>&nbsp; Agregar Producto:
             </h5>
         </div>
-        <form action="{{ route('coins.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('products.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
             <div class="row p-4">
@@ -21,30 +21,26 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
-                                <x-jet-label value="* Moneda" />
-                                <x-jet-input type="text" name="coin" class="w-full text-xs " value="{{old('coin')}}"/>
-                                <x-jet-input-error for='coin' />
+                                <x-jet-label value="* Producto" />
+                                <x-jet-input type="text" name="product" class="w-full text-xs " value="{{old('product')}}"/>
+                                <x-jet-input-error for='product' />
                             </div>
                             <div class="form-group">
-                                <x-jet-label value="Símbolo" />
-                                <x-jet-input type="text" name="symbol" class="w-full text-xs " value="{{old('symbol')}}"/>
-                                <x-jet-input-error for='symbol' />
+                                <x-jet-label value="SKU" />
+                                <x-jet-input type="text" name="sku" class="w-full text-xs " value="{{old('sku')}}"/>
+                                <x-jet-input-error for='sku' />
                             </div>
                             <div class="form-group">
-                                <x-jet-label value="Código" />
-                                <x-jet-input type="text" name="code" class="w-full text-xs " value="{{old('code')}}"/>
-                                <x-jet-input-error for='code' />
+                                <x-jet-label value="Familia" />
+                                <x-jet-input type="text" name="family" class="w-full text-xs " value="{{old('family')}}"/>
+                                <x-jet-input-error for='family' />
                             </div>
                             <div class="form-group">
-                                <x-jet-label value="* Tipo de Cambio Compra" />
-                                <x-jet-input type="number" step="0.01" name="exchange_buy" class="w-full text-xs " value="{{old('exchange_rate')}}"/>
-                                <x-jet-input-error for='exchange_buy' />
+                                <x-jet-label value="* Retenciones" />
+                                <x-jet-input type="number" step="0.01" name="tax" class="w-full text-xs " value="{{old('tax')}}"/>
+                                <x-jet-input-error for='tax' />
                             </div>
-                            <div class="form-group">
-                                <x-jet-label value="* Tipo de Cambio Venta" />
-                                <x-jet-input type="number" step="0.01" name="exchange_sell" class="w-full text-xs " value="{{old('exchange_rate')}}"/>
-                                <x-jet-input-error for='exchange_sell' />
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

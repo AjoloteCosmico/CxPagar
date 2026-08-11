@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>TYRSAWES</b>-ADMIN',
+    'logo' => '<b>TYRSAWES</b>-CXP',
     'logo_img' => 'vendor/img/logo.svg',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -286,6 +286,12 @@ return [
                     'route'  => 'providers.index',
                     'can'  => 'VER PROVEEDOR',
                 ],
+                [
+                    'text' => 'PRODUCTOS',
+                    'icon' => 'fas fa-tag fa-fw',
+                    'route'  => 'products.index',
+                    // 'can'  => 'VER PROVEEDOR',
+                ],
                 // [
                 //     'text' => 'NIVEL AUTORIZACIÓN',
                 //     'icon' => 'fas fa-fingerprint fa-fw',
@@ -316,7 +322,7 @@ return [
             'can'  => 'VER REQUISICION',
         ],
         [
-            'text' => 'REQUISICION GASTOS FIJOS',
+            'text' => 'REQUISICION G.F.',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'tpurchase_order.index',
             'can'  => 'VER REQUISICION',
@@ -328,7 +334,7 @@ return [
             'can'  => 'VER REQUISICION',
         ],
         [
-            'text' => 'O.C. GASTOS',
+            'text' => 'O.C. G.F.',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'bills.index',
             'can'  => 'VER REQUISICION',

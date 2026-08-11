@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\AuthorizationController;
 use App\Http\Controllers\Admin\FamilyController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\BankController;
+use App\Http\Controllers\Admin\ProductController;
 
 Route::group(['middleware' => ['auth']], function()
 {
@@ -34,6 +35,8 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('categories', [ FamilyController::class, 'categories'])->name('categories');
     Route::get('categories/products/{id}', [ FamilyController::class, 'products_show'])->name('products_show');
     
+    Route::resource('products', ProductController::class);
+
     Route::resource('authorizations', AuthorizationController::class);    
     Route::resource('customers', CustomerController::class);
     Route::post('customers/register', [ CustomerController::class, 'rfc'])->name('customers.rfc');
@@ -52,6 +55,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('sellers/customers/{id}', [ SellerController::class, 'customers'])->name('sellers.customers');
     
     Route::get('administrador', [AdministradorController::class, 'index'])->name('admin.index');
+    
 });
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/contact/{customer_id}', [ContactController::class, 'principal'])->name('contactos.principal');

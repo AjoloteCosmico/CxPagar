@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'MONEDAS')
+@section('title', 'PRODUCTOS')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-money-bill-1"></i>&nbsp; MONEDAS</h1>
+    <h1 class="font-bold"><i class="fas fa-tag"></i>&nbsp; Productos</h1>
 @stop
 
 @section('content')
@@ -11,41 +11,37 @@
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
             <div class="col-sm-12 text-right">
                 @can('CREAR MONEDAS')
-                <a href="{{ route('coins.create')}}" class="btn btn-green">
+                <a href="{{ route('products.create')}}" class="btn btn-green">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nueva
                 </a>
                 @endcan
             </div>
             <div class="w-100">&nbsp;</div>
             <div class="col-sm-12 table-responsive">
-                <table class="table tablecoins table-striped text-xs font-medium">
+                <table class="table  table-striped text-xs font-medium">
                     <thead>
                         <tr class="text-center">
                             <th>ID</th>
-                            <th>Moneda</th>
-                            <th>Símbolo</th>
-                            <th>Código</th>
-                            <th>Tipo de cambio <br> Compra</th>
-                            <th>Tipo de cambio <br> Venta</th>
-                            <th>Día de aplicación</th>
+                            <th>Producto</th>
+                            <th>SKU</th>
+                            <th>Familia</th>
+                            <th>Retenciones</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($Coins as $row)
+                        @foreach ($Products as $row)
                         <tr class="text-center">
-                            <td>{{$row->id}}</td>
-                            <td>{{$row->coin}}</td>
-                            <td>{{$row->symbol}}</td>
-                            <td>{{$row->code}}</td>
-                            <td>{{$row->exchange_sell}}</td>
-                            <td>{{$row->exchange_buy}}</td>
-                            <td>{{ date('d/m/Y', strtotime($row->date_application)) }}</td>
+                            <td> {{$row->id}} </td>
+                            <td> {{$row->product}} </td>
+                            <td> {{$row->sku}} </td>
+                            <td> {{$row->family}} </td>
+                            <td> {{sprintf("%.2f%%", $row->tax)}} </td>
                             <td class="w-15">
                                 <div class="row">
                                     <div class="col-6 text-center">
                                         @can('EDITAR MONEDAS')
-                                        <a href="{{ route('coins.edit', $row->id)}}">
+                                        <a href="{{ route('products.edit', $row->id)}}">
                                         <button class="btn btn-blue">
                                                 <i class="fas fa-xl fa-edit   "></i>
                                                 </button>
