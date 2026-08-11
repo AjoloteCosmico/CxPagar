@@ -315,7 +315,10 @@ return [
             'header' => 'DOCUMENTOS DE COMPRA',
             'can' => 'REQUISICION',
         ],
-        [
+       ['text' => 'REQUISICIONES',
+       'icon' => 'fas fa-file fa-fw',
+         'submenu'=>[
+             [
             'text' => 'REQUISICION NORMAL',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'requisition.index',
@@ -327,7 +330,12 @@ return [
             'route'  => 'tpurchase_order.index',
             'can'  => 'VER REQUISICION',
         ],
-          [
+         ]
+       ],
+       [
+        'text' => 'ORDENES DE COMPRA',
+        'icon' => 'fas fa-file fa-fw',
+        'submenu' => [[
             'text' => 'O.C. NORMAL',
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'bills.index',
@@ -338,7 +346,9 @@ return [
             'icon' => 'fas fa-clipboard-check fa-fw',
             'route'  => 'bills.index',
             'can'  => 'VER REQUISICION',
-        ],
+        ] ],
+       ],
+         
         // [
         //     'header' => '===================',
         // ],
