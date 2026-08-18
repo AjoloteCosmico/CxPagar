@@ -45,7 +45,7 @@ class RequisitionController extends Controller
             return 'ORDEN DE COMPRA NORMAL';
             break;
             case 'ordenGF':
-            return 'ORDEN DE COMPRA NORMAL';
+            return 'ORDEN DE COMPRA GASTOS FIJOS';
             break;
             }
     }
