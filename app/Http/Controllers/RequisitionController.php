@@ -32,17 +32,34 @@ use Illuminate\Support\Facades\Auth;
 
 class RequisitionController extends Controller
 {
-    public function index()
+
+    public function getTitle($type){
+        switch($type){
+            case 'reqNormal':
+            return 'REQUISICION NORMAL';
+            break;
+            case 'reqGF':
+            return 'REQUISICION GASTOS FIJOS';
+            break;
+            case 'ordenNormal':
+            return 'ORDEN DE COMPRA NORMAL';
+            break;
+            case 'ordenGF':
+            return 'ORDEN DE COMPRA NORMAL';
+            break;
+            }
+    }
+
+    public function index($type)
     {
         //$InternalOrders = vinternal_orders::all();
         $Requisitions = DB::table('customers')
             ->join('requisitions', 'requisitions.customer_id', '=', 'customers.id')
             ->select('requisitions.*','customers.customer','customers.clave', )
-            ->where('type','requisition')
+            ->where('type',$type)
             ->orderBy('requisitions.invoice', 'DESC')
             ->get();
-        $type='requisition';
-        $title="REQUISICION DE COMPRA";
+        $title=$this->getTitle($type);
         return view('requisitions.index', compact('Requisitions','type','title'));
     }
 
@@ -115,10 +132,7 @@ class RequisitionController extends Controller
         $Sellers = Seller::all();
         $hoy = now();
 
-        $title="ORDEN DE COMPRA INTERNA";
-        if($request->type=='requisition'){
-             $title="REQUISICIÓN DE COMPRA";
-        }
+        $title=$this->getTitle($request->type);
         
         return view('requisitions.capture_order', compact(
             'title',

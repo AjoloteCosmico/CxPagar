@@ -321,13 +321,13 @@ return [
              [
             'text' => 'REQUISICION NORMAL',
             'icon' => 'fas fa-clipboard-check fa-fw',
-            'route'  => 'requisition.index',
+            'route' => ['req_general.index', ['type' => 'reqNormal']],
             'can'  => 'VER REQUISICION',
         ],
         [
             'text' => 'REQUISICION G.F.',
             'icon' => 'fas fa-clipboard-check fa-fw',
-            'route'  => 'tpurchase_order.index',
+            'route' => ['req_general.index', ['type' => 'reqGF']],
             'can'  => 'VER REQUISICION',
         ],
          ]
@@ -338,13 +338,13 @@ return [
         'submenu' => [[
             'text' => 'O.C. NORMAL',
             'icon' => 'fas fa-clipboard-check fa-fw',
-            'route'  => 'bills.index',
+            'route' => ['req_general.index',[ 'type' => 'ordenNormal']],
             'can'  => 'VER REQUISICION',
         ],
         [
             'text' => 'O.C. G.F.',
             'icon' => 'fas fa-clipboard-check fa-fw',
-            'route'  => 'bills.index',
+            'route' => ['req_general.index', ['type' => 'ordenGF']],
             'can'  => 'VER REQUISICION',
         ] ],
        ],

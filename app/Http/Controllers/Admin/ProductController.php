@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function create(){
         return view('admin.products.create');
     }
-
+    
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -62,3 +62,4 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Producto actualizado correctamente.');
     }
 }
+ 

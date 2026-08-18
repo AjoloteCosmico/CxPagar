@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\TempItemController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\OCController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\FactureController;
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::resource('requisition', RequisitionController::class);
     
     Route::get('tpurchase_order/index', [RequisitionController::class, 'index_orden'])->name('tpurchase_order.index');
+    Route::get('req/{type}/index', [RequisitionController::class, 'index'])->name('req_general.index');
     
     Route::get('requisition/create/{type}', [RequisitionController::class, 'create'])->name('par_requisition.create');
     Route::resource('bills', BillsController::class);
@@ -50,6 +52,7 @@ Route::group(['middleware' => ['auth']], function()
 
     //requisicion recagado vol2
     Route::resource('purchase_order', RequisitionController::class);
+    Route::resource('orden_compra', OCController::class);
     Route::resource('cuentas_cobrar', PaymentsController::class);
     Route::resource('factures', FactureController::class);
     Route::post('factures/update_2/{id}', [FactureController::class, 'update'])->name('factures.update2');
