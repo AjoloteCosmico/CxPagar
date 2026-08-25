@@ -169,6 +169,7 @@
                     <th>sku</th> 
                     <th>Precio unit(sin iva)</th>
                     <th>Importe</th>
+                    <th>% retencion</th>
                 </tr>
             
                 @foreach ($Items as $row)
@@ -180,6 +181,7 @@
                     <td> {{ $row->family }}</td>
                     <td rowspan="2"> ${{number_format($row->unit_price, 2) }}</td>
                     <td rowspan="2"> ${{number_format($row->import, 2) }}</td>
+                     <td rowspan="2"> {{number_format($row->retencion, 2) }} %</td>
                 </tr>
                 <tr>
                     <td colspan="5"> {!! nl2br($row->description) !!} </td>
@@ -226,7 +228,7 @@
                             </tr>
                             <tr>
                                 <th>RET ISR:</th>
-                                <td> $ {{number_format($InternalOrders->isr * $InternalOrders->subtotal,2)}}</td>
+                                <td> $ {{number_format($ret,2)}}</td>
                             </tr>
                             <tr>
                                 <th>RET IVA:</th>

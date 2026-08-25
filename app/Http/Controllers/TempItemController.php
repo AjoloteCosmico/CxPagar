@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Family;
 use App\Models\TempInternalOrder;
 use App\Models\Unit;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class TempItemController extends Controller
@@ -54,12 +55,12 @@ class TempItemController extends Controller
 
         $Units = Unit::all();
         $Families = Family::all();
-
+        $Products=Product::All();
         return view('admin.items.create', compact(
             'TempInternalOrders',
             'Item',
             'Units',
-            'Families',
+            'Families','Products'
         ));
     }
 
@@ -87,8 +88,7 @@ class TempItemController extends Controller
         $rules = [
             'amount' => 'required',
             'unit' => 'required',
-            'family' => 'required',
-            
+            // 'family' => 'required',
             
             'sku' => 'required',
             'description' => 'required',
@@ -107,7 +107,7 @@ class TempItemController extends Controller
         ];
 
         $request->validate($rules, $messages);
-
+        
         $Import = $request->amount * $request->unit_price;
 
         $TempItems = TempItem::where('item', $request->item)->first();
@@ -120,11 +120,17 @@ class TempItemController extends Controller
             $TempItems->item = $request->item;
             $TempItems->amount = $request->amount;
             $TempItems->unit = $request->unit;
-            if($request->family=='OTRO'){
-                $TempItems->family = $request->otro;
+            if($request->product=='OTRO'){
+                $TempItems->producto = $request->otro;
+                $TempItems->family = 'OTRA';
+            }else{
+
+            $Producto=Product::find($request->product);
+            $TempItems->retencion = $Producto->tax;
+            $TempItems->producto = $Producto->product;
+            $TempItems->family = $Producto->family;
+            
             }
-            else{
-            $TempItems->family = $request->family;}
             //$TempItems->subfamilia = $request->subfamily;
             $TempItems->categoria = $request->category;
             //$TempItems->products = $request->products;

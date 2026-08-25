@@ -56,18 +56,18 @@
                                 </select><x-jet-input-error for='description' />
                             </div> -->
                             <div class="form-group">
-                                <x-jet-label value="* Familia" />
-                                {{--  <x-jet-input type="text" name="family" class="w-full text-xs" value="{{old('family')}}"/>  --}}
-                                <select class="form-capture  w-full text-xs uppercase" name="family" id='fam'>
+                                <x-jet-label value="* Producto" />
+                                {{--  <x-jet-input type="text" name="product" class="w-full text-xs" value="{{old('family')}}"/>  --}}
+                                <select class="form-capture  w-full text-xs uppercase" name="product" id='fam'>
                                         
                                         <option value=" " > </option>
-                                        <option value="FAMILIA 1" >FAMILIA 1</option>
-                                        <option value="FAMILIA 2" >FAMILIA 2</option>
-                                        <option value="FAMILIA 3" >FAMILIA 3</option>
+                                        @foreach($Products as $product)
+                                        <option value="{{$product->id}}" > {{$product->product}} @if($product->tax > 0) ( ret. {{sprintf("%.2f%%", $product->tax)}} ) @endif</option>
+                                        @endforeach
                                         <option value="OTRO" >OTRO</option>
                                 </select>
                                 
-                                <x-jet-input-error for='family' />
+                                <x-jet-input-error for='product' />
                                 
                                 <br>
                                 <x-jet-label hidden='hidden' id='esp' value="* Especifique" />
@@ -122,7 +122,7 @@
                 </div>
             </div>
             <div class="col-12 text-right p-2 gap-2">
-                {{--  <a href="{{ route('customers.index')}}" class="btn btn-black mb-2">
+                {{--  <a href="{{ route('products.index')}}" class="btn btn-black mb-2">
                     <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
                 </a>  --}}
                 <button type="submit" class="btn btn-green mb-2">

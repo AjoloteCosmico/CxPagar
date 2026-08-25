@@ -298,10 +298,15 @@ public function recalcular_total($id){
     $InternalOrder->subtotal=$Items->sum('import');
     $InternalOrder->save();
     //dd($Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa);
-    $ret=$Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa;
+    // $ret=$Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa;
     $sub_con_descuento=$InternalOrder->subtotal*(1-$InternalOrder->descuento);
-    $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+0.16;
-    $InternalOrder->total=$sub_con_descuento*($factor_aumento+1)-$ret ;
+    // $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+0.16;
+    $iva=$sub_con_descuento*0.16;
+    $ret=0;
+    foreach ($Items as $item) {
+        $ret+=($item->retencion/100) * $item->import;
+    }
+    $InternalOrder->total=$sub_con_descuento +$iva + $ret;
     $InternalOrder->save();
 }
     
@@ -431,6 +436,8 @@ public function recalcular_total($id){
                 $Items->description = $row->description;
                 $Items->unit_price = $row->unit_price;
                 $Items->import = $row->import;
+                $Items->producto = $row->producto;
+                $Items->retencion = $row->retencion;
                 $Items->save();
                 $t=$t+$Items->import;
                 if($Items->categoria=='Servicios'){
@@ -546,6 +553,10 @@ public function recalcular_total($id){
      ->where('order_id',$InternalOrders->id)
      ->select('comissions.*','sellers.seller_name','sellers.iniciales')
      ->get();
+     $ret=0;
+    foreach ($Items as $item) {
+        $ret+=($item->retencion/100) * $item->import;
+    }
      
         return view('requisitions.show_test', compact(
             'CompanyProfiles',
@@ -562,7 +573,7 @@ public function recalcular_total($id){
             'payments',
             'ASellers',
             'Comisiones',
-            'title',
+            'title','ret',
             
         ));
     }

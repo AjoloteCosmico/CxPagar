@@ -51,6 +51,8 @@
                                                     <th>Descripción</th>
                                                     <th>P. U.</th>
                                                     <th>Importe</th>
+                                                    
+                                                    <th>Ret.</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -65,6 +67,7 @@
                                                     <td>{{ $row->description }}</td>
                                                     <td class="text-right">$ {{ number_format($row->unit_price, 2) }}</td>
                                                     <td class="text-right">$ {{ number_format($row->import, 2) }}</td>
+                                                    <td class="text-right"> {{ number_format($row->retencion, 2) }} %</td>
                                                     <td><a href="{{ route('tempitems.edit_item', [$row->id,0]) }} " class="btn btn-green">
                                                         <button type = "button" class="btn btn-green "> <i class="fas fa-edit"></i> </button>
                                                    </a></td>
