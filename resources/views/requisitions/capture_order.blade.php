@@ -192,7 +192,7 @@
         </div>
         <div class="col-sm-3 col-xs-12">
             <div class="form-group">
-                <x-jet-label value="* PI" />
+                <x-jet-label value="* Cuenta de gasto" />
                 <x-jet-input type="number" name="pi" required class="w-full text-xs"/>
                 <x-jet-input-error for='pi' />
             </div>
