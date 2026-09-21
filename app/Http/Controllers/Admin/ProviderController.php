@@ -8,6 +8,8 @@ use App\Models\CustomerContact;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use Illuminate\Support\Facades\Schema;
+
 class ProviderController extends Controller
 {
     public function index()
@@ -58,6 +60,12 @@ class ProviderController extends Controller
             'customer_zip_code' => 'required|max:5',
             'customer_email' => 'required|email',
             'customer_telephone' => 'required|max:10',
+            'pagina_web' => 'nullable|url',
+            'telefono_contacto_1' => 'nullable|max:10',
+            'telefono_contacto_2' => 'nullable|max:10',
+            'forma_pago' => 'nullable|string|max:100',
+            'observacion' => 'nullable|string|max:255',
+            'estatus' => 'nullable|string|max:30',
         ];
 
         $messages = [
@@ -66,7 +74,6 @@ class ProviderController extends Controller
             'clave.unique' => 'La Clave del Proveedor ya existe, escriba una diferente',
             'alias.required' => 'Escriba el Nombre Corto del Proveedor',
             'legal_name.required' => 'Escriba el Nombre Jurídico del Proveedor',
-            'alias.required' => 'Escriba el Nombre Corto del Proveedor',
             'customer_rfc.required' => 'Capture el RFC del Proveedor',
             'customer_rfc.max' => 'Sólo puede capturar un máximo de 13 caractéres',
             'customer_rfc.unique' => 'El RFC del Proveedor ya existe, escriba uno diferente',
@@ -80,7 +87,10 @@ class ProviderController extends Controller
             'customer_telephone.required' => 'Capture el Número telefónico del Proveedor',
             'customer_telephone.max' => 'Capture el Número telefónico a 10 dígitos',
             'customer_zip_code.required' => 'Capture el Código Postal del Proveedor',
-            'customer_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres'
+            'customer_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres',
+            'pagina_web.url' => 'Capture una URL válida',
+            'telefono_contacto_1.max' => 'El teléfono de contacto 1 debe tener máximo 10 dígitos',
+            'telefono_contacto_2.max' => 'El teléfono de contacto 2 debe tener máximo 10 dígitos',
         ];
         
         $request->validate($rules, $messages);
@@ -107,6 +117,26 @@ class ProviderController extends Controller
         $Providers->customer_email = $request->customer_email;
         $Providers->customer_telephone = $request->customer_telephone;
         $Providers->clave=$request->clave;
+
+        if (Schema::hasColumn('customers', 'pagina_web')) {
+            $Providers->pagina_web = $request->pagina_web;
+        }
+        if (Schema::hasColumn('customers', 'estatus')) {
+            $Providers->estatus = $request->estatus;
+        }
+        if (Schema::hasColumn('customers', 'telefono_contacto_1')) {
+            $Providers->telefono_contacto_1 = $request->telefono_contacto_1;
+        }
+        if (Schema::hasColumn('customers', 'telefono_contacto_2')) {
+            $Providers->telefono_contacto_2 = $request->telefono_contacto_2;
+        }
+        if (Schema::hasColumn('customers', 'forma_pago')) {
+            $Providers->forma_pago = $request->forma_pago;
+        }
+        if (Schema::hasColumn('customers', 'observacion')) {
+            $Providers->observacion = $request->observacion;
+        }
+
         $Providers->save();
 
         return redirect()->route('providers.index')->with('create_reg', 'ok');
@@ -144,6 +174,12 @@ class ProviderController extends Controller
             'customer_email' => 'required|email',
             'customer_telephone' => 'required|max:10',
             'customer_zip_code' => 'required|max:5',
+            'pagina_web' => 'nullable|url',
+            'telefono_contacto_1' => 'nullable|max:10',
+            'telefono_contacto_2' => 'nullable|max:10',
+            'forma_pago' => 'nullable|string|max:100',
+            'observacion' => 'nullable|string|max:255',
+            'estatus' => 'nullable|string|max:30',
         ];
 
         $messages = [
@@ -161,7 +197,10 @@ class ProviderController extends Controller
             'customer_telephone.required' => 'Capture el Número telefónico del Proveedor',
             'customer_telephone.max' => 'Capture el Número telefónico a 10 dígitos',
             'customer_zip_code.required' => 'Capture el Código Postal del Proveedor',
-            'customer_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres'
+            'customer_zip_code.max' => 'Sólo puede capturar un máximo de 5 caractéres',
+            'pagina_web.url' => 'Capture una URL válida',
+            'telefono_contacto_1.max' => 'El teléfono de contacto 1 debe tener máximo 10 dígitos',
+            'telefono_contacto_2.max' => 'El teléfono de contacto 2 debe tener máximo 10 dígitos',
         ];
 
         $request->validate($rules, $messages);
@@ -172,7 +211,8 @@ class ProviderController extends Controller
             $Providers->legal_name = $request->otra;
         }
         else{
-            $Providers->legal_name = $request->legal_name;}
+            $Providers->legal_name = $request->legal_name;
+        }
         $Providers->alias = $request->alias;
         $Providers->customer_rfc = $request->customer_rfc;
         $Providers->customer_state = $request->customer_state;
@@ -184,6 +224,26 @@ class ProviderController extends Controller
         $Providers->customer_zip_code = $request->customer_zip_code;
         $Providers->customer_email = $request->customer_email;
         $Providers->customer_telephone = $request->customer_telephone;
+        $Providers->regimen_fiscal = $request->regimen_fiscal;
+        $Providers->person_type = $request->person_type ?? $Providers->person_type;
+        if (Schema::hasColumn('customers', 'pagina_web')) {
+            $Providers->pagina_web = $request->pagina_web;
+        }
+        if (Schema::hasColumn('customers', 'estatus')) {
+            $Providers->estatus = $request->estatus;
+        }
+        if (Schema::hasColumn('customers', 'telefono_contacto_1')) {
+            $Providers->telefono_contacto_1 = $request->telefono_contacto_1;
+        }
+        if (Schema::hasColumn('customers', 'telefono_contacto_2')) {
+            $Providers->telefono_contacto_2 = $request->telefono_contacto_2;
+        }
+        if (Schema::hasColumn('customers', 'forma_pago')) {
+            $Providers->forma_pago = $request->forma_pago;
+        }
+        if (Schema::hasColumn('customers', 'observacion')) {
+            $Providers->observacion = $request->observacion;
+        }
         $Providers->save();
 
         return redirect()->route('providers.index')->with('update_reg', 'ok');

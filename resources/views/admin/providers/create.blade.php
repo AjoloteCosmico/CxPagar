@@ -94,8 +94,8 @@
                                 <x-jet-input type="text" name="customer_rfc" class="w-full text-xs " value="{{old('customer_rfc')}}"/>
                                 <x-jet-input-error for='customer_rfc' />
                             </div>
-                            <div class="form-group" id="regimen_fiscal_group" style="display: none;">
-                                <x-jet-label value="* Regimen Fiscal" />
+                            <div class="form-group">
+                                <x-jet-label value="* Régimen" />
                                 <select class="form-capture  w-full text-xs uppercase" id="regimen_fiscal" name="regimen_fiscal">
 
                                     <option value="" > </option>
@@ -125,17 +125,26 @@
                                     <option value="624" @if(old('regimen_fiscal')=='624') selected @endif>624 - RÉGIMEN DE LOS COORDINADOS</option>
                                     <option value="625" @if(old('regimen_fiscal')=='625') selected @endif>625 - RÉGIMEN DE LAS ACTIVIDADES EMPRESARIALES CON INGRESOS A TRAVÉS DE PLATAFORMAS TECNOLÓGICAS</option>
                                     <option value="626" @if(old('regimen_fiscal')=='626') selected @endif>626 - RÉGIMEN SIMPLIFICADO DE CONFIANZA</option>
-                                    
-                                    
                                 </select>
-                                
                                 <x-jet-input-error for='regimen_fiscal' />
                             </div>
+
                             <div class="form-group">
                                 <x-jet-label value=" Clave Proveedor" />
                                 <x-jet-input type="text" name="clave" class="w-full text-xs " value="{{old('clave')}}" required />
                                 <x-jet-input-error for='clave' />
                             </div>
+                            <div class="form-group">
+                                <x-jet-label value="* Estatus" />
+                                <select class="form-capture w-full text-xs uppercase" name="estatus">
+                                    <option value="" @if(old('estatus') == '') selected @endif> </option>
+                                    <option value="Activo" @if(old('estatus') == 'Activo') selected @endif>Activo</option>
+                                    <option value="Inactivo" @if(old('estatus') == 'Inactivo') selected @endif>Inactivo</option>
+                                    <option value="Prospecto" @if(old('estatus') == 'Prospecto') selected @endif>Prospecto</option>
+                                </select>
+                                <x-jet-input-error for='estatus' />
+                            </div>
+
                             <div class="form-group">
                                 <x-jet-label value="* Email Coorporativo" />
                                 <x-jet-input type="text" name="customer_email" class="w-full text-xs " value="{{old('customer_email')}}"/>
@@ -145,6 +154,21 @@
                                 <x-jet-label value="* Teléfono fiscal" />
                                 <x-jet-input type="text" name="customer_telephone" class="w-full text-xs " value="{{old('customer_telephone')}}"/>
                                 <x-jet-input-error for='customer_telephone' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="Página web" />
+                                <x-jet-input type="text" name="pagina_web" class="w-full text-xs " value="{{old('pagina_web')}}"/>
+                                <x-jet-input-error for='pagina_web' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="Teléfono contacto 1" />
+                                <x-jet-input type="text" name="telefono_contacto_1" class="w-full text-xs " value="{{old('telefono_contacto_1')}}"/>
+                                <x-jet-input-error for='telefono_contacto_1' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="Teléfono contacto 2" />
+                                <x-jet-input type="text" name="telefono_contacto_2" class="w-full text-xs " value="{{old('telefono_contacto_2')}}"/>
+                                <x-jet-input-error for='telefono_contacto_2' />
                             </div>
                         </div>
                     </div>
@@ -161,7 +185,12 @@
                                 <x-jet-input-error for='customer_state' />
                             </div>
                             <div class="form-group">
-                                <x-jet-label value="* Ciudad" />
+                                <x-jet-label value="* Municipio" />
+                                <x-jet-input type="text" name="customer_city" class="w-full text-xs " value="{{old('customer_city')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='customer_city' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="* Población" />
                                 <x-jet-input type="text" name="customer_city" class="w-full text-xs " value="{{old('customer_city')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='customer_city' />
                             </div>
@@ -189,6 +218,30 @@
                                 <x-jet-label value="* C.P." />
                                 <x-jet-input type="text" name="customer_zip_code" class="w-full text-xs " value="{{old('customer_zip_code')}}"/>
                                 <x-jet-input-error for='customer_zip_code' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h1 class="h5 text-center fw">Información adicional</h1>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <x-jet-label value="Forma de pago" />
+                                <select class="form-capture w-full text-xs uppercase" name="forma_pago">
+                                    <option value="" @if(old('forma_pago') == '') selected @endif> </option>
+                                    <option value="Contado" @if(old('forma_pago') == 'Contado') selected @endif>Contado</option>
+                                    <option value="Crédito" @if(old('forma_pago') == 'Crédito') selected @endif>Crédito</option>
+                                    <option value="Transferencia" @if(old('forma_pago') == 'Transferencia') selected @endif>Transferencia</option>
+                                    <option value="Cheque" @if(old('forma_pago') == 'Cheque') selected @endif>Cheque</option>
+                                </select>
+                                <x-jet-input-error for='forma_pago' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="Observación" />
+                                <textarea name="observacion" rows="4" class="form-capture w-full text-xs uppercase">{{old('observacion')}}</textarea>
+                                <x-jet-input-error for='observacion' />
                             </div>
                         </div>
                     </div>
