@@ -3,7 +3,7 @@
 @section('title', 'PRODUCTOS')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-tag"></i>&nbsp; Productos</h1>
+    <h1 class="font-bold"><i class="fas fa-tag"></i>&nbsp; Productos / Servicios</h1>
 @stop
 
 @section('content')
