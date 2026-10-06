@@ -58,7 +58,7 @@
 <br><br>
 
                                     <div class="form-group">
-                                        <x-jet-label value="* Cliente" />
+                                        <x-jet-label value="* Proveedor" />
                                         <select class="form-capture  w-full text-xs uppercase" name="customer_id" id='customer'>
                                             @foreach ($Customers as $row)
                                                 <option value="{{$row->id}}" @if ($row->id == old('customer_id')) selected @endif > {{$row->clave}} {{$row->customer}}</option>

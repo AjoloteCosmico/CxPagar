@@ -117,6 +117,24 @@
                                 <x-jet-input type="number" step="0.01" name="unit_price" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
                                 <x-jet-input-error for='unit_price' />
                             </div>
+
+                            <div class="form-group">
+                                <x-jet-label value="* IVA" />
+                                <x-jet-input type="number" step="0.01" name="iva" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('iva')}}"/>
+                                <x-jet-input-error for='iva' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="* ISR" />
+                                <x-jet-input type="number" step="0.01" name="isr" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('isr')}}"/>
+                                <x-jet-input-error for='isr' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="* RETENCION IVA" />
+                                <x-jet-input type="number" step="0.01" name="ret_iva" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('ret_iva')}}"/>
+                                <x-jet-input-error for='ret_iva' />
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
