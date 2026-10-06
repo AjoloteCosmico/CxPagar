@@ -64,7 +64,7 @@ class ProductController extends Controller
 
         $product = new Product();
 
-        foreach (['sku', 'product', 'family', 'tax'] as $field) {
+        foreach (['sku', 'product', 'family',] as $field) {
             if (Schema::hasColumn('products', $field)) {
                 $product->{$field} = $data[$field] ?? null;
             }
@@ -157,7 +157,7 @@ class ProductController extends Controller
             'other_retentions.between' => 'Otras retenciones debe estar entre 0 y 100.'
         ]);
 
-        foreach (['sku', 'product', 'family', 'tax'] as $field) {
+        foreach (['sku', 'product', 'family' ] as $field) {
             if (Schema::hasColumn('products', $field)) {
                 $Product->{$field} = $data[$field] ?? null;
             }
