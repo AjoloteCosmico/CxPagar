@@ -25,7 +25,7 @@
                             <th>Producto</th>
                             <th>SKU</th>
                             <th>Familia</th>
-                            <th>Retenciones</th>
+                            <th>Impuestos</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -36,7 +36,7 @@
                             <td> {{$row->product}} </td>
                             <td> {{$row->sku}} </td>
                             <td> {{$row->family}} </td>
-                            <td> {{sprintf("%.2f%%", $row->tax)}} </td>
+                            <td> {{sprintf("%.2f%%", $row->iva + $row->ieps +$row->isr + $row->retention_iva + $row->retention_isr + $row->other_retentions )}} </td>
                             <td class="w-15">
                                 <div class="row">
                                     <div class="col-6 text-center">

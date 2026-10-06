@@ -287,7 +287,7 @@ return [
                     'can'  => 'VER PROVEEDOR',
                 ],
                 [
-                    'text' => 'PRODUCTOS',
+                    'text' => 'PRODUCTOS Y SERVICIOS',
                     'icon' => 'fas fa-tag fa-fw',
                     'route'  => 'products.index',
                     // 'can'  => 'VER PROVEEDOR',

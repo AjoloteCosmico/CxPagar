@@ -13,58 +13,174 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; Agregar Producto:
             </h5>
         </div>
-        <form action="{{ route('products.store')}}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
-            <div class="row p-4">
-                <div class="col-sm-12 col-xs-12 shadow rounded-xl p4">
-                    <div class="card">
+        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="row rounded-b-lg rounded-t-none mb-4 shadow-xl bg-gray-300">
+                <div class="col-12 p-4">
+                    <div class="card shadow-sm rounded-lg">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0 font-weight-bold"><i class="fas fa-info-circle"></i> Datos generales</h5>
+                        </div>
                         <div class="card-body">
-                            <div class="form-group">
-                                <x-jet-label value="* Producto" />
-                                <x-jet-input type="text" name="product" class="w-full text-xs " value="{{old('product')}}"/>
-                                <x-jet-input-error for='product' />
-                            </div>
-                            <div class="form-group">
-                                <x-jet-label value="SKU" />
-                                <x-jet-input type="text" name="sku" class="w-full text-xs " value="{{old('sku')}}"/>
-                                <x-jet-input-error for='sku' />
-                            </div>
-                            <div class="form-group">
-                                <x-jet-label value="Familia" />
-                                <x-jet-input type="text" name="family" class="w-full text-xs " value="{{old('family')}}"/>
-                                <x-jet-input-error for='family' />
-                            </div>
-                            <div class="form-group">
-                                <x-jet-label value="* Retenciones" />
-                                <div class="flex items-center gap-2">
-                                    <x-jet-input type="number" step="0.01" name="tax" class="w-32 text-xs" value="{{old('tax')}}"/>
-                                    <span class="text-sm font-semibold">%</span>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <x-jet-label value="* SKU" />
+                                    <x-jet-input type="text" name="sku" class="w-full text-xs" value="{{ old('sku') }}" />
+                                    <x-jet-input-error for='sku' />
                                 </div>
-                                <x-jet-input-error for='tax' />
+                                <div class="col-md-6 form-group">
+                                    <x-jet-label value="* Producto / Servicio" />
+                                    <x-jet-input type="text" name="product" class="w-full text-xs" value="{{ old('product') }}" />
+                                    <x-jet-input-error for='product' />
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <x-jet-label value="* Descripción" />
+                                    <textarea name="description" class="form-control w-full text-xs" rows="3">{{ old('description') }}</textarea>
+                                    <x-jet-input-error for='description' />
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <x-jet-label value="* Familia" />
+                                    <x-jet-input type="text" name="family" class="w-full text-xs" value="{{ old('family') }}" />
+                                    <x-jet-input-error for='family' />
+                                </div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
+
+                <div class="col-12 p-4 pt-0">
+                    <div class="card shadow-sm rounded-lg">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0 font-weight-bold"><i class="fas fa-dollar-sign"></i> Precio y Control</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <x-jet-label value="* Precio público" />
+                                    <div class="flex items-center gap-2">
+                                        <x-jet-input type="number" step="0.01" min="0.01" name="public_price" class="w-full text-xs" value="{{ old('public_price') }}" />
+                                        <span class="text-sm font-semibold">$</span>
+                                    </div>
+                                    <x-jet-input-error for='public_price' />
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <x-jet-label value="* Moneda" />
+                                    <select name="coin_id" class="form-control w-full text-xs" required>
+                                        <option value="">Seleccione...</option>
+                                        @foreach ($Coins as $coin)
+                                            <option value="{{ $coin->id }}" @if (old('coin_id') == $coin->id) selected @endif>
+                                                {{ $coin->coin }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <x-jet-input-error for='coin_id' />
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <x-jet-label value="* Proveedor" />
+                                    <select name="provider_id" class="form-control w-full text-xs select2" required>
+                                        <option value="">Seleccione...</option>
+                                        @foreach ($Providers as $provider)
+                                            <option value="{{ $provider->id }}" @if (old('provider_id') == $provider->id) selected @endif>
+                                                {{ $provider->customer }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <x-jet-input-error for='provider_id' />
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <x-jet-label value="Observaciones del producto o servicio" />
+                                    <textarea name="observations" class="form-control w-full text-xs" rows="3">{{ old('observations') }}</textarea>
+                                    <x-jet-input-error for='observations' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 p-4 pt-0">
+                    <div class="card shadow-sm rounded-lg">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0 font-weight-bold"><i class="fas fa-percent"></i> Impuestos</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <x-jet-label value="IVA" />
+                                    <div class="flex items-center gap-2">
+                                        <x-jet-input type="number" step="0.01" min="0" max="100" name="iva" class="w-full text-xs" value="{{ old('iva', 16) }}" />
+                                        <span class="text-sm font-semibold">%</span>
+                                    </div>
+                                    <x-jet-input-error for='iva' />
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <x-jet-label value="IEPS" />
+                                    <div class="flex items-center gap-2">
+                                        <x-jet-input type="number" step="0.01" min="0" max="100" name="ieps" class="w-full text-xs" value="{{ old('ieps', 0) }}" />
+                                        <span class="text-sm font-semibold">%</span>
+                                    </div>
+                                    <x-jet-input-error for='ieps' />
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <x-jet-label value="ISR" />
+                                    <div class="flex items-center gap-2">
+                                        <x-jet-input type="number" step="0.01" min="0" max="100" name="isr" class="w-full text-xs" value="{{ old('isr', 0) }}" />
+                                        <span class="text-sm font-semibold">%</span>
+                                    </div>
+                                    <x-jet-input-error for='isr' />
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <x-jet-label value="Retención IVA" />
+                                    <div class="flex items-center gap-2">
+                                        <x-jet-input type="number" step="0.01" min="0" max="100" name="retention_iva" class="w-full text-xs" value="{{ old('retention_iva', 0) }}" />
+                                        <span class="text-sm font-semibold">%</span>
+                                    </div>
+                                    <x-jet-input-error for='retention_iva' />
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <x-jet-label value="Retención ISR" />
+                                    <div class="flex items-center gap-2">
+                                        <x-jet-input type="number" step="0.01" min="0" max="100" name="retention_isr" class="w-full text-xs" value="{{ old('retention_isr', 0) }}" />
+                                        <span class="text-sm font-semibold">%</span>
+                                    </div>
+                                    <x-jet-input-error for='retention_isr' />
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <x-jet-label value="Otras retenciones" />
+                                    <div class="flex items-center gap-2">
+                                        <x-jet-input type="number" step="0.01" min="0" max="100" name="other_retentions" class="w-full text-xs" value="{{ old('other_retentions', 0) }}" />
+                                        <span class="text-sm font-semibold">%</span>
+                                    </div>
+                                    <x-jet-input-error for='other_retentions' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 text-right p-2 gap-2">
+                    <a href="{{ route('products.index') }}" class="btn btn-black mb-2">
+                        <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-green mb-2">
+                        <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
+                    </button>
+                </div>
             </div>
-            <div class="col-12 text-right p-2 gap-2">
-                <a href="{{ route('products.index')}}" class="btn btn-black mb-2">
-                    <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
-                </a>
-                <button type="submit" class="btn btn-green mb-2">
-                    <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
-                </button>
-            </div>
-        </div>
         </form>
     </div>
 @stop
 
 @section('css')
-    
 @stop
 
 @section('js')
-
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2({
+                placeholder: 'Seleccione...',
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
 @stop
