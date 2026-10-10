@@ -29,6 +29,7 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'sku' => ['required', 'string', 'max:255'],
+            'tipo_bien' => ['required', 'string', 'max:100'],
             'product' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'family' => ['required', 'string', 'max:255'],
@@ -44,6 +45,7 @@ class ProductController extends Controller
             'other_retentions' => ['nullable', 'numeric', 'between:0,100']
         ], [
             'sku.required' => 'El SKU es obligatorio.',
+            'tipo_bien.required' => 'El tipo de bien es obligatorio.',
             'product.required' => 'El producto o servicio es obligatorio.',
             'description.required' => 'La descripción es obligatoria.',
             'family.required' => 'La familia es obligatoria.',
@@ -64,7 +66,7 @@ class ProductController extends Controller
 
         $product = new Product();
 
-        foreach (['sku', 'product', 'family',] as $field) {
+        foreach (['sku', 'tipo_bien', 'product', 'family'] as $field) {
             if (Schema::hasColumn('products', $field)) {
                 $product->{$field} = $data[$field] ?? null;
             }
@@ -124,6 +126,7 @@ class ProductController extends Controller
 
         $data = $request->validate([
             'sku' => ['required', 'string', 'max:255'],
+            'tipo_bien' => ['required', 'string', 'max:100'],
             'product' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'family' => ['required', 'string', 'max:255'],
@@ -139,6 +142,7 @@ class ProductController extends Controller
             'other_retentions' => ['nullable', 'numeric', 'between:0,100']
         ], [
             'sku.required' => 'El SKU es obligatorio.',
+            'tipo_bien.required' => 'El tipo de bien es obligatorio.',
             'product.required' => 'El producto o servicio es obligatorio.',
             'description.required' => 'La descripción es obligatoria.',
             'family.required' => 'La familia es obligatoria.',
@@ -157,7 +161,7 @@ class ProductController extends Controller
             'other_retentions.between' => 'Otras retenciones debe estar entre 0 y 100.'
         ]);
 
-        foreach (['sku', 'product', 'family' ] as $field) {
+        foreach (['sku', 'tipo_bien', 'product', 'family' ] as $field) {
             if (Schema::hasColumn('products', $field)) {
                 $Product->{$field} = $data[$field] ?? null;
             }

@@ -29,6 +29,31 @@
                                     <x-jet-input-error for='sku' />
                                 </div>
                                 <div class="col-md-6 form-group">
+                                    <x-jet-label value="* TIPO DE BIEN" />
+                                    <select name="tipo_bien" class="form-control w-full text-xs uppercase" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="PRODUCTO" {{ old('tipo_bien') == 'PRODUCTO' ? 'selected' : '' }}>PRODUCTO
+                                        </option>
+                                        <option value="SERVICIOS" {{ old('tipo_bien') == 'SERVICIOS' ? 'selected' : '' }}>SERVICIOS
+                                        </option>
+                                        <option value="INTEGRACION" {{ old('tipo_bien') == 'INTEGRACION' ? 'selected' : '' }}>
+                                            INTEGRACION</option>
+                                        <option value="GASTOS FIJOS" {{ old('tipo_bien') == 'GASTOS FIJOS' ? 'selected' : '' }}>
+                                            GASTOS FIJOS</option>
+                                        <option value="CONTRIBUCIONES E IMPUESTOS" {{ old('tipo_bien') == 'CONTRIBUCIONES E IMPUESTOS' ? 'selected' : '' }}>
+                                            CONTRIBUCIONES E IMPUESTOS</option>
+                                        <option value="OTRO1" {{ old('tipo_bien') == 'OTRO1' ? 'selected' : '' }}>OTRO1
+                                        </option>
+                                        <option value="OTRO2" {{ old('tipo_bien') == 'OTRO2' ? 'selected' : '' }}>OTRO2
+                                        </option>
+                                        <option value="OTRO3" {{ old('tipo_bien') == 'OTRO3' ? 'selected' : '' }}>OTRO3
+                                        </option>
+                                        <option value="OTRO4" {{ old('tipo_bien') == 'OTRO4' ? 'selected' : '' }}>OTRO4
+                                        </option>
+                                    </select>
+                                    <x-jet-input-error for='tipo_bien' />
+                                </div>
+                                <div class="col-md-6 form-group">
                                     <x-jet-label value="* Producto / Servicio" />
                                     <x-jet-input type="text" name="product" class="w-full text-xs" value="{{ old('product') }}" />
                                     <x-jet-input-error for='product' />
