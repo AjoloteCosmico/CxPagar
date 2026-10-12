@@ -42,12 +42,15 @@
                                         <option value="OTRO2" {{ old('tipo_bien', $Product->tipo_bien ?? '') == 'OTRO2' ? 'selected' : '' }}>OTRO2</option>
                                         <option value="OTRO3" {{ old('tipo_bien', $Product->tipo_bien ?? '') == 'OTRO3' ? 'selected' : '' }}>OTRO3</option>
                                         <option value="OTRO4" {{ old('tipo_bien', $Product->tipo_bien ?? '') == 'OTRO4' ? 'selected' : '' }}>OTRO4</option>
+                                        <option value="ACTIVOS FIJOS" {{ old('tipo_bien', $Product->tipo_bien ?? '') == 'ACTIVOS FIJOS' ? 'selected' : '' }}>ACTIVOS FIJOS</option>
                                     </select>
                                     <x-jet-input-error for='tipo_bien' />
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <x-jet-label value="* Producto / Servicio" />
-                                    <x-jet-input type="text" name="product" class="w-full text-xs" value="{{ old('product', $Product->product) }}" />
+                                    <x-jet-label value="* PRODUCTO / SERVICIO" />
+                                    <select id="product-select" name="product" class="form-control w-full text-xs uppercase" required>
+                                        <option value="">Seleccione...</option>
+                                    </select>
                                     <x-jet-input-error for='product' />
                                 </div>
                                 <div class="col-md-12 form-group">
@@ -192,11 +195,67 @@
 
 @section('js')
     <script>
+        const productOptionsByType = {
+            PRODUCTO: [
+                'MATERIALES SIN PROCESAR',
+                'MATERIALES PROCESADOS',
+                'MATERIALES DE CONSUMO',
+                'EQUIPOS COMPLETOS',
+                'SUBENSAMBLES TYRSA'
+            ],
+            SERVICIOS: [
+                'INGENIERIA',
+                'INSTALACION',
+                'MAQUINAS',
+                'FLETES',
+                'ASESORIAS Y CONSULTORIAS',
+                'COMISIONISTAS'
+            ],
+            'GASTOS FIJOS': @json($gastosFijos->pluck('description')->map(fn($item) => strtoupper($item))->values()),
+            'ACTIVOS FIJOS': ['ACTIVOS FIJOS'],
+            'CONTRIBUCIONES E IMPUESTOS': ['CONTRIBUCIONES E IMPUESTOS'],
+            INTEGRACION: ['INTEGRACION'],
+            OTRO1: ['OTRO1'],
+            OTRO2: ['OTRO2'],
+            OTRO3: ['OTRO3'],
+            OTRO4: ['OTRO4']
+        };
+
+        function populateProductSelect(selectedType) {
+            const productSelect = $('#product-select');
+            const options = productOptionsByType[selectedType] || [];
+            const currentProduct = '{{ old('product', $Product->product ?? '') }}';
+
+            productSelect.empty();
+            productSelect.append('<option value="">Seleccione...</option>');
+
+            options.forEach(function (optionValue) {
+                const isSelected = currentProduct.toUpperCase() === optionValue.toUpperCase();
+                productSelect.append(
+                    $('<option>', {
+                        value: optionValue,
+                        text: optionValue,
+                        selected: isSelected
+                    })
+                );
+            });
+        }
+
         $(document).ready(function () {
             $('.select2').select2({
                 placeholder: 'Seleccione...',
                 allowClear: true,
                 width: '100%'
+            });
+
+            const tipoBienSelect = $('select[name="tipo_bien"]');
+            const initialType = tipoBienSelect.val();
+            if (initialType) {
+                populateProductSelect(initialType);
+            }
+
+            tipoBienSelect.on('change', function () {
+                populateProductSelect($(this).val());
             });
         });
     </script>

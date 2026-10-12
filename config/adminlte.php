@@ -292,6 +292,12 @@ return [
                     'route'  => 'products.index',
                     // 'can'  => 'VER PROVEEDOR',
                 ],
+                [
+                    'text' => 'GASTOS FIJOS',
+                    'icon' => 'fas fa-money-check-alt',
+                    'route'  => 'gastos_fijos.index',
+                    // 'can'  => 'VER PROVEEDOR',
+                ],
                 // [
                 //     'text' => 'NIVEL AUTORIZACIÓN',
                 //     'icon' => 'fas fa-fingerprint fa-fw',

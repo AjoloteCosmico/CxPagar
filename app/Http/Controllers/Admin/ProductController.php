@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Coin;
 use App\Models\Product;
 use App\Models\Provider;
+use App\Models\GastosFijos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
@@ -21,8 +22,9 @@ class ProductController extends Controller
     {
         $Coins = Coin::orderBy('coin')->get();
         $Providers = Provider::orderBy('customer')->get();
+        $gastosFijos = GastosFijos::orderBy('description')->get();
 
-        return view('admin.products.create', compact('Coins', 'Providers'));
+        return view('admin.products.create', compact('Coins', 'Providers', 'gastosFijos'));
     }
 
     public function store(Request $request)
@@ -116,8 +118,9 @@ class ProductController extends Controller
         $Product = Product::findOrFail($id);
         $Coins = Coin::orderBy('coin')->get();
         $Providers = Provider::orderBy('customer')->get();
+        $gastosFijos = GastosFijos::orderBy('description')->get();
 
-        return view('admin.products.show', compact('Product', 'Coins', 'Providers'));
+        return view('admin.products.show', compact('Product', 'Coins', 'Providers', 'gastosFijos'));
     }
 
     public function update(Request $request, $id)
