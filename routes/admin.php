@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\FamilyController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\GastosFijosController;
 
 Route::group(['middleware' => ['auth']], function()
 {
@@ -36,6 +37,7 @@ Route::group(['middleware' => ['auth']], function()
     Route::get('categories/products/{id}', [ FamilyController::class, 'products_show'])->name('products_show');
     
     Route::resource('products', ProductController::class);
+    Route::resource('gastos_fijos', GastosFijosController::class);
 
     Route::resource('authorizations', AuthorizationController::class);    
     Route::resource('customers', CustomerController::class);
