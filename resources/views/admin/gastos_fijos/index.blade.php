@@ -163,7 +163,6 @@
     <script>
         $(document).ready(function () {
 
-            // ---- Configuración común para las 4 tablas ----
             const dtOptions = {
                 responsive: true,
                 dom: 'Bfrtilp',
@@ -209,37 +208,44 @@
                 }
             };
 
-            // Inicializar SOLO la primera tabla (la visible) al cargar.
-            // Las demás se inicializan al mostrarse (lazy), evitando warnings
-            // de column widths en tablas ocultas.
-            const tables = {}; // { slug: DataTable instance }
+            const tables = {};
 
-          function initTable(slug) {
-    const selector = '#table-' + slug;
+            function ensureDataTable(slug) {
+                const selector = '#table-' + slug;
+                const $table = $(selector);
 
-            // Si ya existe una DataTable (creada por datatable_gral.js u otro script),
-            // la destruimos para evitar el error "Cannot reinitialise".
-            if ($.fn.dataTable.isDataTable(selector)) {
-                $(selector).DataTable().destroy();
+                if (!$table.length) {
+                    return null;
+                }
+
+                // El script global `datatable_gral.js` ya inicializa todas las `.table`.
+                // Por eso se valida primero para no lanzar "Cannot reinitialise DataTable".
+                if ($.fn.dataTable.isDataTable($table[0])) {
+                    tables[slug] = $table.DataTable();
+                } else {
+                    tables[slug] = $table.DataTable(dtOptions);
+                }
+
+                tables[slug].columns.adjust();
+                tables[slug].draw(false);
+                return tables[slug];
             }
 
-            // Creamos la instancia con TUS opciones.
-            tables[slug] = $(selector).DataTable(dtOptions);
-        }
-
-            // Inicializa la pestaña activa al cargar
-            const $activeTab = $('#inventarioTabs .nav-link.active');
-            if ($activeTab.length) {
-                initTable($activeTab.attr('href').replace('#pane-', ''));
-            }
-
-            // Al cambiar de pestaña, inicializa (si hace falta) y recalcula
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                const slug = $(e.target).attr('href').replace('#pane-', '');
-                initTable(slug);
+            $('#inventarioTabs a[data-toggle="tab"]').each(function () {
+                const slug = $(this).attr('href').replace('#pane-', '');
+                ensureDataTable(slug);
             });
 
-            // ---- Confirmación de borrado ----
+            $('#inventarioTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                const slug = $(e.target).attr('href').replace('#pane-', '');
+                const table = ensureDataTable(slug);
+                if (table) {
+                    setTimeout(function () {
+                        table.columns.adjust().draw(false);
+                    }, 50);
+                }
+            });
+
             $(document).on('submit', '.DeleteReg', function (e) {
                 if (!confirm('¿Deseas eliminar este registro?')) {
                     e.preventDefault();
