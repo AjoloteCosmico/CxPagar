@@ -293,7 +293,7 @@ return [
                     // 'can'  => 'VER PROVEEDOR',
                 ],
                 [
-                    'text' => 'GASTOS FIJOS',
+                    'text' => 'INVENTARIO DE BIENES Y SERVICIOS',
                     'icon' => 'fas fa-money-check-alt',
                     'route'  => 'gastos_fijos.index',
                     // 'can'  => 'VER PROVEEDOR',
