@@ -28,7 +28,7 @@
                     'integracion'  => ['label' => 'Integración',  'icon' => 'fas fa-plug'],
                     'gastos_fijos' => ['label' => 'Gastos Fijos', 'icon' => 'fas fa-file-invoice-dollar'],
                 ];
-            @endphp
+            @endphp                             
 
             <div class="col-sm-12">
                 {{-- Pestañas estilo AdminLTE (nav-tabs de Bootstrap 4) --}}

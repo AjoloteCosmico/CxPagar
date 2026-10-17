@@ -25,9 +25,10 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* SKU" />
-                                    <x-jet-input type="text" name="sku" class="w-full text-xs" value="{{ old('sku') }}" />
+                                    <x-jet-input type="text" name="sku" class="w-full text-xs" value="{{ old('sku') }}" required />
                                     <x-jet-input-error for='sku' />
                                 </div>
+                                 
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* TIPO DE BIEN" />
                                     <select name="tipo_bien" class="form-control w-full text-xs uppercase" required>
@@ -55,6 +56,13 @@
                                     </select>
                                     <x-jet-input-error for='tipo_bien' />
                                 </div>
+
+                                <div class="col-md-6 form-group">
+                                    <x-jet-label value="* CLAVE ALTERNA" />
+                                    <x-jet-input type="text" name="clave_alterna"  required class="w-full text-xs" value="{{ old('sku') }}" />
+                                    <x-jet-input-error for='sku' />
+                                </div>
+                                
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* PRODUCTO / SERVICIO" />
                                     <select id="product-select" name="product" class="form-control w-full text-xs uppercase" required>
