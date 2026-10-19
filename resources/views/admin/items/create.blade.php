@@ -13,7 +13,7 @@
                 <i class="fas fa-plus-circle"></i>&nbsp; Agregar Partida:
             </h5>
         </div>
-        <form action="{{ route('temp_items.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('temp_items.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <x-jet-input type="hidden" name="temp_internal_order_id" value="{{ $TempInternalOrders }}"/>
         <x-jet-input type="hidden" name="item" value="{{ $Item }}"/>
@@ -24,124 +24,94 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <x-jet-label value="* Cantidad" />
-                                <x-jet-input type="number" name="amount" class="w-full text-xs" value="{{old('amount')}}"/>
+                                <x-jet-input type="number" name="amount" class="w-full text-xs" value="{{ old('amount') }}"/>
                                 <x-jet-input-error for='amount' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Unidad" />
-                                {{--  <x-jet-input type="text" name="unit" class="w-full text-xs" value="{{old('unit')}}"/>  --}}
                                 <select class="form-capture  w-full text-xs uppercase" name="unit">
                                     @foreach ($Units as $row)
-                                        <option value="{{$row->unit}}" @if ($row->id == old('unit')) selected @endif >{{$row->unit}}</option>
+                                        <option value="{{ $row->unit }}" @if ($row->id == old('unit')) selected @endif >{{ $row->unit }}</option>
                                     @endforeach
                                 </select>
                                 <x-jet-input-error for='unit' />
                             </div>
-                            <!-- <div class="form-group">
-                                <x-jet-label value="* Categoria" />
-                                <select class="form-capture  w-full text-xs uppercase" name="category" id='cat'>
-                                        
-                                        <option value=" " > </option>
-                                        <option value="Productos" >Productos</option>
-                                        <option value="Servicios" >Servicios</option>
-                                        <option value="Integracion" >Integracion</option>
-                                       
-                                    
-                                </select>
-                                <x-jet-input-error for='family' /> 
+
                             <div class="form-group">
-                                <x-jet-label value="* Descripción del Proyecto" />
-                                <select class="form-capture  w-full text-xs uppercase" name="description" id='desc'>
-                                    
-                                </select><x-jet-input-error for='description' />
-                            </div> -->
-                            <div class="form-group">
-                                <x-jet-label value="* Producto" />
-                                {{--  <x-jet-input type="text" name="product" class="w-full text-xs" value="{{old('family')}}"/>  --}}
-                                <select class="form-capture  w-full text-xs uppercase" name="product" id='fam'>
-                                        
-                                        <option value=" " > </option>
-                                        @foreach($Products as $product)
-                                        <option value="{{$product->id}}" > {{$product->product}} @if($product->tax > 0) ( ret. {{sprintf("%.2f%%", $product->tax)}} ) @endif</option>
-                                        @endforeach
-                                        <option value="OTRO" >OTRO</option>
+                                <x-jet-label value="* Tipo de bien" />
+                                <select class="form-capture w-full text-xs uppercase" name="tipo_bien" id="product-type">
+                                    <option value="">Seleccione...</option>
+                                    @foreach (($productTypes ?? []) as $typeOption)
+                                        <option value="{{ $typeOption }}">{{ $typeOption }}</option>
+                                    @endforeach
                                 </select>
-                                
+                                <x-jet-input-error for='tipo_bien' />
+                            </div>
+
+                            <div class="form-group">
+                                <x-jet-label value="* Producto / servicio" />
+                                <select class="form-capture w-full text-xs uppercase" name="product" id="product-select">
+                                    <option value="">Seleccione...</option>
+                                </select>
                                 <x-jet-input-error for='product' />
-                                
-                                <br>
-                                <x-jet-label hidden='hidden' id='esp' value="* Especifique" />
-                                <x-jet-input type="text" name="otro" id='otro' hidden='hidden' class="w-full text-xs" /> 
+                                <x-jet-input type="text" name="otro" id="otro" hidden='hidden' class="w-full text-xs" placeholder="Especifique" />
                             </div>
-                            <!-- <div class="form-group">
-                                <x-jet-label value="* Sub Familia" />
-                                {{--  <x-jet-input type="text" name="subfamily" class="w-full text-xs" value="{{old('family')}}"/>  --}}
-                                <select class="form-capture  w-full text-xs uppercase" name="subfamily" id='subfam'>
-                                    
-                                </select>
-                                <x-jet-input-error for='family' /> 
-                            </div>
-                            <div class="form-group">
-                                <x-jet-label value="* Productos" />
-                                {{--  <x-jet-input type="text" name="subfamily" class="w-full text-xs" value="{{old('family')}}"/>  --}}
-                                <select class="form-capture  w-full text-xs uppercase" name="products" id='prod'>
-                                    
-                                </select>
-                                
-                            </div> -->
-                            <!-- <div class="form-group">
-                                <x-jet-label value="* Clave" />
-                                <x-jet-input type="text" name="code" class="w-full text-xs" value="{{old('code')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                                <x-jet-input-error for='code' />
-                            </div> -->
+
                             <div class="form-group">
                                 <x-jet-label value="* Descripcion" />
-                                <x-jet-input type="text" name="description" class="w-full text-xs" value="{{old('fab')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                                <x-jet-input-error for='fab' />
-                            </div>                            <!-- 
-                            <div class="form-group">
-                                <x-jet-label value="* Racks" />
-                                <x-jet-input type="text" name="racks" class="w-full text-xs" value="{{old('racks')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                                <x-jet-input-error for='racks' /> 
-                            </div> -->
+                                <x-jet-input type="text" name="description" class="w-full text-xs" value="{{ old('description') }}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                                <x-jet-input-error for='description' />
+                            </div>
+
                             <div class="form-group">
                                 <x-jet-label value="* SKU" />
-                                <select  name="sku" class="form-capture  w-full text-xs uppercase"  value="{{old('sku')}}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
-                            <option value="SV">SV</option>    
-                            </select>
+                                <select name="sku" class="form-capture w-full text-xs uppercase" value="{{ old('sku') }}" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                    <option value="SV">SV</option>
+                                </select>
                                 <x-jet-input-error for='sku' />
                             </div>
-                            
+
                             <div class="form-group">
                                 <x-jet-label value="* Precio Unitario" />
-                                <x-jet-input type="number" step="0.01" name="unit_price" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('unit_price')}}"/>
+                                <x-jet-input type="number" step="0.01" name="unit_price" id="input-price" class="form-control just-number price-format-input" class="w-full text-xs" value="{{ old('unit_price') }}"/>
                                 <x-jet-input-error for='unit_price' />
                             </div>
 
                             <div class="form-group">
-                                <x-jet-label value="* IVA" />
-                                <x-jet-input type="number" step="0.01" name="iva" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('iva')}}"/>
+                                <x-jet-label value="IVA" />
+                                <x-jet-input type="number" step="0.01" min="0" max="100" name="iva" id="iva" class="form-control just-number price-format-input" class="w-full text-xs" value="{{ old('iva', 0) }}" readonly/>
                                 <x-jet-input-error for='iva' />
                             </div>
                             <div class="form-group">
-                                <x-jet-label value="* ISR" />
-                                <x-jet-input type="number" step="0.01" name="isr" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('isr')}}"/>
+                                <x-jet-label value="IEPS" />
+                                <x-jet-input type="number" step="0.01" min="0" max="100" name="ieps" id="ieps" class="form-control just-number price-format-input" class="w-full text-xs" value="{{ old('ieps', 0) }}" readonly/>
+                                <x-jet-input-error for='ieps' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="ISR" />
+                                <x-jet-input type="number" step="0.01" min="0" max="100" name="isr" id="isr" class="form-control just-number price-format-input" class="w-full text-xs" value="{{ old('isr', 0) }}" readonly/>
                                 <x-jet-input-error for='isr' />
                             </div>
                             <div class="form-group">
-                                <x-jet-label value="* RETENCION IVA" />
-                                <x-jet-input type="number" step="0.01" name="ret_iva" class="form-control just-number price-format-input" class="w-full text-xs" value="{{old('ret_iva')}}"/>
-                                <x-jet-input-error for='ret_iva' />
+                                <x-jet-label value="RETENCION IVA" />
+                                <x-jet-input type="number" step="0.01" min="0" max="100" name="retencion_iva" id="retencion_iva" class="form-control just-number price-format-input" class="w-full text-xs" value="{{ old('retencion_iva', 0) }}" readonly/>
+                                <x-jet-input-error for='retencion_iva' />
                             </div>
-
+                            <div class="form-group">
+                                <x-jet-label value="RETENCION ISR" />
+                                <x-jet-input type="number" step="0.01" min="0" max="100" name="retencion_isr" id="retencion_isr" class="form-control just-number price-format-input" class="w-full text-xs" value="{{ old('retencion_isr', 0) }}" readonly/>
+                                <x-jet-input-error for='retencion_isr' />
+                            </div>
+                            <div class="form-group">
+                                <x-jet-label value="OTRAS RETENCIONES" />
+                                <x-jet-input type="number" step="0.01" min="0" max="100" name="other_retentions" id="other_retentions" class="form-control just-number price-format-input" class="w-full text-xs" value="{{ old('other_retentions', 0) }}" readonly/>
+                                <x-jet-input-error for='other_retentions' />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-12 text-right p-2 gap-2">
-                {{--  <a href="{{ route('products.index')}}" class="btn btn-black mb-2">
-                    <i class="fas fa-times fa-2x"></i>&nbsp;&nbsp; Cancelar
-                </a>  --}}
                 <button type="submit" class="btn btn-green mb-2">
                     <i class="fas fa-save fa-2x"></i>&nbsp; &nbsp; Guardar
                 </button>
@@ -152,202 +122,72 @@
 @stop
 
 @section('css')
-    
 @stop
 
 @section('js')
 <script>
-$(document).on("keypress", ".just-number", function (e) {
-  let charCode = (e.which) ? e.which : e.keyCode;
-  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-    return false;
-  }
-});
-$(document).on('keyup', '.price-format-input', function (e) {
-  let val = this.value;
-  val = val.replace(/,/g, "");
-  if (val.length > 3) {
-    let noCommas = Math.ceil(val.length / 3) - 1;
-    let remain = val.length - (noCommas * 3);
-    let newVal = [];
-    for (let i = 0; i < noCommas; i++) {
-      newVal.unshift(val.substr(val.length - (i * 3) - 3, 3));
+const productsByType = @json($productsByType ?? []);
+
+function populateProductSelect(selectedType) {
+    const productSelect = $('#product-select');
+    const options = productsByType[selectedType] || [];
+
+    productSelect.empty();
+    productSelect.append('<option value="">Seleccione...</option>');
+
+    options.forEach(function (option) {
+        productSelect.append($('<option>', {
+            value: option.id,
+            text: option.product + (option.family ? ' - ' + option.family : ''),
+            selected: false
+        }));
+    });
+
+    productSelect.append('<option value="OTRO">OTRO</option>');
+}
+
+function fillProductTaxFields(productData) {
+    if (!productData) {
+        $('#iva').val(0);
+        $('#ieps').val(0);
+        $('#isr').val(0);
+        $('#retencion_iva').val(0);
+        $('#retencion_isr').val(0);
+        $('#other_retentions').val(0);
+        return;
     }
-    newVal.unshift(val.substr(0, remain));
-    this.value = newVal;
-  }
-  else {
-    this.value = val;
-  }
-});
+
+    $('#iva').val(productData.iva ?? 0);
+    $('#ieps').val(productData.ieps ?? 0);
+    $('#isr').val(productData.isr ?? 0);
+    $('#retencion_iva').val(productData.retencion_iva ?? 0);
+    $('#retencion_isr').val(productData.retencion_isr ?? 0);
+    $('#other_retentions').val(productData.other_retentions ?? 0);
+}
 
 $(document).ready(function(){
-  $('#input-price').focus();
-})</script>
+    const tipoBienSelect = $('#product-type');
+    const productSelect = $('#product-select');
 
-<script>
-function removeOptions(selectElement) {
-   var i, L = selectElement.options.length - 1;
-   for(i = L; i >= 0; i--) {
-      selectElement.remove(i);
-   }
-}
-//actualziar productos funcion
-function actualizarProductos(){
-var seleccionado = document.getElementById("subfam").value;
-console.log('entrando a la funcion');
-console.log(seleccionado)
-removeOptions(document.getElementById('prod'));
-var prod = document.getElementById("prod");
-var example_array = {
-    INS_MECANICA : 'Ins. Mecanica',
-    INS_ELECTRICA : 'Ins. Mecanica',
-    ING_MECANICA : 'Ing. Mecanica',
-    ING_ELECTRICA : 'Ing. Electrica',
-    ING_INDUSTRIAL : 'Ing. Industrial',
-    CONSULTORIA : 'consultoria',
-    FLETES : 'fletes',
-    OTROS_SERVICIOS : 'Otros Servicios',};
-if(seleccionado=='RACK'){
-    var example_array = {
-    Estanteria : 'Estanteria',
-    Mini_rack : 'Mini Rack',
-    Selectivo: 'Selectivo',
-    Drive_In: 'Drive In /Drive thru ',
-    Push_back: 'Push Back ',
-    Dinamico: 'Dinamico ',
-    Carton_flow: 'Carton Flow ',
-    Pasarelas: 'Pasarelas ',
-    Entrepisos: 'Entrepisos',
-    Convertidores: 'Convertidores',
-    Otros : 'Otros'
-    
-};}
-if(seleccionado=='RACKS'){
-    var example_array = {
-    subcontratistas : 'Subcontratistas',
-    ins_mecanica : 'Ins. Mecanica',
-    ins_electrica : 'Ins. Mecanica',
-    ing_mecanica : 'Ing. Mecanica',
-    ing_electrica : 'Ing. Electrica',
-    ing_industrial : 'Ing. Industrial',
-    consultoria : 'consultoria',
-    fletes : 'fletes',
-    otros_servicios : 'Otros Servicios',
-    
-};}
-if(seleccionado=='TRANSPORTADORES'){
-    var example_array = {
-    GR : 'GR',
-    GW : 'GW',
-    SB_BOR: 'SB/BOR ',
-    LBRD: 'LRBD',
-    
-};}
-if(seleccionado=='ESPECIALES'){
-    var example_array = {
-    
-    XTYRSA : 'Xtyrsa',
-    XCLIENTE : 'Xcliente',
-    
-};}
+    tipoBienSelect.on('change', function () {
+        populateProductSelect($(this).val());
+        fillProductTaxFields(null);
+    });
 
-if(seleccionado=='NACIONAL_RACKS_'){
-    var example_array = {
-    POR_DEFINIR : 'POR DEFINIR',
-};}
-if(seleccionado=='NACIONAL_TRANSPORTADORES_'){
-    var example_array = {
-    POR_DEFINIR : 'POR DEFINIR',
-};}
-if(seleccionado=='NACIONAL_ESPECIALES_'){
-    var example_array = {
-    LINEA_MERIK : 'LINEA MERIK',
-};}
-if(seleccionado=='IMPORTADO_RACKS_'){
-    var example_array = {
-    POR_DEFINIR : 'POR DEFINIR',
-};}
-if(seleccionado=='IMPORTADO_TRANSPORTADORES_'){
-    var example_array = {
-    LINEA_ASCI : 'LINEA ASCI',
-    LINEA_DAIFUKU : 'LINEA DAIFUKU',
-    LINEA_WASP : 'LINEA WASP',
-    LINEA_NESTAFLEX : 'LINEA NESTAFLEX',
-    LINEA_RYSON : 'LINEA RYSON',
-    LINEA_OTROS : 'LINEA OTROS'
+    productSelect.on('change', function () {
+        const selectedValue = $(this).val();
+        if (selectedValue === 'OTRO') {
+            $('#otro').removeAttr('hidden');
+            fillProductTaxFields(null);
+            return;
+        }
 
-};}
-if(seleccionado=='IMPORTADO_ESPECIALES_'){
-    var example_array = {
-    LINEA_MERIK : 'LINEA MERIK',
-};}
-
-for(index in example_array) {
-    prod.options[prod.options.length] = new Option(example_array[index], index);
-}
-}
-// using the function:
-    $(document).ready(function () {     
-$('#fam').change(function(){
-var seleccionado = $(this).val();
-console.log('entrando a la funcion');
-console.log(seleccionado)
-var esp=document.getElementById('esp');
-var otro=document.getElementById('otro');
-if(seleccionado=='OTRO'){
-  
-  otro.hidden=''  
-  esp.hidden=''  
-
-}
-else{
-    otro.hidden='hidden'  
-    esp.hidden='hidden'  
-    
-}
-})
+        $('#otro').attr('hidden', 'hidden');
+        const selectedType = tipoBienSelect.val();
+        const list = productsByType[selectedType] || [];
+        const productData = list.find(item => String(item.id) === String(selectedValue));
+        fillProductTaxFields(productData || null);
+    });
 });
-</script>
-
-<script>
-     $(document).ready(function () {     
-$('#cat').change(function(){
-var seleccionado = $(this).val();
-console.log('entrando a la funcion');
-console.log(seleccionado)
-removeOptions(document.getElementById('desc'));
-var desc = document.getElementById("desc");
-if(seleccionado=='Productos'){
-    var example_array = {
-    fabricacion : 'Fabricacion',
-    comercializacion : 'Comercializacion',
-    
-};}
-if(seleccionado=='Servicios'){
-    var example_array = {
-    tyrsadir : 'Tyrsa Directo',
-    subcon : 'Subcontratistas',
-    
-};}
-if(seleccionado=='Integracion'){
-    var example_array = {
-        tyrsadir : 'Tyrsa Directo',
-    subcon : 'Subcontratistas',
-    
-};}
-
-for(index in example_array) {
-    desc.options[desc.options.length] = new Option(example_array[index], index);
-}
-
-})
-     });
-</script>
-
-<script>
-     $(document).ready(function () {     
-$('#subfam').change(function () { actualizarProductos();})
-     });
 </script>
 @stop

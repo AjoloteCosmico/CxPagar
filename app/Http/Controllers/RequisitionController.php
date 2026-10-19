@@ -297,16 +297,13 @@ public function recalcular_total($id){
     
     $InternalOrder->subtotal=$Items->sum('import');
     $InternalOrder->save();
-    //dd($Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa);
-    // $ret=$Items->where('family','=','FLETE')->sum('import')*$InternalOrder->tasa;
     $sub_con_descuento=$InternalOrder->subtotal*(1-$InternalOrder->descuento);
-    // $factor_aumento= +$InternalOrder->ieps+$InternalOrder->isr+0.16;
     $iva=$sub_con_descuento*0.16;
     $ret=0;
     foreach ($Items as $item) {
-        $ret+=($item->retencion/100) * $item->import;
+        $ret+=((($item->retencion_iva ?? 0) + ($item->retencion_isr ?? 0) + ($item->other_retentions ?? 0)) / 100) * $item->import;
     }
-    $InternalOrder->total=$sub_con_descuento +$iva + $ret;
+    $InternalOrder->total=$sub_con_descuento + $iva + $ret;
     $InternalOrder->save();
 }
     
@@ -437,7 +434,13 @@ public function recalcular_total($id){
                 $Items->unit_price = $row->unit_price;
                 $Items->import = $row->import;
                 $Items->producto = $row->producto;
-                $Items->retencion = $row->retencion;
+                $Items->iva = $row->iva ?? 0;
+                $Items->ieps = $row->ieps ?? 0;
+                $Items->isr = $row->isr ?? 0;
+                $Items->retencion_iva = $row->retencion_iva ?? 0;
+                $Items->retencion_isr = $row->retencion_isr ?? 0;
+                $Items->other_retentions = $row->other_retentions ?? 0;
+                $Items->retencion = (float) (($row->retencion_iva ?? 0) + ($row->retencion_isr ?? 0) + ($row->other_retentions ?? 0));
                 $Items->save();
                 $t=$t+$Items->import;
                 if($Items->categoria=='Servicios'){
@@ -462,7 +465,6 @@ public function recalcular_total($id){
                 temp_comissions::destroy($tc->id);
             }
             TempInternalOrder::destroy($TempInternalOrders->id);
-            //$InternalOrders->ret=$ret;
             
             $factor_aumento= +$TempInternalOrders->ieps+$TempInternalOrders->isr+$TempInternalOrders->tasa+0.16;
             $InternalOrders->total=$t*($factor_aumento-$InternalOrders->descuento)+$ret +$t;
@@ -555,7 +557,7 @@ public function recalcular_total($id){
      ->get();
      $ret=0;
     foreach ($Items as $item) {
-        $ret+=($item->retencion/100) * $item->import;
+        $ret+=((($item->retencion_iva ?? 0) + ($item->retencion_isr ?? 0) + ($item->other_retentions ?? 0)) / 100) * $item->import;
     }
      
         return view('requisitions.show_test', compact(

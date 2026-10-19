@@ -169,7 +169,12 @@
                     <th>sku</th> 
                     <th>Precio unit(sin iva)</th>
                     <th>Importe</th>
-                    <th>% retencion</th>
+                    <th>IVA %</th>
+                    <th>IEPS %</th>
+                    <th>ISR %</th>
+                    <th>Ret. IVA %</th>
+                    <th>Ret. ISR %</th>
+                    <th>Otras ret. %</th>
                 </tr>
             
                 @foreach ($Items as $row)
@@ -177,11 +182,16 @@
                     <td> {{ $row->item }}</td>
                     <td> {{ $row->amount }}</td>
                     <td> {{ $row->unit }}</td>
-                    <td> {{ $row->sku }}</td>
                     <td> {{ $row->family }}</td>
+                    <td> {{ $row->sku }}</td>
                     <td rowspan="2"> ${{number_format($row->unit_price, 2) }}</td>
                     <td rowspan="2"> ${{number_format($row->import, 2) }}</td>
-                     <td rowspan="2"> {{number_format($row->retencion, 2) }} %</td>
+                    <td rowspan="2"> {{number_format($row->iva ?? 0, 2) }} %</td>
+                    <td rowspan="2"> {{number_format($row->ieps ?? 0, 2) }} %</td>
+                    <td rowspan="2"> {{number_format($row->isr ?? 0, 2) }} %</td>
+                    <td rowspan="2"> {{number_format($row->retencion_iva ?? 0, 2) }} %</td>
+                    <td rowspan="2"> {{number_format($row->retencion_isr ?? 0, 2) }} %</td>
+                    <td rowspan="2"> {{number_format($row->other_retentions ?? 0, 2) }} %</td>
                 </tr>
                 <tr>
                     <td colspan="5"> {!! nl2br($row->description) !!} </td>
@@ -232,7 +242,7 @@
                             </tr>
                             <tr>
                                 <th>RET IVA:</th>
-                                <td> $ {{number_format($InternalOrders->tasa* $Items->where('family','FLETE')->sum('import'),2)}}</td>
+                                <td> $ {{number_format($Items->sum(fn($item) => (($item->retencion_iva ?? 0) / 100) * $item->import),2)}}</td>
                             </tr>
                             <tr>
                                 <th>IVA:</th>

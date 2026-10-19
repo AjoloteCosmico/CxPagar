@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* Descripción" />
-                                    <x-jet-input type="text" name="description" class="w-full text-xs" value="{{ old('description') }}" maxlength="100" />
+                                    <x-jet-input type="text" name="description" class="w-full text-xs" value="{{ old('description') }}" maxlength="100" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                     <x-jet-input-error for='description' />
                                 </div>
                                 <div class="col-md-6 form-group">

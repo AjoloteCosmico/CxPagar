@@ -26,19 +26,19 @@ class TempItemController extends Controller
     {
         $cat=$request->session_cat;
         //$p_comission=$request->p_comission;
-            if($cat!="."){
+            if($cat!='.'){
                
             session(['cat' => $cat]);
             }
         $desc=$request->session_desc;
             //$p_comission=$request->p_comission;
-                if($desc!="."){
+                if($desc!='.'){
                    
                 session(['desc' => $desc]);
                 }
         $obs=$request->session_obs;
                 //$p_comission=$request->p_comission;
-                    if($obs!="."){
+                    if($obs!='.'){
                        
                     session(['obs' => $obs]);
                     }
@@ -55,12 +55,49 @@ class TempItemController extends Controller
 
         $Units = Unit::all();
         $Families = Family::all();
-        $Products=Product::All();
+
+        $productTypes = Product::query()
+            ->select('tipo_bien')
+            ->whereNotNull('tipo_bien')
+            ->where('tipo_bien', '!=', '')
+            ->distinct()
+            ->orderBy('tipo_bien')
+            ->pluck('tipo_bien')
+            ->values()
+            ->all();
+
+        $productsByType = Product::query()
+            ->select(['id', 'tipo_bien', 'product', 'family', 'iva', 'ieps', 'isr', 'retencion_iva', 'retencion_isr', 'other_retentions'])
+            ->whereNotNull('tipo_bien')
+            ->where('tipo_bien', '!=', '')
+            ->orderBy('tipo_bien')
+            ->orderBy('product')
+            ->get()
+            ->groupBy(fn ($product) => $product->tipo_bien ?? '')
+            ->map(function ($products) {
+                return $products->map(function ($product) {
+                    return [
+                        'id' => $product->id,
+                        'product' => $product->product,
+                        'family' => $product->family,
+                        'iva' => (float) ($product->iva ?? 0),
+                        'ieps' => (float) ($product->ieps ?? 0),
+                        'isr' => (float) ($product->isr ?? 0),
+                        'retencion_iva' => (float) ($product->retencion_iva ?? 0),
+                        'retencion_isr' => (float) ($product->retencion_isr ?? 0),
+                        'other_retentions' => (float) ($product->other_retentions ?? 0),
+                    ];
+                })->values()->all();
+            })
+            ->all();
+
         return view('admin.items.create', compact(
             'TempInternalOrders',
             'Item',
             'Units',
-            'Families','Products'
+            'Families',
+            'productTypes',
+            'productsByType'
         ));
     }
 
@@ -72,13 +109,51 @@ class TempItemController extends Controller
         $Units = Unit::all();
         $Families = Family::all();
         $TempInternalOrders = $Item->temp_internal_order_id;
+
+        $productTypes = Product::query()
+            ->select('tipo_bien')
+            ->whereNotNull('tipo_bien')
+            ->where('tipo_bien', '!=', '')
+            ->distinct()
+            ->orderBy('tipo_bien')
+            ->pluck('tipo_bien')
+            ->values()
+            ->all();
+
+        $productsByType = Product::query()
+            ->select(['id', 'tipo_bien', 'product', 'family', 'iva', 'ieps', 'isr', 'retencion_iva', 'retencion_isr', 'other_retentions'])
+            ->whereNotNull('tipo_bien')
+            ->where('tipo_bien', '!=', '')
+            ->orderBy('tipo_bien')
+            ->orderBy('product')
+            ->get()
+            ->groupBy(fn ($product) => $product->tipo_bien ?? '')
+            ->map(function ($products) {
+                return $products->map(function ($product) {
+                    return [
+                        'id' => $product->id,
+                        'product' => $product->product,
+                        'family' => $product->family,
+                        'iva' => (float) ($product->iva ?? 0),
+                        'ieps' => (float) ($product->ieps ?? 0),
+                        'isr' => (float) ($product->isr ?? 0),
+                        'retencion_iva' => (float) ($product->retencion_iva ?? 0),
+                        'retencion_isr' => (float) ($product->retencion_isr ?? 0),
+                        'other_retentions' => (float) ($product->other_retentions ?? 0),
+                    ];
+                })->values()->all();
+            })
+            ->all();
+
         return view('admin.items.edit', compact(
             'TempInternalOrders',
             'Item',
             'Units',
             'Families',
             'Id',
-            'Captured'
+            'Captured',
+            'productTypes',
+            'productsByType'
         ));
     }
 
@@ -120,16 +195,30 @@ class TempItemController extends Controller
             $TempItems->item = $request->item;
             $TempItems->amount = $request->amount;
             $TempItems->unit = $request->unit;
-            if($request->product=='OTRO'){
-                $TempItems->producto = $request->otro;
-                $TempItems->family = 'OTRA';
-            }else{
-
-            $Producto=Product::find($request->product);
-            $TempItems->retencion = $Producto->tax;
-            $TempItems->producto = $Producto->product;
-            $TempItems->family = $Producto->family;
-            
+            $Producto = null;
+            if($request->product && $request->product !== 'OTRO'){
+                $Producto = Product::find($request->product);
+            }
+            if($Producto) {
+                $TempItems->producto = $Producto->product;
+                $TempItems->family = $Producto->family;
+                $TempItems->iva = (float) ($Producto->iva ?? 0);
+                $TempItems->ieps = (float) ($Producto->ieps ?? 0);
+                $TempItems->isr = (float) ($Producto->isr ?? 0);
+                $TempItems->retencion_iva = (float) ($Producto->retention_iva ?? 0);
+                $TempItems->retencion_isr = (float) ($Producto->retention_isr ?? 0);
+                $TempItems->other_retentions = (float) ($Producto->other_retentions ?? 0);
+                $TempItems->retencion = (float) (($Producto->retention_iva ?? 0) + ($Producto->retention_isr ?? 0) + ($Producto->other_retentions ?? 0));
+            } else {
+                $TempItems->producto = $request->otro ?? null;
+                $TempItems->family = 'OTRO';
+                $TempItems->iva = (float) ($request->iva ?? 0);
+                $TempItems->ieps = (float) ($request->ieps ?? 0);
+                $TempItems->isr = (float) ($request->isr ?? 0);
+                $TempItems->retencion_iva = (float) ($request->retencion_iva ?? 0);
+                $TempItems->retencion_isr = (float) ($request->retencion_isr ?? 0);
+                $TempItems->other_retentions = (float) ($request->other_retentions ?? 0);
+                $TempItems->retencion = (float) (($request->retencion_iva ?? 0) + ($request->retencion_isr ?? 0) + ($request->other_retentions ?? 0));
             }
             //$TempItems->subfamilia = $request->subfamily;
             $TempItems->categoria = $request->category;
@@ -225,11 +314,31 @@ class TempItemController extends Controller
     $TempItems->item = $request->item;
     $TempItems->amount = $request->amount;
     $TempItems->unit = $request->unit;
-    if($request->family=='OTRO'){
-        $TempItems->family = $request->otro;
+    $Producto = null;
+    if($request->product && $request->product !== 'OTRO'){
+        $Producto = Product::find($request->product);
     }
-    else{
-    $TempItems->family = $request->family;}
+    if($Producto) {
+        $TempItems->producto = $Producto->product;
+        $TempItems->family = $Producto->family;
+        $TempItems->iva = (float) ($Producto->iva ?? 0);
+        $TempItems->ieps = (float) ($Producto->ieps ?? 0);
+        $TempItems->isr = (float) ($Producto->isr ?? 0);
+        $TempItems->retencion_iva = (float) ($Producto->retention_iva ?? 0);
+        $TempItems->retencion_isr = (float) ($Producto->retention_isr ?? 0);
+        $TempItems->other_retentions = (float) ($Producto->other_retentions ?? 0);
+        $TempItems->retencion = (float) (($Producto->retention_iva ?? 0) + ($Producto->retention_isr ?? 0) + ($Producto->other_retentions ?? 0));
+    } else {
+        $TempItems->producto = $request->otro ?? null;
+        $TempItems->family = 'OTRO';
+        $TempItems->iva = (float) ($request->iva ?? 0);
+        $TempItems->ieps = (float) ($request->ieps ?? 0);
+        $TempItems->isr = (float) ($request->isr ?? 0);
+        $TempItems->retencion_iva = (float) ($request->retencion_iva ?? 0);
+        $TempItems->retencion_isr = (float) ($request->retencion_isr ?? 0);
+        $TempItems->other_retentions = (float) ($request->other_retentions ?? 0);
+        $TempItems->retencion = (float) (($request->retencion_iva ?? 0) + ($request->retencion_isr ?? 0) + ($request->other_retentions ?? 0));
+    }
     //$TempItems->subfamilia = $request->subfamily;
     $TempItems->categoria = $request->category;
     //$TempItems->products = $request->products;
@@ -265,17 +374,17 @@ class TempItemController extends Controller
         'Iva',
         'Total',
         'cat','desc','obs'
-
-    ));}
-    else{
-        
-        return (new InternalOrderController)->edit_order($TempInternalOrders->id);
+    ));
+    }else{
+        return view('requisitions.capture_order_items', compact(
+        'TempInternalOrders',
+        'Customers',
+        'TempItems',
+        'Subtotal',
+        'Iva',
+        'Total',
+        'cat','desc','obs'
+    ));
     }
-        
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }
