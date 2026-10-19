@@ -11,17 +11,13 @@
 @section('content')
     <div class="container-flex m-1 bg-gray-300 shadow-lg rounded-lg">
         <div class="row p-3 m-2 rounded-lg shadow-xl bg-white">
-            <div class="col-sm-12 text-right">
-                <a href="{{ route('gastos_fijos.create') }}" class="btn btn-green">
-                    <i class="fas fa-plus-circle"></i>&nbsp; Nueva
-                </a>
-            </div>
+            
             <div class="w-100">&nbsp;</div>
 
             @php
                 // Definimos las pestañas: slug (id HTML) => label visible
                 // El slug se compara contra el campo `type` de forma flexible
-                // (se normaliza a minúsculas y espacios -> guion bajo).
+                // (se normaliza a minúsculas y espacios -> guion_under).
                 $tipos = [
                     'productos'    => ['label' => 'Productos',    'icon' => 'fas fa-box'],
                     'servicios'    => ['label' => 'Servicios',    'icon' => 'fas fa-concierge-bell'],
@@ -62,6 +58,12 @@
                              id="pane-{{ $slug }}"
                              role="tabpanel"
                              aria-labelledby="tab-{{ $slug }}">
+
+                            <div class="text-right mb-3">
+                                <a href="{{ route('gastos_fijos.create', ['type' => $slug]) }}" class="btn btn-green btn-sm">
+                                    <i class="fas fa-plus-circle"></i>&nbsp; Nuevo {{ $info['label'] }}
+                                </a>
+                            </div>
 
                             <div class="table-responsive">
                                 <table class="table table-striped text-xs font-medium datatable-inventario"
@@ -231,6 +233,11 @@
                 return tables[slug];
             }
 
+            const activeTab = '{{ session('gastos_fijos_active_type', 'gastos_fijos') }}';
+            const activeTabSlug = activeTab && $('#tab-' + activeTab).length ? activeTab : 'gastos_fijos';
+
+            $('#tab-' + activeTabSlug).tab('show');
+
             $('#inventarioTabs a[data-toggle="tab"]').each(function () {
                 const slug = $(this).attr('href').replace('#pane-', '');
                 ensureDataTable(slug);
@@ -244,6 +251,15 @@
                         table.columns.adjust().draw(false);
                     }, 50);
                 }
+
+                const url = '{{ route('gastos_fijos.create') }}' + '?type=' + slug;
+                $('#inventarioTabs a[data-toggle="tab"]').each(function () {
+                    const tabSlug = $(this).attr('href').replace('#pane-', '');
+                    const link = $(this).closest('li').find('.new-tab-link');
+                    if (link.length) {
+                        link.attr('href', '{{ route('gastos_fijos.create') }}?type=' + tabSlug);
+                    }
+                });
             });
 
             $(document).on('submit', '.DeleteReg', function (e) {

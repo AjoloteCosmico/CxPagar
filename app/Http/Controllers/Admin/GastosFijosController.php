@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class GastosFijosController extends Controller
 {
+    protected function normalizeType(?string $type): string
+    {
+        $type = strtolower((string) $type);
+
+        return match ($type) {
+            'producto' => 'productos',
+            'servicio' => 'servicios',
+            'gastos_fijo' => 'gastos_fijos',
+            default => in_array($type, ['productos', 'servicios', 'integracion', 'gastos_fijos'], true) ? $type : 'gastos_fijos',
+        };
+    }
+
     public function index()
     {
         $gastosFijos = GastosFijos::with('coin')->get();
@@ -16,11 +28,14 @@ class GastosFijosController extends Controller
         return view('admin.gastos_fijos.index', compact('gastosFijos'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $Coins = Coin::orderBy('coin')->get();
+        $selectedType = $this->normalizeType($request->query('type', session('gastos_fijos_active_type', 'gastos_fijos')));
 
-        return view('admin.gastos_fijos.create', compact('Coins'));
+        session(['gastos_fijos_active_type' => $selectedType]);
+
+        return view('admin.gastos_fijos.create', compact('Coins', 'selectedType'));
     }
 
     public function store(Request $request)
@@ -30,6 +45,7 @@ class GastosFijosController extends Controller
             'amount' => ['required', 'numeric', 'gt:0'],
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
             'periodicity' => ['required', 'string', 'in:SEMANAL,MENSUAL,BIMESTRAL,SEMESTRAL,ANUAL'],
+            'type' => ['required', 'string', 'in:productos,servicios,integracion,gastos_fijos,producto,servicio'],
         ], [
             'description.required' => 'La descripción es obligatoria.',
             'description.max' => 'La descripción no puede exceder 100 caracteres.',
@@ -40,13 +56,18 @@ class GastosFijosController extends Controller
             'coin_id.exists' => 'La moneda seleccionada no existe.',
             'periodicity.required' => 'La periodicidad es obligatoria.',
             'periodicity.in' => 'La periodicidad debe ser una de: SEMANAL, MENSUAL, BIMESTRAL, SEMESTRAL o ANUAL.',
+            'type.required' => 'El tipo de bien es obligatorio.',
+            'type.in' => 'El tipo debe ser: productos, servicios, integracion o gastos_fijos.',
         ]);
+
+        $data['type'] = $this->normalizeType($data['type']);
 
         $gasto = new GastosFijos();
         $gasto->description = $data['description'];
         $gasto->amount = $data['amount'];
         $gasto->coin_id = $data['coin_id'];
         $gasto->periodicity = $data['periodicity'];
+        $gasto->type = $data['type'];
         $gasto->save();
 
         return redirect()->route('gastos_fijos.index')->with('success', 'Gasto fijo creado correctamente.');
@@ -74,6 +95,7 @@ class GastosFijosController extends Controller
             'amount' => ['required', 'numeric', 'gt:0'],
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
             'periodicity' => ['required', 'string', 'in:SEMANAL,MENSUAL,BIMESTRAL,SEMESTRAL,ANUAL'],
+            'type' => ['required', 'string', 'in:productos,servicios,integracion,gastos_fijos,producto,servicio'],
         ], [
             'description.required' => 'La descripción es obligatoria.',
             'description.max' => 'La descripción no puede exceder 100 caracteres.',
@@ -84,12 +106,17 @@ class GastosFijosController extends Controller
             'coin_id.exists' => 'La moneda seleccionada no existe.',
             'periodicity.required' => 'La periodicidad es obligatoria.',
             'periodicity.in' => 'La periodicidad debe ser una de: SEMANAL, MENSUAL, BIMESTRAL, SEMESTRAL o ANUAL.',
+            'type.required' => 'El tipo de bien es obligatorio.',
+            'type.in' => 'El tipo debe ser: productos, servicios, integracion o gastos_fijos.',
         ]);
+
+        $data['type'] = $this->normalizeType($data['type']);
 
         $gasto->description = $data['description'];
         $gasto->amount = $data['amount'];
         $gasto->coin_id = $data['coin_id'];
         $gasto->periodicity = $data['periodicity'];
+        $gasto->type = $data['type'];
         $gasto->save();
 
         return redirect()->route('gastos_fijos.index')->with('success', 'Gasto fijo actualizado correctamente.');

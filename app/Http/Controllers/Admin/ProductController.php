@@ -12,6 +12,42 @@ use Illuminate\Support\Facades\Schema;
 
 class ProductController extends Controller
 {
+    private function getGastosFijosDynamicOptions(): array
+    {
+        $rows = GastosFijos::query()
+            ->select(['type', 'description'])
+            ->whereNotNull('type')
+            ->where('type', '!=', '')
+            ->whereNotNull('description')
+            ->where('description', '!=', '')
+            ->orderBy('type')
+            ->orderBy('description')
+            ->get();
+
+        $types = $rows->pluck('type')
+            ->filter(fn ($type) => !empty(trim((string) $type)))
+            ->unique()
+            ->values()
+            ->all();
+
+        $productOptionsByType = $rows
+            ->groupBy('type')
+            ->map(function ($items) {
+                return $items->pluck('description')
+                    ->filter(fn ($description) => !empty(trim((string) $description)))
+                    ->map(fn ($description) => trim((string) $description))
+                    ->unique()
+                    ->values()
+                    ->all();
+            })
+            ->all();
+
+        return [
+            'types' => $types,
+            'productOptionsByType' => $productOptionsByType,
+        ];
+    }
+
     public function index()
     {
         $Products = Product::all();
@@ -23,14 +59,21 @@ class ProductController extends Controller
         $Coins = Coin::orderBy('coin')->get();
         $Providers = Provider::orderBy('customer')->get();
         $gastosFijos = GastosFijos::orderBy('description')->get();
+        $dynamicGastosFijos = $this->getGastosFijosDynamicOptions();
 
-        return view('admin.products.create', compact('Coins', 'Providers', 'gastosFijos'));
+        return view('admin.products.create', compact(
+            'Coins',
+            'Providers',
+            'gastosFijos',
+            'dynamicGastosFijos'
+        ));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'sku' => ['required', 'string', 'max:255'],
+            'sku' => ['required', 'string', 'max:255','unique:products'],
+        'clave_alterna'=> ['required', 'string', 'max:255','unique:products'],
             'tipo_bien' => ['required', 'string', 'max:100'],
             'product' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
@@ -47,6 +90,8 @@ class ProductController extends Controller
             'other_retentions' => ['nullable', 'numeric', 'between:0,100']
         ], [
             'sku.required' => 'El SKU es obligatorio.',
+            'sku.unique' => 'El SKU ya exite, capture uno diferente.',
+            'clave_alterna.unique' => 'la clave alterna ya existe, capture una diferente.',
             'tipo_bien.required' => 'El tipo de bien es obligatorio.',
             'product.required' => 'El producto o servicio es obligatorio.',
             'description.required' => 'La descripción es obligatoria.',
@@ -68,7 +113,7 @@ class ProductController extends Controller
 
         $product = new Product();
 
-        foreach (['sku', 'tipo_bien', 'product', 'family'] as $field) {
+        foreach (['sku', 'tipo_bien', 'product', 'family','clave_alterna','type'] as $field) {
             if (Schema::hasColumn('products', $field)) {
                 $product->{$field} = $data[$field] ?? null;
             }
@@ -119,8 +164,15 @@ class ProductController extends Controller
         $Coins = Coin::orderBy('coin')->get();
         $Providers = Provider::orderBy('customer')->get();
         $gastosFijos = GastosFijos::orderBy('description')->get();
+        $dynamicGastosFijos = $this->getGastosFijosDynamicOptions();
 
-        return view('admin.products.show', compact('Product', 'Coins', 'Providers', 'gastosFijos'));
+        return view('admin.products.show', compact(
+            'Product',
+            'Coins',
+            'Providers',
+            'gastosFijos',
+            'dynamicGastosFijos'
+        ));
     }
 
     public function update(Request $request, $id)

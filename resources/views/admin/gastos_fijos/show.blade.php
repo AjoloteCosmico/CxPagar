@@ -24,6 +24,17 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
+                                  <div class="col-md-6 form-group">
+                                    <x-jet-label value="* Tipo de bien" />
+                                    <select name="type" class="form-control w-full text-xs uppercase" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="productos" {{ old('type', $gasto->type) == 'productos' ? 'selected' : '' }}>productos</option>
+                                        <option value="servicios" {{ old('type', $gasto->type) == 'servicios' ? 'selected' : '' }}>servicios</option>
+                                        <option value="integracion" {{ old('type', $gasto->type) == 'integracion' ? 'selected' : '' }}>integracion</option>
+                                        <option value="gastos_fijos" {{ old('type', $gasto->type) == 'gastos_fijos' ? 'selected' : '' }}>gastos fijos</option>
+                                    </select>
+                                    <x-jet-input-error for='type' />
+                                </div>
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* Descripción" />
                                     <x-jet-input type="text" name="description" class="w-full text-xs" value="{{ old('description', $gasto->description) }}" maxlength="100" />
@@ -58,6 +69,7 @@
                                     </select>
                                     <x-jet-input-error for='periodicity' />
                                 </div>
+                              
                             </div>
                         </div>
                     </div>

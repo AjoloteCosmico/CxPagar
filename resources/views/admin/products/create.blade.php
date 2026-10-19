@@ -31,36 +31,21 @@
                                  
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* TIPO DE BIEN" />
-                                    <select name="tipo_bien" class="form-control w-full text-xs uppercase" required>
+                                    <select name="type" id="product-type" class="form-control w-full text-xs uppercase" required>
                                         <option value="">Seleccione...</option>
-                                        <option value="PRODUCTO" {{ old('tipo_bien') == 'PRODUCTO' ? 'selected' : '' }}>PRODUCTO
-                                        </option>
-                                        <option value="SERVICIOS" {{ old('tipo_bien') == 'SERVICIOS' ? 'selected' : '' }}>SERVICIOS
-                                        </option>
-                                        <option value="INTEGRACION" {{ old('tipo_bien') == 'INTEGRACION' ? 'selected' : '' }}>
-                                            INTEGRACION</option>
-                                        <option value="GASTOS FIJOS" {{ old('tipo_bien') == 'GASTOS FIJOS' ? 'selected' : '' }}>
-                                            GASTOS FIJOS</option>
-                                        <option value="ACTIVOS FIJOS" {{ old('tipo_bien') == 'ACTIVOS FIJOS' ? 'selected' : '' }}>
-                                            ACTIVOS FIJOS</option>
-                                        <option value="CONTRIBUCIONES E IMPUESTOS" {{ old('tipo_bien') == 'CONTRIBUCIONES E IMPUESTOS' ? 'selected' : '' }}>
-                                            CONTRIBUCIONES E IMPUESTOS</option>
-                                        <option value="OTRO1" {{ old('tipo_bien') == 'OTRO1' ? 'selected' : '' }}>OTRO1
-                                        </option>
-                                        <option value="OTRO2" {{ old('tipo_bien') == 'OTRO2' ? 'selected' : '' }}>OTRO2
-                                        </option>
-                                        <option value="OTRO3" {{ old('tipo_bien') == 'OTRO3' ? 'selected' : '' }}>OTRO3
-                                        </option>
-                                        <option value="OTRO4" {{ old('tipo_bien') == 'OTRO4' ? 'selected' : '' }}>OTRO4
-                                        </option>
+                                        @foreach (($dynamicGastosFijos['types'] ?? []) as $typeOption)
+                                            <option value="{{ $typeOption }}" {{ old('type') == $typeOption ? 'selected' : '' }}>
+                                                {{ $typeOption }}
+                                            </option>
+                                        @endforeach
                                     </select>
-                                    <x-jet-input-error for='tipo_bien' />
+                                    <x-jet-input-error for='type' />
                                 </div>
 
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* CLAVE ALTERNA" />
-                                    <x-jet-input type="text" name="clave_alterna"  required class="w-full text-xs" value="{{ old('sku') }}" />
-                                    <x-jet-input-error for='sku' />
+                                    <x-jet-input type="text" name="clave_alterna"  required class="w-full text-xs" value="{{ old('clave_alterna') }}" id="clave_alterna" />
+                                    <x-jet-input-error for='clave_alterna' />
                                 </div>
                                 
                                 <div class="col-md-6 form-group">
@@ -212,31 +197,7 @@
 
 @section('js')
     <script>
-        const productOptionsByType = {
-            PRODUCTO: [
-                'MATERIALES SIN PROCESAR',
-                'MATERIALES PROCESADOS',
-                'MATERIALES DE CONSUMO',
-                'EQUIPOS COMPLETOS',
-                'SUBENSAMBLES TYRSA'
-            ],
-            SERVICIOS: [
-                'INGENIERIA',
-                'INSTALACION',
-                'MAQUINAS',
-                'FLETES',
-                'ASESORIAS Y CONSULTORIAS',
-                'COMISIONISTAS'
-            ],
-            'GASTOS FIJOS': @json($gastosFijos->pluck('description')->map(fn($item) => strtoupper($item))->values()),
-            'ACTIVOS FIJOS': ['ACTIVOS FIJOS'],
-            'CONTRIBUCIONES E IMPUESTOS': ['CONTRIBUCIONES E IMPUESTOS'],
-            INTEGRACION: ['INTEGRACION'],
-            OTRO1: ['OTRO1'],
-            OTRO2: ['OTRO2'],
-            OTRO3: ['OTRO3'],
-            OTRO4: ['OTRO4']
-        };
+        const productOptionsByType = @json($dynamicGastosFijos['productOptionsByType'] ?? []);
 
         function populateProductSelect(selectedType) {
             const productSelect = $('#product-select');
@@ -264,7 +225,7 @@
                 width: '100%'
             });
 
-            const tipoBienSelect = $('select[name="tipo_bien"]');
+            const tipoBienSelect = $('select[name="type"]');
             const initialType = tipoBienSelect.val();
             if (initialType) {
                 populateProductSelect(initialType);
@@ -275,4 +236,45 @@
             });
         });
     </script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('clave_alterna');
+    if (!input) return;
+
+    // Normalización "suave" (mientras escribe)
+    function normalizeBase(str) {
+        return str
+            .toLowerCase()
+            .normalize('NFD')                    // descompone á -> a + ´
+            .replace(/[\u0300-\u036f]/g, '')     // elimina diacríticos (ñ -> n)
+            .replace(/[^a-z0-9\s_-]/g, '')       // sólo alfanuméricos, espacios, _ y -
+            .replace(/[\s_]+/g, '-')             // espacios y _ -> -
+            .replace(/-+/g, '-');                // colapsa guiones repetidos
+    }
+
+    // Normalización "final" (al salir del campo)
+    function normalizeFinal(str) {
+        return normalizeBase(str).replace(/^-+|-+$/g, '');
+    }
+
+    function applySanitize(final = false) {
+        const original = input.value;
+        const cursor   = input.selectionStart ?? original.length;
+
+        const cleaned  = final ? normalizeFinal(original) : normalizeBase(original);
+        if (cleaned === original) return;
+
+        input.value = cleaned;
+
+        // Reposiciona el cursor normalizando el prefijo (para que no salte al final)
+        const safePos = (final ? normalizeFinal(original.slice(0, cursor))
+                                : normalizeBase(original.slice(0, cursor))).length;
+        input.setSelectionRange(safePos, safePos);
+    }
+
+    input.addEventListener('input', () => applySanitize(false));
+    input.addEventListener('blur',  () => applySanitize(true));
+});
+</script>
 @stop

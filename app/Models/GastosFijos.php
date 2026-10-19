@@ -16,6 +16,7 @@ class GastosFijos extends Model
         'amount',
         'coin_id',
         'periodicity',
+        'type',
     ];
 
     public function coin()

@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'GASTO FIJO')
+@section('title', 'Bienes y servicios ')
 
 @section('content_header')
-    <h1 class="font-bold"><i class="fas fa-money-check-alt"></i>&nbsp; Gasto fijo</h1>
+    <h1 class="font-bold"><i class="fas fa-money-check-alt"></i>&nbsp; Bienes y servicios </h1>
 @stop
 
 @section('content')
     <div class="container bg-gray-300 shadow-lg rounded-lg">
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
-                <i class="fas fa-plus-circle"></i>&nbsp; Agregar gasto fijo:
+                <i class="fas fa-plus-circle"></i>&nbsp; Agregar Bien o Servicio:
             </h5>
         </div>
         <form action="{{ route('gastos_fijos.store') }}" method="POST" enctype="multipart/form-data">
@@ -23,6 +23,17 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <x-jet-label value="* Tipo de bien" />
+                                    <select name="type" class="form-control w-full text-xs uppercase" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="productos" {{ old('type', $selectedType) == 'productos' ? 'selected' : '' }}>productos</option>
+                                        <option value="servicios" {{ old('type', $selectedType) == 'servicios' ? 'selected' : '' }}>servicios</option>
+                                        <option value="integracion" {{ old('type', $selectedType) == 'integracion' ? 'selected' : '' }}>integracion</option>
+                                        <option value="gastos_fijos" {{ old('type', $selectedType) == 'gastos_fijos' ? 'selected' : '' }}>gastos fijos</option>
+                                    </select>
+                                    <x-jet-input-error for='type' />
+                                </div>
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* Descripción" />
                                     <x-jet-input type="text" name="description" class="w-full text-xs" value="{{ old('description') }}" maxlength="100" />
@@ -57,6 +68,7 @@
                                     </select>
                                     <x-jet-input-error for='periodicity' />
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
