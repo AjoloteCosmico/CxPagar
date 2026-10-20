@@ -8,6 +8,15 @@
 
 @section('content')
     <div class="container bg-gray-300 shadow-lg rounded-lg">
+        @if ($errors->any())
+            <div class="alert alert-danger mb-0 rounded-top">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row rounded-b-none rounded-t-lg shadow-xl bg-white">
             <h5 class="card-title p-2">
                 <i class="fas fa-plus-circle"></i>&nbsp; Agregar Producto:

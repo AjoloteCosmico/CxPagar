@@ -9,6 +9,7 @@ use App\Models\TempInternalOrder;
 use App\Models\Unit;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TempItemController extends Controller
 {
@@ -56,35 +57,40 @@ class TempItemController extends Controller
         $Units = Unit::all();
         $Families = Family::all();
 
-        $productTypes = Product::query()
-            ->select('tipo_bien')
-            ->whereNotNull('tipo_bien')
-            ->where('tipo_bien', '!=', '')
-            ->distinct()
-            ->orderBy('tipo_bien')
-            ->pluck('tipo_bien')
-            ->values()
-            ->all();
+        $productTypes = DB::table('products')
+    ->whereNotNull('type')
+    ->where('type', '!=', '')        // filtra NULL y '' en BD
+    ->distinct()
+    ->orderBy('type')
+    ->pluck('type')                   // ya define la columna, quita select('type')
+    ->map(fn ($value) => trim((string) $value))
+    ->filter(fn ($value) => $value !== '')  // <- callback explícito: "0" se conserva
+    ->unique()                        // deduplica después del trim
+    ->values()
+    ->all();
 
-        $productsByType = Product::query()
-            ->select(['id', 'tipo_bien', 'product', 'family', 'iva', 'ieps', 'isr', 'retencion_iva', 'retencion_isr', 'other_retentions'])
-            ->whereNotNull('tipo_bien')
-            ->where('tipo_bien', '!=', '')
-            ->orderBy('tipo_bien')
+          
+
+        $productsByType = DB::table('products')
+            ->select(['id', 'type', 'product', 'family', 'public_price', 'iva', 'ieps', 'isr', 'retention_iva', 'retention_isr', 'other_retentions'])
+            ->whereNotNull('type')
+            ->where('type', '!=', '')
+            ->orderBy('type')
             ->orderBy('product')
             ->get()
-            ->groupBy(fn ($product) => $product->tipo_bien ?? '')
+            ->groupBy('type')
             ->map(function ($products) {
-                return $products->map(function ($product) {
+                return collect($products)->map(function ($product) {
                     return [
                         'id' => $product->id,
                         'product' => $product->product,
                         'family' => $product->family,
+                        'public_price' => (float) ($product->public_price ?? 0),
                         'iva' => (float) ($product->iva ?? 0),
                         'ieps' => (float) ($product->ieps ?? 0),
                         'isr' => (float) ($product->isr ?? 0),
-                        'retencion_iva' => (float) ($product->retencion_iva ?? 0),
-                        'retencion_isr' => (float) ($product->retencion_isr ?? 0),
+                        'retention_iva' => (float) ($product->retention_iva ?? 0),
+                        'retention_isr' => (float) ($product->retention_isr ?? 0),
                         'other_retentions' => (float) ($product->other_retentions ?? 0),
                     ];
                 })->values()->all();
@@ -110,35 +116,38 @@ class TempItemController extends Controller
         $Families = Family::all();
         $TempInternalOrders = $Item->temp_internal_order_id;
 
-        $productTypes = Product::query()
-            ->select('tipo_bien')
-            ->whereNotNull('tipo_bien')
-            ->where('tipo_bien', '!=', '')
+        $productTypes = DB::table('products')
+            ->select('type')
+            ->whereNotNull('type')
+            ->where('type', '!=', '')
             ->distinct()
-            ->orderBy('tipo_bien')
-            ->pluck('tipo_bien')
+            ->orderBy('type')
+            ->pluck('type')
+            ->map(fn ($value) => trim((string) $value))
+            ->filter()
             ->values()
             ->all();
 
-        $productsByType = Product::query()
-            ->select(['id', 'tipo_bien', 'product', 'family', 'iva', 'ieps', 'isr', 'retencion_iva', 'retencion_isr', 'other_retentions'])
-            ->whereNotNull('tipo_bien')
-            ->where('tipo_bien', '!=', '')
-            ->orderBy('tipo_bien')
+        $productsByType = DB::table('products')
+            ->select(['id', 'type', 'product', 'family', 'public_price', 'iva', 'ieps', 'isr', 'retention_iva', 'retention_isr', 'other_retentions'])
+            ->whereNotNull('type')
+            ->where('type', '!=', '')
+            ->orderBy('type')
             ->orderBy('product')
             ->get()
-            ->groupBy(fn ($product) => $product->tipo_bien ?? '')
+            ->groupBy('type')
             ->map(function ($products) {
-                return $products->map(function ($product) {
+                return collect($products)->map(function ($product) {
                     return [
                         'id' => $product->id,
                         'product' => $product->product,
                         'family' => $product->family,
+                        'public_price' => (float) ($product->public_price ?? 0),
                         'iva' => (float) ($product->iva ?? 0),
                         'ieps' => (float) ($product->ieps ?? 0),
                         'isr' => (float) ($product->isr ?? 0),
-                        'retencion_iva' => (float) ($product->retencion_iva ?? 0),
-                        'retencion_isr' => (float) ($product->retencion_isr ?? 0),
+                        'retention_iva' => (float) ($product->retention_iva ?? 0),
+                        'retention_isr' => (float) ($product->retention_isr ?? 0),
                         'other_retentions' => (float) ($product->other_retentions ?? 0),
                     ];
                 })->values()->all();

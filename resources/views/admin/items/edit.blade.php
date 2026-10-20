@@ -38,13 +38,13 @@
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Tipo de bien" />
-                                <select class="form-capture w-full text-xs uppercase" name="tipo_bien" id="product-type">
+                                <select class="form-capture w-full text-xs uppercase" name="type" id="product-type">
                                     <option value="">Seleccione...</option>
                                     @foreach (($productTypes ?? []) as $typeOption)
-                                        <option value="{{ $typeOption }}" {{ old('tipo_bien', $Item->tipo_bien ?? '') == $typeOption ? 'selected' : '' }}>{{ $typeOption }}</option>
+                                        <option value="{{ $typeOption }}" {{ old('type', $Item->type ?? '') == $typeOption ? 'selected' : '' }}>{{ $typeOption }}</option>
                                     @endforeach
                                 </select>
-                                <x-jet-input-error for='tipo_bien' />
+                                <x-jet-input-error for='type' />
                             </div>
                             <div class="form-group">
                                 <x-jet-label value="* Producto / servicio" />
@@ -148,6 +148,7 @@ function fillProductTaxFields(productData) {
         $('#retencion_iva').val(0);
         $('#retencion_isr').val(0);
         $('#other_retentions').val(0);
+        $('#input-price').val(0);
         return;
     }
 
@@ -157,6 +158,7 @@ function fillProductTaxFields(productData) {
     $('#retencion_iva').val(productData.retencion_iva ?? 0);
     $('#retencion_isr').val(productData.retencion_isr ?? 0);
     $('#other_retentions').val(productData.other_retentions ?? 0);
+    $('#input-price').val(productData.public_price ?? 0);
 }
 
 $(document).ready(function(){

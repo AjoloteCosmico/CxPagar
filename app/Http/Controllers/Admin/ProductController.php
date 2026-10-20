@@ -73,8 +73,8 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'sku' => ['required', 'string', 'max:255','unique:products'],
-        'clave_alterna'=> ['required', 'string', 'max:255','unique:products'],
-            'tipo_bien' => ['required', 'string', 'max:100'],
+            'clave_alterna'=> ['required', 'string', 'max:255','unique:products'],
+            'type' => ['required', 'string', 'max:100'],
             'product' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'family' => ['required', 'string', 'max:255'],
@@ -91,8 +91,9 @@ class ProductController extends Controller
         ], [
             'sku.required' => 'El SKU es obligatorio.',
             'sku.unique' => 'El SKU ya exite, capture uno diferente.',
+            'clave_alterna.required' => 'La clave alterna es obligatoria.',
             'clave_alterna.unique' => 'la clave alterna ya existe, capture una diferente.',
-            'tipo_bien.required' => 'El tipo de bien es obligatorio.',
+            'type.required' => 'El tipo de bien es obligatorio.',
             'product.required' => 'El producto o servicio es obligatorio.',
             'description.required' => 'La descripción es obligatoria.',
             'family.required' => 'La familia es obligatoria.',
@@ -181,7 +182,7 @@ class ProductController extends Controller
 
         $data = $request->validate([
             'sku' => ['required', 'string', 'max:255'],
-            'tipo_bien' => ['required', 'string', 'max:100'],
+            'type' => ['required', 'string', 'max:100'],
             'product' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'family' => ['required', 'string', 'max:255'],
@@ -197,7 +198,7 @@ class ProductController extends Controller
             'other_retentions' => ['nullable', 'numeric', 'between:0,100']
         ], [
             'sku.required' => 'El SKU es obligatorio.',
-            'tipo_bien.required' => 'El tipo de bien es obligatorio.',
+            'type.required' => 'El tipo de bien es obligatorio.',
             'product.required' => 'El producto o servicio es obligatorio.',
             'description.required' => 'La descripción es obligatoria.',
             'family.required' => 'La familia es obligatoria.',
