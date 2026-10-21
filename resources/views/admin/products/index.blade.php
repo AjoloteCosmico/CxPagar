@@ -23,6 +23,7 @@
                         <tr class="text-center">
                             <th>ID</th>
                             <th>Producto</th>
+                            <th>Descripcion</th>
                             <th>SKU</th>
                             <th>Familia</th>
                             <th>Impuestos</th>
@@ -34,6 +35,7 @@
                         <tr class="text-center">
                             <td> {{$row->id}} </td>
                             <td> {{$row->product}} </td>
+                            <td> {{$row->description}} </td>
                             <td> {{$row->sku}} </td>
                             <td> {{$row->family}} </td>
                             <td> {{sprintf("%.2f%%", $row->iva + $row->ieps +$row->isr + $row->retention_iva + $row->retention_isr + $row->other_retentions )}} </td>
