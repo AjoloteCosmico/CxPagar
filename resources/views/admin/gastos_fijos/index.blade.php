@@ -23,6 +23,7 @@
                     'servicios'    => ['label' => 'Servicios',    'icon' => 'fas fa-concierge-bell'],
                     'integracion'  => ['label' => 'Integración',  'icon' => 'fas fa-plug'],
                     'gastos_fijos' => ['label' => 'Gastos Fijos', 'icon' => 'fas fa-file-invoice-dollar'],
+                    'contribuciones_e_impuestos' => ['label' => 'Contribuciones e impuestos', 'icon' => 'fas fa-file-invoice-dollar'],
                 ];
             @endphp                             
 
