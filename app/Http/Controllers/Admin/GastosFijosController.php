@@ -17,7 +17,9 @@ class GastosFijosController extends Controller
             'producto' => 'productos',
             'servicio' => 'servicios',
             'gastos_fijo' => 'gastos_fijos',
-            default => in_array($type, ['productos', 'servicios', 'integracion', 'gastos_fijos'], true) ? $type : 'gastos_fijos',
+            'contribucion' => 'contribuciones_e_impuestos',
+            'impuesto' => 'contribuciones_e_impuestos',
+            default => in_array($type, ['productos', 'servicios', 'integracion', 'gastos_fijos', 'contribuciones_e_impuestos'], true) ? $type : 'gastos_fijos',
         };
     }
 
@@ -45,7 +47,7 @@ class GastosFijosController extends Controller
             'amount' => ['required', 'numeric', 'gt:0'],
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
             'periodicity' => ['required', 'string', 'in:SEMANAL,MENSUAL,BIMESTRAL,SEMESTRAL,ANUAL'],
-            'type' => ['required', 'string', 'in:productos,servicios,integracion,gastos_fijos,producto,servicio'],
+            'type' => ['required', 'string', 'in:productos,servicios,integracion,gastos_fijos,contribuciones_e_impuestos,producto,servicio'],
         ], [
             'description.required' => 'La descripción es obligatoria.',
             'description.max' => 'La descripción no puede exceder 100 caracteres.',
@@ -57,7 +59,7 @@ class GastosFijosController extends Controller
             'periodicity.required' => 'La periodicidad es obligatoria.',
             'periodicity.in' => 'La periodicidad debe ser una de: SEMANAL, MENSUAL, BIMESTRAL, SEMESTRAL o ANUAL.',
             'type.required' => 'El tipo de bien es obligatorio.',
-            'type.in' => 'El tipo debe ser: productos, servicios, integracion o gastos_fijos.',
+            'type.in' => 'El tipo debe ser: productos, servicios, integracion, gastos_fijos o contribuciones_e_impuestos.',
         ]);
 
         $data['type'] = $this->normalizeType($data['type']);
@@ -95,7 +97,7 @@ class GastosFijosController extends Controller
             'amount' => ['required', 'numeric', 'gt:0'],
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
             'periodicity' => ['required', 'string', 'in:SEMANAL,MENSUAL,BIMESTRAL,SEMESTRAL,ANUAL'],
-            'type' => ['required', 'string', 'in:productos,servicios,integracion,gastos_fijos,producto,servicio'],
+            'type' => ['required', 'string', 'in:productos,servicios,integracion,gastos_fijos,contribuciones_e_impuestos,producto,servicio'],
         ], [
             'description.required' => 'La descripción es obligatoria.',
             'description.max' => 'La descripción no puede exceder 100 caracteres.',
@@ -107,7 +109,7 @@ class GastosFijosController extends Controller
             'periodicity.required' => 'La periodicidad es obligatoria.',
             'periodicity.in' => 'La periodicidad debe ser una de: SEMANAL, MENSUAL, BIMESTRAL, SEMESTRAL o ANUAL.',
             'type.required' => 'El tipo de bien es obligatorio.',
-            'type.in' => 'El tipo debe ser: productos, servicios, integracion o gastos_fijos.',
+            'type.in' => 'El tipo debe ser: productos, servicios, integracion, gastos_fijos o contribuciones_e_impuestos.',
         ]);
 
         $data['type'] = $this->normalizeType($data['type']);

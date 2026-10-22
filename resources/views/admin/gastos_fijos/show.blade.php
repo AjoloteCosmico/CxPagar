@@ -32,6 +32,7 @@
                                         <option value="servicios" {{ old('type', $gasto->type) == 'servicios' ? 'selected' : '' }}>servicios</option>
                                         <option value="integracion" {{ old('type', $gasto->type) == 'integracion' ? 'selected' : '' }}>integracion</option>
                                         <option value="gastos_fijos" {{ old('type', $gasto->type) == 'gastos_fijos' ? 'selected' : '' }}>gastos fijos</option>
+                                        <option value="contribuciones_e_impuestos" {{ old('type', $gasto->type) == 'contribuciones_e_impuestos' ? 'selected' : '' }}>Contribuciones e Impuestos</option>
                                     </select>
                                     <x-jet-input-error for='type' />
                                 </div>
