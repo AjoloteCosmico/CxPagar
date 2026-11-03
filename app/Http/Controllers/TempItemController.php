@@ -97,13 +97,40 @@ class TempItemController extends Controller
             })
             ->all();
 
+        $allProducts = DB::table('products')
+            ->select(['id', 'sku', 'type', 'product', 'family', 'public_price', 'iva', 'ieps', 'isr', 'retention_iva', 'retention_isr', 'other_retentions'])
+            ->whereNotNull('sku')
+            ->where('sku', '!=', '')
+            ->orderBy('sku')
+            ->get()
+            ->map(function ($product) {
+                return [
+                    'id' => (int) $product->id,
+                    'sku' => trim((string) ($product->sku ?? '')),
+                    'type' => trim((string) ($product->type ?? '')),
+                    'product' => trim((string) ($product->product ?? '')),
+                    'family' => trim((string) ($product->family ?? '')),
+                    'public_price' => (float) ($product->public_price ?? 0),
+                    'iva' => (float) ($product->iva ?? 0),
+                    'ieps' => (float) ($product->ieps ?? 0),
+                    'isr' => (float) ($product->isr ?? 0),
+                    'retention_iva' => (float) ($product->retention_iva ?? 0),
+                    'retention_isr' => (float) ($product->retention_isr ?? 0),
+                    'other_retentions' => (float) ($product->other_retentions ?? 0),
+                ];
+            })
+            ->filter(fn ($product) => $product['sku'] !== '')
+            ->values()
+            ->all();
+
         return view('admin.items.create', compact(
             'TempInternalOrders',
             'Item',
             'Units',
             'Families',
             'productTypes',
-            'productsByType'
+            'productsByType',
+            'allProducts'
         ));
     }
 

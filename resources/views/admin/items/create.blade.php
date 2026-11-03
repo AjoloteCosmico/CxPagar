@@ -23,6 +23,17 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
+                                <x-jet-label value="* SKU" />
+                                <select name="sku" id="sku-select" class="form-capture w-full text-xs uppercase select2" required>
+                                    <option value="">Seleccione...</option>
+                                    @foreach (($allProducts ?? []) as $product)
+                                        <option value="{{ $product['sku'] }}" data-product='@json($product)'>{{ $product['sku'] }}</option>
+                                    @endforeach
+                                </select>
+                                <x-jet-input-error for='sku' />
+                            </div>
+
+                            <div class="form-group">
                                 <x-jet-label value="* Cantidad" />
                                 <x-jet-input type="number" name="amount" class="w-full text-xs" value="{{ old('amount') }}"/>
                                 <x-jet-input-error for='amount' />
@@ -61,14 +72,6 @@
                                 <x-jet-label value="* Descripcion" />
                                 <x-jet-input type="text" name="description" class="w-full text-xs" value="{{ old('description') }}" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                                 <x-jet-input-error for='description' />
-                            </div>
-
-                            <div class="form-group">
-                                <x-jet-label value="* SKU" />
-                                <select name="sku" class="form-capture w-full text-xs uppercase" value="{{ old('sku') }}" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                    <option value="SV">SV</option>
-                                </select>
-                                <x-jet-input-error for='sku' />
                             </div>
 
                             <div class="form-group">
@@ -127,6 +130,7 @@
 @push('js')
 <script>
 const productsByType = @json($productsByType ?? []);
+const allProducts = @json($allProducts ?? []);
 
 function populateProductSelect(selectedType) {
     const productSelect = $('#product-select');
@@ -147,37 +151,84 @@ function populateProductSelect(selectedType) {
 }
 
 function fillProductTaxFields(productData) {
+    const data = productData || {};
+
+    $('#iva').val(data.iva ?? 0);
+    $('#ieps').val(data.ieps ?? 0);
+    $('#isr').val(data.isr ?? 0);
+    $('#retencion_iva').val(data.retention_iva ?? 0);
+    $('#retencion_isr').val(data.retention_isr ?? 0);
+    $('#other_retentions').val(data.other_retentions ?? 0);
+    $('#input-price').val(data.public_price ?? 0);
+}
+
+function applySelectedProduct(productData) {
     if (!productData) {
-        $('#iva').val(0);
-        $('#ieps').val(0);
-        $('#isr').val(0);
-        $('#retencion_iva').val(0);
-        $('#retencion_isr').val(0);
-        $('#other_retentions').val(0);
-        $('#input-price').val(0);
+        $('#product-type').val('').trigger('change');
+        $('#product-select').val('').trigger('change');
+        fillProductTaxFields(null);
         return;
     }
 
-    $('#iva').val(productData.iva ?? 0);
-    $('#ieps').val(productData.ieps ?? 0);
-    $('#isr').val(productData.isr ?? 0);
-    $('#retencion_iva').val(productData.retencion_iva ?? 0);
-    $('#retencion_isr').val(productData.retencion_isr ?? 0);
-    $('#other_retentions').val(productData.other_retentions ?? 0);
-    $('#input-price').val(productData.public_price ?? 0);
+    const selectedType = productData.type || '';
+    $('#product-type').val(selectedType).trigger('change');
+
+    setTimeout(function () {
+        const productSelect = $('#product-select');
+        const selectedOption = productSelect.find('option[value="' + productData.id + '"]');
+
+        if (selectedOption.length) {
+            productSelect.val(productData.id).trigger('change');
+        } else {
+            productSelect.val('OTRO').trigger('change');
+            $('#otro').removeAttr('hidden');
+            $('#otro').val(productData.product || '');
+        }
+
+        const descriptionInput = $('input[name="description"]');
+        if (descriptionInput.length && !descriptionInput.val().trim()) {
+            descriptionInput.val(String(productData.product || '').toUpperCase());
+        }
+    }, 50);
+
+    fillProductTaxFields(productData);
 }
 
 $(document).ready(function(){
     const tipoBienSelect = $('#product-type');
     const productSelect = $('#product-select');
+    const skuSelect = $('#sku-select');
+
+    skuSelect.select2({
+        placeholder: 'Buscar SKU...',
+        allowClear: true,
+        width: '100%',
+        matcher: function (params, data) {
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+
+            const term = params.term.toUpperCase();
+            const text = (data.text || '').toUpperCase();
+
+            if (text.indexOf(term) > -1) {
+                return data;
+            }
+
+            return null;
+        }
+    });
 
     tipoBienSelect.on('change', function () {
         populateProductSelect($(this).val());
-        fillProductTaxFields(null);
+        if (!skuSelect.val()) {
+            fillProductTaxFields(null);
+        }
     });
 
     productSelect.on('change', function () {
         const selectedValue = $(this).val();
+
         if (selectedValue === 'OTRO') {
             $('#otro').removeAttr('hidden');
             fillProductTaxFields(null);
@@ -189,6 +240,20 @@ $(document).ready(function(){
         const list = productsByType[selectedType] || [];
         const productData = list.find(item => String(item.id) === String(selectedValue));
         fillProductTaxFields(productData || null);
+    });
+
+    skuSelect.on('change', function () {
+        const selectedSku = $(this).val();
+
+        if (!selectedSku) {
+            $('#product-type').val('').trigger('change');
+            $('#product-select').val('').trigger('change');
+            fillProductTaxFields(null);
+            return;
+        }
+
+        const productData = allProducts.find(item => String(item.sku) === String(selectedSku));
+        applySelectedProduct(productData || null);
     });
 });
 </script>
