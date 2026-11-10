@@ -8,7 +8,6 @@ use App\Models\GastosFijos;
 use App\Models\Product;
 use App\Models\Provider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 
@@ -48,72 +47,6 @@ class ProductController extends Controller
             'types' => $types,
             'productOptionsByType' => $productOptionsByType,
         ];
-    }
-
-    private function hasRelatedItemReferences(Product $product): bool
-    {
-        $productSku = trim((string) ($product->sku ?? ''));
-        $productType = trim((string) ($product->type ?? ''));
-        $productName = trim((string) ($product->product ?? ''));
-        $productDescription = trim((string) ($product->description ?? ''));
-
-        $hasItemReference = DB::table('items')
-            ->where(function ($query) use ($productSku, $productType, $productName, $productDescription) {
-                if ($productSku !== '') {
-                    $query->orWhere('sku', $productSku);
-                }
-
-                if ($productType !== '' || $productName !== '' || $productDescription !== '') {
-                    $query->orWhere(function ($nested) use ($productType, $productName, $productDescription) {
-                        if ($productType !== '') {
-                            $nested->where('type', $productType);
-                        }
-
-                        if ($productName !== '') {
-                            $nested->where(function ($nameQuery) use ($productName) {
-                                $nameQuery->where('producto', $productName)
-                                    ->orWhere('product', $productName);
-                            });
-                        }
-
-                        if ($productDescription !== '') {
-                            $nested->orWhere('description', $productDescription);
-                        }
-                    });
-                }
-            })
-            ->exists();
-
-        if ($hasItemReference) {
-            return true;
-        }
-
-        return DB::table('temp_items')
-            ->where(function ($query) use ($productSku, $productType, $productName, $productDescription) {
-                if ($productSku !== '') {
-                    $query->orWhere('sku', $productSku);
-                }
-
-                if ($productType !== '' || $productName !== '' || $productDescription !== '') {
-                    $query->orWhere(function ($nested) use ($productType, $productName, $productDescription) {
-                        if ($productType !== '') {
-                            $nested->where('type', $productType);
-                        }
-
-                        if ($productName !== '') {
-                            $nested->where(function ($nameQuery) use ($productName) {
-                                $nameQuery->where('producto', $productName)
-                                    ->orWhere('product', $productName);
-                            });
-                        }
-
-                        if ($productDescription !== '') {
-                            $nested->orWhere('description', $productDescription);
-                        }
-                    });
-                }
-            })
-            ->exists();
     }
 
     public function index()
@@ -183,28 +116,44 @@ class ProductController extends Controller
             'coin_id.exists' => 'La moneda seleccionada no existe.',
             'provider_id.required' => 'El proveedor es obligatorio.',
             'provider_id.exists' => 'El proveedor seleccionado no existe.',
+            'observations.string' => 'Las observaciones deben ser texto.',
             'iva.required' => 'El IVA es obligatorio.',
+            'iva.numeric' => 'El IVA debe ser numérico.',
             'iva.between' => 'El IVA debe estar entre 0 y 100.',
-            'ieps.between' => 'IEPS debe estar entre 0 y 100.',
-            'isr.between' => 'ISR debe estar entre 0 y 100.',
-            'retention_iva.between' => 'Retención IVA debe estar entre 0 y 100.',
-            'retention_isr.between' => 'Retención ISR debe estar entre 0 y 100.',
-            'other_retentions.between' => 'Otras retenciones debe estar entre 0 y 100.',
+            'ieps.numeric' => 'El IEPS debe ser numérico.',
+            'ieps.between' => 'El IEPS debe estar entre 0 y 100.',
+            'isr.numeric' => 'El ISR debe ser numérico.',
+            'isr.between' => 'El ISR debe estar entre 0 y 100.',
+            'retention_iva.numeric' => 'La retención de IVA debe ser numérica.',
+            'retention_iva.between' => 'La retención de IVA debe estar entre 0 y 100.',
+            'retention_isr.numeric' => 'La retención de ISR debe ser numérica.',
+            'retention_isr.between' => 'La retención de ISR debe estar entre 0 y 100.',
+            'other_retentions.numeric' => 'Otras retenciones deben ser numéricas.',
+            'other_retentions.between' => 'Otras retenciones deben estar entre 0 y 100.',
         ]);
 
         $product = new Product();
 
-        foreach (['sku', 'tipo_bien', 'product', 'family', 'clave_alterna', 'type'] as $field) {
-            if (Schema::hasColumn('products', $field)) {
-                $product->{$field} = $data[$field] ?? null;
-            }
+        if (Schema::hasColumn('products', 'sku')) {
+            $product->sku = $data['sku'];
         }
-
-        if (Schema::hasColumn('products', 'inventariable')) {
-            $product->inventariable = (int) ($data['inventariable'] ?? 0);
+        if (Schema::hasColumn('products', 'clave_alterna')) {
+            $product->clave_alterna = $data['clave_alterna'];
+        }
+        if (Schema::hasColumn('products', 'type')) {
+            $product->type = $data['type'];
+        }
+        if (Schema::hasColumn('products', 'product')) {
+            $product->product = $data['product'];
         }
         if (Schema::hasColumn('products', 'description')) {
             $product->description = $data['description'];
+        }
+        if (Schema::hasColumn('products', 'family')) {
+            $product->family = $data['family'];
+        }
+        if (Schema::hasColumn('products', 'inventariable')) {
+            $product->inventariable = (int) ($data['inventariable'] ?? 0);
         }
         if (Schema::hasColumn('products', 'public_price')) {
             $product->public_price = $data['public_price'];
@@ -306,13 +255,20 @@ class ProductController extends Controller
             'coin_id.exists' => 'La moneda seleccionada no existe.',
             'provider_id.required' => 'El proveedor es obligatorio.',
             'provider_id.exists' => 'El proveedor seleccionado no existe.',
+            'observations.string' => 'Las observaciones deben ser texto.',
             'iva.required' => 'El IVA es obligatorio.',
+            'iva.numeric' => 'El IVA debe ser numérico.',
             'iva.between' => 'El IVA debe estar entre 0 y 100.',
-            'ieps.between' => 'IEPS debe estar entre 0 y 100.',
-            'isr.between' => 'ISR debe estar entre 0 y 100.',
-            'retention_iva.between' => 'Retención IVA debe estar entre 0 y 100.',
-            'retention_isr.between' => 'Retención ISR debe estar entre 0 y 100.',
-            'other_retentions.between' => 'Otras retenciones debe estar entre 0 y 100.',
+            'ieps.numeric' => 'El IEPS debe ser numérico.',
+            'ieps.between' => 'El IEPS debe estar entre 0 y 100.',
+            'isr.numeric' => 'El ISR debe ser numérico.',
+            'isr.between' => 'El ISR debe estar entre 0 y 100.',
+            'retention_iva.numeric' => 'La retención de IVA debe ser numérica.',
+            'retention_iva.between' => 'La retención de IVA debe estar entre 0 y 100.',
+            'retention_isr.numeric' => 'La retención de ISR debe ser numérica.',
+            'retention_isr.between' => 'La retención de ISR debe estar entre 0 y 100.',
+            'other_retentions.numeric' => 'Otras retenciones deben ser numéricas.',
+            'other_retentions.between' => 'Otras retenciones deben estar entre 0 y 100.',
         ]);
 
         foreach (['sku', 'tipo_bien', 'product', 'family', 'clave_alterna', 'type'] as $field) {
@@ -366,11 +322,6 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-
-        if ($this->hasRelatedItemReferences($product)) {
-            return redirect()->route('products.index')->with('error_delete', 'ok');
-        }
-
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Producto eliminado correctamente.');

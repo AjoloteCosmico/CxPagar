@@ -29,19 +29,23 @@ class GastosFijosController extends Controller
         $description = trim((string) ($gasto->description ?? ''));
         $type = trim((string) ($gasto->type ?? ''));
 
-        return DB::table('products')
-            ->where(function ($query) use ($description, $type) {
-                if ($description !== '') {
-                    $query->orWhere('description', $description)
-                        ->orWhere('product', $description)
-                        ->orWhere('family', $description);
-                }
+        $query = DB::table('products');
 
-                if ($type !== '') {
-                    $query->orWhere('type', $type);
-                }
-            })
-            ->exists();
+        if ($description !== '') {
+            $query->where(function ($nested) use ($description) {
+                $nested->where('description', $description)
+                    ->orWhere('product', $description)
+                    ->orWhere('family', $description);
+            });
+        }
+
+        if ($type !== '') {
+            $query->where(function ($nested) use ($type) {
+                $nested->where('type', $type);
+            });
+        }
+
+        return $query->exists();
     }
 
     public function index()
