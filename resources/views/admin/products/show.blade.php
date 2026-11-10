@@ -26,20 +26,37 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* SKU" />
-                                    <x-jet-input type="text" name="sku" class="w-full text-xs" value="{{ old('sku', $Product->sku) }}" />
+                                    <div class="input-group">
+                                        <x-jet-input type="text" name="sku" id="sku-input" class="form-control w-full text-xs" value="{{ old('sku', $Product->sku) }}" required />
+                                        <div class="input-group-append" style="width: 46%; min-width: 220px;">
+                                            <select id="sku-select" class="form-control text-xs select2" style="width: 100%;">
+                                                <option value="">Buscar por SKU...</option>
+                                                @foreach (($Products ?? []) as $product)
+                                                    <option value="{{ $product->sku }}" data-product='@json($product)' {{ old('sku', $Product->sku) == $product->sku ? 'selected' : '' }}>
+                                                        {{ $product->sku }}{{ !empty($product->clave_alterna) ? ' - ' . $product->clave_alterna : '' }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                     <x-jet-input-error for='sku' />
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* TIPO DE BIEN" />
                                     <select name="type" class="form-control w-full text-xs uppercase" required>
                                         <option value="">Seleccione...</option>
-                                        @foreach ($gastoTypeOptions ?? [] as $typeOption)
+                                        @foreach (($dynamicGastosFijos['types'] ?? []) as $typeOption)
                                             <option value="{{ $typeOption }}" {{ old('type', $Product->type ?? '') == $typeOption ? 'selected' : '' }}>
                                                 {{ $typeOption }}
                                             </option>
                                         @endforeach
                                     </select>
                                     <x-jet-input-error for='type' />
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <x-jet-label value="* CLAVE ALTERNA" />
+                                    <x-jet-input type="text" name="clave_alterna"  required class="w-full text-xs" value="{{ old('clave_alterna',$Product->clave_alterna) }}" id="clave_alterna" />
+                                    <x-jet-input-error for='clave_alterna' />
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* PRODUCTO / SERVICIO" />
@@ -58,18 +75,20 @@
                                     <x-jet-input type="text" name="family" class="w-full text-xs" value="{{ old('family', $Product->family) }}" />
                                     <x-jet-input-error for='family' />
                                 </div>
+                                <div class="col-md-6 form-group">
+                                    <x-jet-label value="* Inventariable" />
+                                    <select name="inventariable" class="form-control w-full text-xs uppercase" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="1" {{ old('inventariable', $Product->inventariable ?? '') == '1' ? 'selected' : '' }}>SI</option>
+                                        <option value="0" {{ old('inventariable', $Product->inventariable ?? '') == '0' ? 'selected' : '' }}>NO</option>
+                                    </select>
+                                    <x-jet-input-error for='inventariable' />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-
-                <div class="col-md-6 form-group">
-                    <x-jet-label value="* CLAVE ALTERNA" />
-                    <x-jet-input type="text" name="clave_alterna"  required class="w-full text-xs" value="{{ old('clave_alterna',$Product->clave_alterna) }}" id="clave_alterna" />
-                    <x-jet-input-error for='clave_alterna' />
-                </div>
-                                
 
                 <div class="col-12 p-4 pt-0">
                     <div class="card shadow-sm rounded-lg">
@@ -235,6 +254,64 @@
 
             tipoBienSelect.on('change', function () {
                 populateProductSelect($(this).val());
+            });
+
+            const skuSelect = $('#sku-select');
+            const skuInput = $('#sku-input');
+
+            skuSelect.select2({
+                placeholder: 'Buscar SKU...',
+                allowClear: true,
+                width: '100%',
+                matcher: function (params, data) {
+                    if ($.trim(params.term) === '') {
+                        return data;
+                    }
+
+                    const term = (params.term || '').toUpperCase();
+                    const text = ((data.text || '')).toUpperCase();
+
+                    if (text.indexOf(term) > -1) {
+                        return data;
+                    }
+
+                    return null;
+                }
+            });
+
+            const currentSku = '{{ old('sku', $Product->sku ?? '') }}';
+            if (currentSku) {
+                const matchingOption = skuSelect.find('option[value="' + currentSku + '"]');
+                if (matchingOption.length) {
+                    skuSelect.val(currentSku).trigger('change');
+                }
+            }
+
+            skuSelect.on('change', function () {
+                const selectedSku = $(this).val();
+                const selectedOption = $(this).find('option:selected');
+                const productData = selectedOption.data('product');
+
+                if (!selectedSku || !productData) {
+                    return;
+                }
+
+                skuInput.val(productData.sku || '');
+                $('input[name="sku"]').val(productData.sku || '');
+                $('input[name="clave_alterna"]').val(productData.clave_alterna || '');
+                $('select[name="type"]').val(productData.type || '').trigger('change');
+                $('select[name="product"]').val(productData.product || '').trigger('change');
+                $('textarea[name="description"]').val(productData.description || '');
+                $('input[name="family"]').val(productData.family || '');
+                $('input[name="public_price"]').val(productData.public_price || '');
+                $('select[name="coin_id"]').val(productData.coin_id || '');
+                $('select[name="provider_id"]').val(productData.provider_id || '');
+                $('input[name="iva"]').val(productData.iva || 0);
+                $('input[name="ieps"]').val(productData.ieps || 0);
+                $('input[name="isr"]').val(productData.isr || 0);
+                $('input[name="retention_iva"]').val(productData.retention_iva || 0);
+                $('input[name="retention_isr"]').val(productData.retention_isr || 0);
+                $('input[name="other_retentions"]').val(productData.other_retentions || 0);
             });
         });
     </script>

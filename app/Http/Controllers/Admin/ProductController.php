@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Coin;
+use App\Models\GastosFijos;
 use App\Models\Product;
 use App\Models\Provider;
-use App\Models\GastosFijos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -51,6 +52,7 @@ class ProductController extends Controller
     public function index()
     {
         $Products = Product::all();
+
         return view('admin.products.index', compact('Products'));
     }
 
@@ -60,24 +62,32 @@ class ProductController extends Controller
         $Providers = Provider::orderBy('customer')->get();
         $gastosFijos = GastosFijos::orderBy('description')->get();
         $dynamicGastosFijos = $this->getGastosFijosDynamicOptions();
+        $Products = Product::query()
+            ->select(['id', 'sku', 'clave_alterna', 'type', 'product', 'description', 'family', 'public_price', 'coin_id', 'provider_id', 'iva', 'ieps', 'isr', 'retention_iva', 'retention_isr', 'other_retentions'])
+            ->whereNotNull('sku')
+            ->where('sku', '!=', '')
+            ->orderBy('sku')
+            ->get();
 
         return view('admin.products.create', compact(
             'Coins',
             'Providers',
             'gastosFijos',
-            'dynamicGastosFijos'
+            'dynamicGastosFijos',
+            'Products'
         ));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'sku' => ['required', 'string', 'max:255','unique:products'],
-            'clave_alterna'=> ['required', 'string', 'max:255','unique:products'],
+            'sku' => ['required', 'string', 'max:255', 'unique:products'],
+            'clave_alterna' => ['required', 'string', 'max:255', 'unique:products'],
             'type' => ['required', 'string', 'max:100'],
             'product' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'family' => ['required', 'string', 'max:255'],
+            'inventariable' => ['required', 'integer', 'in:0,1'],
             'public_price' => ['required', 'numeric', 'gt:0'],
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
             'provider_id' => ['required', 'integer', 'exists:customers,id'],
@@ -87,16 +97,19 @@ class ProductController extends Controller
             'isr' => ['nullable', 'numeric', 'between:0,100'],
             'retention_iva' => ['nullable', 'numeric', 'between:0,100'],
             'retention_isr' => ['nullable', 'numeric', 'between:0,100'],
-            'other_retentions' => ['nullable', 'numeric', 'between:0,100']
+            'other_retentions' => ['nullable', 'numeric', 'between:0,100'],
         ], [
             'sku.required' => 'El SKU es obligatorio.',
             'sku.unique' => 'El SKU ya exite, capture uno diferente.',
             'clave_alterna.required' => 'La clave alterna es obligatoria.',
-            'clave_alterna.unique' => 'la clave alterna ya existe, capture una diferente.',
+            'clave_alterna.unique' => 'La clave alterna ya existe, capture una diferente.',
             'type.required' => 'El tipo de bien es obligatorio.',
             'product.required' => 'El producto o servicio es obligatorio.',
             'description.required' => 'La descripción es obligatoria.',
             'family.required' => 'La familia es obligatoria.',
+            'inventariable.required' => 'El campo inventariable es obligatorio.',
+            'inventariable.integer' => 'El valor inventariable debe ser 0 o 1.',
+            'inventariable.in' => 'El valor inventariable debe ser 0 o 1.',
             'public_price.required' => 'El precio público es obligatorio.',
             'public_price.gt' => 'El precio público debe ser mayor a 0.',
             'coin_id.required' => 'La moneda es obligatoria.',
@@ -109,17 +122,20 @@ class ProductController extends Controller
             'isr.between' => 'ISR debe estar entre 0 y 100.',
             'retention_iva.between' => 'Retención IVA debe estar entre 0 y 100.',
             'retention_isr.between' => 'Retención ISR debe estar entre 0 y 100.',
-            'other_retentions.between' => 'Otras retenciones debe estar entre 0 y 100.'
+            'other_retentions.between' => 'Otras retenciones debe estar entre 0 y 100.',
         ]);
 
         $product = new Product();
 
-        foreach (['sku', 'tipo_bien', 'product', 'family','clave_alterna','type'] as $field) {
+        foreach (['sku', 'tipo_bien', 'product', 'family', 'clave_alterna', 'type'] as $field) {
             if (Schema::hasColumn('products', $field)) {
                 $product->{$field} = $data[$field] ?? null;
             }
         }
 
+        if (Schema::hasColumn('products', 'inventariable')) {
+            $product->inventariable = (int) ($data['inventariable'] ?? 0);
+        }
         if (Schema::hasColumn('products', 'description')) {
             $product->description = $data['description'];
         }
@@ -166,13 +182,20 @@ class ProductController extends Controller
         $Providers = Provider::orderBy('customer')->get();
         $gastosFijos = GastosFijos::orderBy('description')->get();
         $dynamicGastosFijos = $this->getGastosFijosDynamicOptions();
+        $Products = Product::query()
+            ->select(['id', 'sku', 'clave_alterna', 'type', 'product', 'description', 'family', 'public_price', 'coin_id', 'provider_id', 'iva', 'ieps', 'isr', 'retention_iva', 'retention_isr', 'other_retentions'])
+            ->whereNotNull('sku')
+            ->where('sku', '!=', '')
+            ->orderBy('sku')
+            ->get();
 
         return view('admin.products.show', compact(
             'Product',
             'Coins',
             'Providers',
             'gastosFijos',
-            'dynamicGastosFijos'
+            'dynamicGastosFijos',
+            'Products'
         ));
     }
 
@@ -181,11 +204,13 @@ class ProductController extends Controller
         $Product = Product::findOrFail($id);
 
         $data = $request->validate([
-            'sku' => ['required', 'string', 'max:255'],
+            'sku' => ['required', 'string', 'max:255', Rule::unique('products', 'sku')->ignore($Product->id)],
+            'clave_alterna' => ['required', 'string', 'max:255', Rule::unique('products', 'clave_alterna')->ignore($Product->id)],
             'type' => ['required', 'string', 'max:100'],
             'product' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'family' => ['required', 'string', 'max:255'],
+            'inventariable' => ['required', 'integer', 'in:0,1'],
             'public_price' => ['required', 'numeric', 'gt:0'],
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
             'provider_id' => ['required', 'integer', 'exists:customers,id'],
@@ -195,13 +220,19 @@ class ProductController extends Controller
             'isr' => ['nullable', 'numeric', 'between:0,100'],
             'retention_iva' => ['nullable', 'numeric', 'between:0,100'],
             'retention_isr' => ['nullable', 'numeric', 'between:0,100'],
-            'other_retentions' => ['nullable', 'numeric', 'between:0,100']
+            'other_retentions' => ['nullable', 'numeric', 'between:0,100'],
         ], [
             'sku.required' => 'El SKU es obligatorio.',
+            'sku.unique' => 'El SKU ya exite, capture uno diferente.',
+            'clave_alterna.required' => 'La clave alterna es obligatoria.',
+            'clave_alterna.unique' => 'La clave alterna ya existe, capture una diferente.',
             'type.required' => 'El tipo de bien es obligatorio.',
             'product.required' => 'El producto o servicio es obligatorio.',
             'description.required' => 'La descripción es obligatoria.',
             'family.required' => 'La familia es obligatoria.',
+            'inventariable.required' => 'El campo inventariable es obligatorio.',
+            'inventariable.integer' => 'El valor inventariable debe ser 0 o 1.',
+            'inventariable.in' => 'El valor inventariable debe ser 0 o 1.',
             'public_price.required' => 'El precio público es obligatorio.',
             'public_price.gt' => 'El precio público debe ser mayor a 0.',
             'coin_id.required' => 'La moneda es obligatoria.',
@@ -214,15 +245,18 @@ class ProductController extends Controller
             'isr.between' => 'ISR debe estar entre 0 y 100.',
             'retention_iva.between' => 'Retención IVA debe estar entre 0 y 100.',
             'retention_isr.between' => 'Retención ISR debe estar entre 0 y 100.',
-            'other_retentions.between' => 'Otras retenciones debe estar entre 0 y 100.'
+            'other_retentions.between' => 'Otras retenciones debe estar entre 0 y 100.',
         ]);
 
-        foreach (['sku', 'tipo_bien', 'product', 'family' ] as $field) {
+        foreach (['sku', 'tipo_bien', 'product', 'family', 'clave_alterna', 'type'] as $field) {
             if (Schema::hasColumn('products', $field)) {
                 $Product->{$field} = $data[$field] ?? null;
             }
         }
 
+        if (Schema::hasColumn('products', 'inventariable')) {
+            $Product->inventariable = (int) ($data['inventariable'] ?? 0);
+        }
         if (Schema::hasColumn('products', 'description')) {
             $Product->description = $data['description'];
         }

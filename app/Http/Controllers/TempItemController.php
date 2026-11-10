@@ -98,7 +98,7 @@ class TempItemController extends Controller
             ->all();
 
         $allProducts = DB::table('products')
-            ->select(['id', 'sku', 'type', 'product', 'family', 'public_price', 'iva', 'ieps', 'isr', 'retention_iva', 'retention_isr', 'other_retentions'])
+            ->select(['id', 'sku', 'clave_alterna', 'type', 'product', 'family', 'public_price', 'iva', 'ieps', 'isr', 'retention_iva', 'retention_isr', 'other_retentions'])
             ->whereNotNull('sku')
             ->where('sku', '!=', '')
             ->orderBy('sku')
@@ -107,6 +107,7 @@ class TempItemController extends Controller
                 return [
                     'id' => (int) $product->id,
                     'sku' => trim((string) ($product->sku ?? '')),
+                    'clave_alterna' => trim((string) ($product->clave_alterna ?? '')),
                     'type' => trim((string) ($product->type ?? '')),
                     'product' => trim((string) ($product->product ?? '')),
                     'family' => trim((string) ($product->family ?? '')),

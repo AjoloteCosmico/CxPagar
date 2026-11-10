@@ -70,15 +70,7 @@
                                     </select>
                                     <x-jet-input-error for='periodicity' />
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <x-jet-label value="* Inventariable" />
-                                    <select name="inventariable" class="form-control w-full text-xs uppercase" required>
-                                        <option value="">Seleccione...</option>
-                                        <option value="1" {{ old('inventariable', $gasto->inventariable) == '1' ? 'selected' : '' }}>SI</option>
-                                        <option value="0" {{ old('inventariable', $gasto->inventariable) == '0' ? 'selected' : '' }}>NO</option>
-                                    </select>
-                                    <x-jet-input-error for='inventariable' />
-                                </div>
+                                
                             </div>
                         </div>
                     </div>

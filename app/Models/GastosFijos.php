@@ -13,7 +13,6 @@ class GastosFijos extends Model
 
     protected $fillable = [
         'description',
-        'inventariable',
         'amount',
         'coin_id',
         'periodicity',

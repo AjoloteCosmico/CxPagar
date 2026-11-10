@@ -47,7 +47,7 @@ class GastosFijosController extends Controller
             'amount' => ['required', 'numeric', 'gt:0'],
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
             'periodicity' => ['required', 'string', 'in:SEMANAL,MENSUAL,BIMESTRAL,SEMESTRAL,ANUAL'],
-            'inventariable' => ['required', 'integer', 'in:0,1'],
+            
             'type' => ['required', 'string', 'in:productos,servicios,integracion,gastos_fijos,contribuciones_e_impuestos,producto,servicio'],
         ], [
             'description.required' => 'La descripción es obligatoria.',
@@ -59,22 +59,18 @@ class GastosFijosController extends Controller
             'coin_id.exists' => 'La moneda seleccionada no existe.',
             'periodicity.required' => 'La periodicidad es obligatoria.',
             'periodicity.in' => 'La periodicidad debe ser una de: SEMANAL, MENSUAL, BIMESTRAL, SEMESTRAL o ANUAL.',
-            'inventariable.required' => 'El campo inventariable es obligatorio.',
-            'inventariable.integer' => 'El valor inventariable debe ser 0 o 1.',
-            'inventariable.in' => 'El valor inventariable debe ser 0 o 1.',
+            
             'type.required' => 'El tipo de bien es obligatorio.',
             'type.in' => 'El tipo debe ser: productos, servicios, integracion, gastos_fijos o contribuciones_e_impuestos.',
         ]);
 
         $data['type'] = $this->normalizeType($data['type']);
-        $data['inventariable'] = (int) $data['inventariable'];
-
+       
         $gasto = new GastosFijos();
         $gasto->description = $data['description'];
         $gasto->amount = $data['amount'];
         $gasto->coin_id = $data['coin_id'];
         $gasto->periodicity = $data['periodicity'];
-        $gasto->inventariable = $data['inventariable'];
         $gasto->type = $data['type'];
         $gasto->save();
 
@@ -103,7 +99,6 @@ class GastosFijosController extends Controller
             'amount' => ['required', 'numeric', 'gt:0'],
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
             'periodicity' => ['required', 'string', 'in:SEMANAL,MENSUAL,BIMESTRAL,SEMESTRAL,ANUAL'],
-            'inventariable' => ['required', 'integer', 'in:0,1'],
             'type' => ['required', 'string', 'in:productos,servicios,integracion,gastos_fijos,contribuciones_e_impuestos,producto,servicio'],
         ], [
             'description.required' => 'La descripción es obligatoria.',
@@ -115,21 +110,16 @@ class GastosFijosController extends Controller
             'coin_id.exists' => 'La moneda seleccionada no existe.',
             'periodicity.required' => 'La periodicidad es obligatoria.',
             'periodicity.in' => 'La periodicidad debe ser una de: SEMANAL, MENSUAL, BIMESTRAL, SEMESTRAL o ANUAL.',
-            'inventariable.required' => 'El campo inventariable es obligatorio.',
-            'inventariable.integer' => 'El valor inventariable debe ser 0 o 1.',
-            'inventariable.in' => 'El valor inventariable debe ser 0 o 1.',
-            'type.required' => 'El tipo de bien es obligatorio.',
+           'type.required' => 'El tipo de bien es obligatorio.',
             'type.in' => 'El tipo debe ser: productos, servicios, integracion, gastos_fijos o contribuciones_e_impuestos.',
         ]);
 
         $data['type'] = $this->normalizeType($data['type']);
-        $data['inventariable'] = (int) $data['inventariable'];
-
+     
         $gasto->description = $data['description'];
         $gasto->amount = $data['amount'];
         $gasto->coin_id = $data['coin_id'];
         $gasto->periodicity = $data['periodicity'];
-        $gasto->inventariable = $data['inventariable'];
         $gasto->type = $data['type'];
         $gasto->save();
 

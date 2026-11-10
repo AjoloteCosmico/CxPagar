@@ -27,7 +27,9 @@
                                 <select name="sku" id="sku-select" class="form-capture w-full text-xs uppercase select2" required>
                                     <option value="">Seleccione...</option>
                                     @foreach (($allProducts ?? []) as $product)
-                                        <option value="{{ $product['sku'] }}" data-product='@json($product)'>{{ $product['sku'] }}</option>
+                                        <option value="{{ $product['sku'] }}" data-product='@json($product)'>
+                                            {{ $product['sku'] }}{{ !empty($product['clave_alterna']) ? ' - ' . $product['clave_alterna'] : '' }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 <x-jet-input-error for='sku' />
@@ -210,8 +212,9 @@ $(document).ready(function(){
 
             const term = params.term.toUpperCase();
             const text = (data.text || '').toUpperCase();
+            const clave = ($(data.element).data('clave-alterna') || '').toUpperCase();
 
-            if (text.indexOf(term) > -1) {
+            if (text.indexOf(term) > -1 || clave.indexOf(term) > -1) {
                 return data;
             }
 
