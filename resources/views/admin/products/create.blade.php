@@ -34,14 +34,16 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* SKU" />
-                                    <select name="sku" id="sku-select" class="form-control w-full text-xs uppercase select2" required>
+                                      <x-jet-input type="text" name="sku" class="w-full text-xs" value="{{ old('sku') }}" />
+                                  
+                                    <!-- <select name="sku" id="sku-select" class="form-control w-full text-xs uppercase select2" required>
                                         <option value="">Seleccione...</option>
                                         @foreach (($Products ?? []) as $product)
                                             <option value="{{ $product->sku }}" data-product='@json($product)' {{ old('sku') == $product->sku ? 'selected' : '' }}>
                                                 {{ $product->sku }}{{ !empty($product->clave_alterna) ? ' - ' . $product->clave_alterna : '' }}
                                             </option>
                                         @endforeach
-                                    </select>
+                                    </select> -->
                                     <x-jet-input-error for='sku' />
                                 </div>
                                  
