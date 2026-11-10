@@ -8,6 +8,7 @@ use App\Models\GastosFijos;
 use App\Models\Product;
 use App\Models\Provider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 
@@ -47,6 +48,72 @@ class ProductController extends Controller
             'types' => $types,
             'productOptionsByType' => $productOptionsByType,
         ];
+    }
+
+    private function hasRelatedItemReferences(Product $product): bool
+    {
+        $productSku = trim((string) ($product->sku ?? ''));
+        $productType = trim((string) ($product->type ?? ''));
+        $productName = trim((string) ($product->product ?? ''));
+        $productDescription = trim((string) ($product->description ?? ''));
+
+        $hasItemReference = DB::table('items')
+            ->where(function ($query) use ($productSku, $productType, $productName, $productDescription) {
+                if ($productSku !== '') {
+                    $query->orWhere('sku', $productSku);
+                }
+
+                if ($productType !== '' || $productName !== '' || $productDescription !== '') {
+                    $query->orWhere(function ($nested) use ($productType, $productName, $productDescription) {
+                        if ($productType !== '') {
+                            $nested->where('type', $productType);
+                        }
+
+                        if ($productName !== '') {
+                            $nested->where(function ($nameQuery) use ($productName) {
+                                $nameQuery->where('producto', $productName)
+                                    ->orWhere('product', $productName);
+                            });
+                        }
+
+                        if ($productDescription !== '') {
+                            $nested->orWhere('description', $productDescription);
+                        }
+                    });
+                }
+            })
+            ->exists();
+
+        if ($hasItemReference) {
+            return true;
+        }
+
+        return DB::table('temp_items')
+            ->where(function ($query) use ($productSku, $productType, $productName, $productDescription) {
+                if ($productSku !== '') {
+                    $query->orWhere('sku', $productSku);
+                }
+
+                if ($productType !== '' || $productName !== '' || $productDescription !== '') {
+                    $query->orWhere(function ($nested) use ($productType, $productName, $productDescription) {
+                        if ($productType !== '') {
+                            $nested->where('type', $productType);
+                        }
+
+                        if ($productName !== '') {
+                            $nested->where(function ($nameQuery) use ($productName) {
+                                $nameQuery->where('producto', $productName)
+                                    ->orWhere('product', $productName);
+                            });
+                        }
+
+                        if ($productDescription !== '') {
+                            $nested->orWhere('description', $productDescription);
+                        }
+                    });
+                }
+            })
+            ->exists();
     }
 
     public function index()
@@ -294,5 +361,18 @@ class ProductController extends Controller
         $Product->save();
 
         return redirect()->route('products.index')->with('success', 'Producto actualizado correctamente.');
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+
+        if ($this->hasRelatedItemReferences($product)) {
+            return redirect()->route('products.index')->with('error_delete', 'ok');
+        }
+
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success', 'Producto eliminado correctamente.');
     }
 }

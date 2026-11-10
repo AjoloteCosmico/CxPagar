@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="col-6 text-center">
                                         @can('BORRAR MONEDAS')
-                                        <form class="DeleteReg" action="{{ route('coins.destroy', $row->id) }}" method="POST">
+                                        <form class="DeleteReg" action="{{ route('products.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-red ">

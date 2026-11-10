@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Coin;
 use App\Models\GastosFijos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GastosFijosController extends Controller
 {
@@ -21,6 +22,26 @@ class GastosFijosController extends Controller
             'impuesto' => 'contribuciones_e_impuestos',
             default => in_array($type, ['productos', 'servicios', 'integracion', 'gastos_fijos', 'contribuciones_e_impuestos'], true) ? $type : 'gastos_fijos',
         };
+    }
+
+    private function hasRelatedProductReferences(GastosFijos $gasto): bool
+    {
+        $description = trim((string) ($gasto->description ?? ''));
+        $type = trim((string) ($gasto->type ?? ''));
+
+        return DB::table('products')
+            ->where(function ($query) use ($description, $type) {
+                if ($description !== '') {
+                    $query->orWhere('description', $description)
+                        ->orWhere('product', $description)
+                        ->orWhere('family', $description);
+                }
+
+                if ($type !== '') {
+                    $query->orWhere('type', $type);
+                }
+            })
+            ->exists();
     }
 
     public function index()
@@ -129,6 +150,11 @@ class GastosFijosController extends Controller
     public function destroy($id)
     {
         $gasto = GastosFijos::findOrFail($id);
+
+        if ($this->hasRelatedProductReferences($gasto)) {
+            return redirect()->route('gastos_fijos.index')->with('error_delete', 'ok');
+        }
+
         $gasto->delete();
 
         return redirect()->route('gastos_fijos.index')->with('success', 'Gasto fijo eliminado correctamente.');
