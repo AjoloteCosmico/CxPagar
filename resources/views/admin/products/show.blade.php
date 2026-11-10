@@ -26,19 +26,14 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <x-jet-label value="* SKU" />
-                                    <div class="input-group">
-                                        <x-jet-input type="text" name="sku" id="sku-input" class="form-control w-full text-xs" value="{{ old('sku', $Product->sku) }}" required />
-                                        <div class="input-group-append" style="width: 46%; min-width: 220px;">
-                                            <select id="sku-select" class="form-control text-xs select2" style="width: 100%;">
-                                                <option value="">Buscar por SKU...</option>
-                                                @foreach (($Products ?? []) as $product)
-                                                    <option value="{{ $product->sku }}" data-product='@json($product)' {{ old('sku', $Product->sku) == $product->sku ? 'selected' : '' }}>
-                                                        {{ $product->sku }}{{ !empty($product->clave_alterna) ? ' - ' . $product->clave_alterna : '' }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <select name="sku" id="sku-select" class="form-control w-full text-xs uppercase select2" required>
+                                        <option value="">Seleccione...</option>
+                                        @foreach (($Products ?? []) as $product)
+                                            <option value="{{ $product->sku }}" data-product='@json($product)' {{ old('sku', $Product->sku) == $product->sku ? 'selected' : '' }}>
+                                                {{ $product->sku }}{{ !empty($product->clave_alterna) ? ' - ' . $product->clave_alterna : '' }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                     <x-jet-input-error for='sku' />
                                 </div>
                                 <div class="col-md-6 form-group">
@@ -257,7 +252,6 @@
             });
 
             const skuSelect = $('#sku-select');
-            const skuInput = $('#sku-input');
 
             skuSelect.select2({
                 placeholder: 'Buscar SKU...',
@@ -296,7 +290,6 @@
                     return;
                 }
 
-                skuInput.val(productData.sku || '');
                 $('input[name="sku"]').val(productData.sku || '');
                 $('input[name="clave_alterna"]').val(productData.clave_alterna || '');
                 $('select[name="type"]').val(productData.type || '').trigger('change');
